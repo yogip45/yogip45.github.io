@@ -176,22 +176,27 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <form>
+            <form name="chat-to-sheet">
               <div class="mb-3">
+                <div class="alert alert-success my-alert d-none" role="alert">
+                  Terima Kasih, Pesan Anda Berhasil Terkirim
+                </div>
                 <label for="inputemail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" />
               </div>
               <div class="mb-3">
                 <label for="inpunama" class="form-label">Nama</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="nama"/>
               </div>
               <div class="mb-3">
                 <label for="inputpesan" class="form-label">Pesan</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="pesan"></textarea>
               </div>
-              <div class="mb-5">
-                <button type="submit" class="btn btn-primary">Kirim</button>
-              </div>
+                <button type="submit" class="btn btn-primary btn-kirim"name="kirim">Kirim</button>                              
+                  <button class="btn btn-primary d-none btn-loading" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                  </button>            
             </form>
           </div>
         </div>
@@ -225,5 +230,32 @@
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Script contact me -->
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxegKwSNc08OpRqLY_p-WSJpnHQUKtKfq9tXF5GsJ275Es0_7fk9TvOTKkXPz61747D1Q/exec'
+      const form = document.forms['chat-to-sheet']
+      const btnKirim = document.querySelector('.btn-kirim');
+      const btnLoading = document.querySelector('.btn-loading');
+      const myAlert = document.querySelector('.my-alert');
+
+    
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        //tombol submit ditekan
+        //show loading unshow kirim
+        btnLoading.classList.toggle('d-none')
+        btnKirim.classList.toggle('d-none')
+        
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+          btnLoading.classList.toggle('d-none')
+          btnKirim.classList.toggle('d-none')    
+          myAlert.classList.toggle('d-none') 
+          form.reset()                 
+          console.log('Success!', response)})
+        .catch(error => console.error('Error!', error.message))
+      })
+    </script>
+    <!-- akhir contact me -->
   </body>
 </html>
