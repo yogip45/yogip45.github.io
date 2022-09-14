@@ -8,3 +8,6 @@
 section {
   padding-top: 5rem;
 }
+body {
+  position: relative;
+}
