@@ -11,3 +11,6 @@ section {
 body {
   position: relative;
 }
+.custom-color {
+  background-color: #256d85;
+}
