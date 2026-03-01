@@ -69,6 +69,7 @@ var typed = new Typed("#typed", {
     "Web Developer",
     "Network Specialist",
     "Cybersecurity Enthusiast",
+    "Self Proclaimed Bookworm",
     "",
   ],
   typeSpeed: 50,
