@@ -1,7 +1,7 @@
 :root {
   --jp-text: #f0f0f0;
-  --accent-color: #3d5afe; /* Biru modern */
-  --transition-speed: 0.5s; /* Kecepatan transisi */
+  --accent-color: #3d5afe;
+  --transition-speed: 0.5s;
 }
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
@@ -22,22 +22,20 @@ body {
   line-height: 1;
 }
 
-/* --- Hero IMG Styling --- */
 /* Container Gambar di Hero Section */
 .hero-img-container {
-  max-width: 380px; /* Batasi lebar maksimal gambar */
+  max-width: 380px;
   margin: 0 auto;
-  position: relative; /* Wajib untuk penumpukan gambar */
-  overflow: hidden; /* Pastikan gambar tidak keluar dari radius */
-  border-radius: 70px 0 70px 0; /* Radius yang sama dengan gambar */
-  cursor: pointer; /* Indikasi interaktif */
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Efek zoom kontainer */
+  position: relative;
+  overflow: hidden;
+  border-radius: 70px 0 70px 0;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-/* Efek Zoom Kontainer saat di-hover */
 .hero-img-container:hover {
-  transform: translateY(-1px); /* Sedikit terangkat */
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); /* Bayangan lebih dalam */
+  transform: translateY(-1px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Styling Umum untuk Kedua Gambar */
@@ -46,32 +44,30 @@ body {
   height: auto;
   object-fit: cover;
   display: block;
-  transition: opacity var(--transition-speed) ease-in-out; /* Transisi halus */
-  border-radius: inherit; /* Ikuti radius kontainer */
+  transition: opacity var(--transition-speed) ease-in-out;
+  border-radius: inherit;
 }
 
 /* Gambar Utama (Original) */
 .hero-img-original {
-  opacity: 1; /* Terlihat secara default */
-  z-index: 2; /* Di lapisan depan */
+  opacity: 1;
+  z-index: 2;
 }
 
-/* Gambar saat Hover (Aksen/Varian) */
 .hero-img-hover {
-  position: absolute; /* Menumpuk tepat di atas gambar original */
+  position: absolute;
   top: 0;
   left: 0;
-  opacity: 0; /* Tersembunyi secara default */
-  z-index: 1; /* Di lapisan belakang */
+  opacity: 0;
+  z-index: 1;
 }
 
-/* --- LOGIC TRANSISI SAAT HOVER --- */
 .hero-img-container:hover .hero-img-original {
-  opacity: 0; /* Sembunyikan gambar original */
+  opacity: 0;
 }
 
 .hero-img-container:hover .hero-img-hover {
-  opacity: 1; /* Tampilkan gambar hover */
+  opacity: 1;
 }
 /* Custom Navbar Styling */
 .navbar {
@@ -83,7 +79,6 @@ body {
   background: rgba(255, 255, 255, 0.85) !important;
 }
 
-/* Navbar Scrolled State (Opsional jika ingin mengecil saat scroll) */
 .navbar.scrolled {
   padding: 10px 0;
   background: rgba(255, 255, 255, 0.95) !important;
@@ -98,7 +93,21 @@ body {
   transition: 0.3s;
 }
 
-/* Animated Underline Indicator */
+.nav-link:hover::after {
+  width: 60%;
+}
+
+.nav-link:hover {
+  color: var(--accent-color) !important;
+}
+.nav-link.active {
+  color: var(--accent-color) !important;
+}
+
+.nav-link.active::after {
+  width: 60% !important;
+}
+
 .nav-link::after {
   content: "";
   position: absolute;
@@ -111,13 +120,6 @@ body {
   transform: translateX(-50%);
 }
 
-.nav-link:hover::after {
-  width: 60%;
-}
-
-.nav-link:hover {
-  color: var(--accent-color) !important;
-}
 .btn-cv {
   border: 2px solid transparent;
 }
@@ -217,23 +219,34 @@ body {
 
 /* Tech Stack Cards */
 .skill-card {
-  border: 1px solid #f0f0f0;
-  border-radius: 12px;
-  padding: 20px;
-  transition: 0.3s;
+  padding: 20px 10px;
   background: #fff;
-  height: 100%;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  border-color: rgba(0, 0, 0, 0.05);
 }
+
 .skill-card:hover {
   border-color: var(--accent-color);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.skill-card i {
+  font-size: 3rem;
+  display: block;
+}
+
+.skill-card p {
+  letter-spacing: 0.5px;
+  margin-top: 10px;
 }
 .project-card {
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
-/* Container utama kartu gallery */
 .project-card {
   transition:
     transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
@@ -242,12 +255,10 @@ body {
   background: #fff;
 }
 
-/* Pembungkus Gambar untuk Menjaga Konsistensi Ukuran */
 .card-img-wrapper {
   width: 100%;
-  aspect-ratio: 3 / 2; /* Mengunci rasio 3:2 */
+  aspect-ratio: 3 / 2;
   overflow: hidden;
-  /* --- Warna Background Cadangan --- */
   background-color: #f8f9fa;
   position: relative;
 }
@@ -323,7 +334,30 @@ html {
 
 #about .lead {
   font-weight: 400;
-  color: #4a4a4a !important; /* Warna sedikit lebih gelap agar tegas */
+  color: #4a4a4a !important;
+}
+.hobby-card {
+  height: 100%;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.hobby-card:hover {
+  transform: translateY(-10px);
+  border-bottom: 3px solid var(--accent-color);
+}
+
+.hobby-card i {
+  transition: transform 0.3s ease;
+}
+
+.hobby-card:hover i {
+  transform: scale(1.2);
+}
+
+.hobby-card h6 {
+  letter-spacing: 0.5px;
+  margin-top: 10px;
 }
 
 footer {
