@@ -66,8 +66,8 @@ $(document).ready(function () {
 });
 var typed = new Typed("#typed", {
   strings: [
-    "Web Developer",
-    "Network Specialist",
+    "Junior Web Developer",
+    "Certified Network Engineer",
     "Cybersecurity Enthusiast",
     "Self Proclaimed Bookworm",
     "",
