@@ -1,287 +1,520 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yog's Web</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link
+      href="assets/css/bootstrap@5.3.0/bootstrap.min.css"
+      rel="stylesheet" />
+    <link href="assets/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+      rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#home">
+          YOG<span style="color: var(--accent-color)">.</span>
+        </a>
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/footers/" />
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav">
+          <i class="fa-solid fa-bars-staggered" style="font-size: 1.2rem"></i>
+        </button>
 
-  <!-- Bootstrap CSS -->
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" /> -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
-
-  <!-- Bootstrap icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
-  <!-- My CSS -->
-  <link rel="stylesheet" href="style.css" />
-  <title>My Portfolio | Yogi Pradana</title>
-  <!-- favicon -->
-  <link rel="icon" type="image/x-icon" href="img/icon.png" />
-</head>
-
-<body>
-  <!-- js -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-    crossorigin="anonymous"></script>
-  <!-- js -->
-  <!-- Navbar -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark custom-color shadow-sm">
-    <div class="container-fluid">
-      <!-- <a class="navbar-brand" href="#">Yogi Pradana</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button> -->
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto fw-bold">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="index.html#about" href=>About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="index.html#gallery">Gallery</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="index.html#contact">Contact Me</a>
-          </li>
-          <!-- <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li> -->
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- Akhir navbar -->
-  <!--  -->
-  <!-- Awal Jumbotron -->
-  <section class="jumbotron text-center">
-    <img src="img/profile.jpg" width="200" class="rounded-circle img-thumbnail" alt="profile" />
-    <h1 id="home" class="display-4 fw-bold">Yogi Pradana</h1>
-    <p class="lead">College Student | SysAdmin and Junior Web Developer</p>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-      <path fill="#ffff" fill-opacity="1"
-        d="M0,64L60,96C120,128,240,192,360,186.7C480,181,600,107,720,96C840,85,960,139,1080,138.7C1200,139,1320,85,1380,58.7L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
-      </path>
-    </svg>
-  </section>
-  <!-- Akhir Jumbotron -->
-
-  <!-- Tentang Saya -->
-  <section id="about">
-    <div class="container">
-      <div class="row">
-        <div class="col-md text-center mb-2">
-          <h2>Tentang Saya</h2>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto text-center align-items-center">
+            <li class="nav-item">
+              <a class="nav-link px-3" href="#home">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="#about">ABOUT ME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="#resume">RESUME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="#gallery">SHOWCASE</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="#skills">TECH STACK</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="#contact">CONTACT</a>
+            </li>
+            <li class="nav-item ms-lg-2">
+              <a
+                href="https://github.com/yogip45"
+                target="_blank"
+                class="btn btn-dark btn-github rounded-2">
+                <i class="fa-brands fa-github me-2"></i>My Github
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-md-10 fs-5">                
-          <p class="text-center">
-            Lulusan SMK jurusan Teknik Komputer dan Jaringan dengan spesialisasi di bidang sistem jaringan komputer,
-            memiliki pengalaman dalam manajemen linux server dan cisco router melalui kejuaraan lomba LKS IT NSA
-            (Network System
-            Administrator) tingkat kabupaten dan provinsi. Saat ini sedang melanjutkan pendidikan diploma 3 Teknik
-            Informatika di Politeknik Negeri Cilacap. Mencari peluang kerja yang dapat memberikan peluang untuk semakin
-            berkembang.
+    </nav>
+
+    <section id="home" class="hero">
+      <span
+        class="kanji-bg d-none d-md-block"
+        style="font-size: 15rem; top: -5%; right: -5%"
+        >プレーダナ</span
+      >
+      <div class="container" style="position: relative; z-index: 2">
+        <div class="row align-items-center">
+          <div class="col-lg-7">
+            <h1 class="hero-title mb-4">
+              Narindra<br />
+              <span style="color: var(--accent-color)">Yogi Pradana.</span>
+              <span
+                id="typed-container"
+                style="
+                  display: block;
+                  font-size: 1.5rem;
+                  font-weight: 400;
+                  font-family: &quot;Plus Jakarta Sans&quot;, sans-serif;
+                "
+                class="text-muted mt-4">
+                I'm a
+                <span
+                  id="typed"
+                  style="color: var(--accent-color); font-weight: 700"></span>
+              </span>
+            </h1>
+            <!-- <p class="lead text-muted mb-5 w-75">
+              <strong>Junior Web Developer</strong> at PT Indo Techno Medic,
+              passionate about <strong>Networking</strong> and
+              <strong>Cybersecurity</strong>. Focus on developing secure web
+              applications while exploring the synergy between code and network
+              infrastructure.
+            </p> -->
+            <div class="d-flex gap-3">
+              <a
+                href="https://drive.google.com/file/d/1MwtTghTLLLCbWqhSvqH0E9X74g0izzfS/view?usp=sharing"
+                target="_blank"
+                class="btn btn-dark btn-lg px-4 rounded-2 shadow-sm btn-cv">
+                <i class="fa-solid fa-file-pdf me-2"></i>View Resume
+              </a>
+              <a
+                href="#contact"
+                class="btn btn-outline-dark btn-lg px-4 rounded-2"
+                >Get In Touch</a
+              >
+            </div>
+          </div>
+          <div class="col-lg-5 d-none d-lg-block">
+            <div class="hero-img-container shadow-lg">
+              <img
+                src="assets/img/new-pp.jpg"
+                class="img-fluid hero-img-original"
+                alt="Narindra Yogi Pradana - Web Developer" />
+              <img
+                src="assets/img/new-paap-original.jpg"
+                class="img-fluid hero-img-hover"
+                alt="Yog - Cybersecurity Enthusiast" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="py-5 bg-light">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h2 class="section-title">More About Me</h2>
+            <div class="about-content mt-4">
+              <p
+                class="text-muted lead px-md-5 mb-4"
+                style="line-height: 1.8; letter-spacing: 0.2px">
+                I am a <strong>Junior Web Developer</strong> at PT Indo Techno
+                Medic and an <strong>Informatics Engineering</strong> graduate
+                from Politeknik Negeri Cilacap. I am deeply passionate about
+                <strong>Networking</strong> and <strong>Cybersecurity</strong>,
+                always exploring the synergy between robust code and secure
+                network infrastructure.
+              </p>
+
+              <p
+                class="text-muted px-md-5"
+                style="
+                  line-height: 1.8;
+                  letter-spacing: 0.2px;
+                  font-size: 1.05rem;
+                ">
+                Currently, I specialize in developing secure, multi-user
+                <strong>Hospital Management Systems (SIMRS)</strong>. With a
+                background in conducting security audits and penetration testing
+                for government-level applications, I bring a
+                <strong>security-first mindset</strong> to every project,
+                ensuring resilient environments that prioritize data integrity
+                and user safety.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resume" class="py-5 bg-white">
+      <div class="container">
+        <div class="row g-5">
+          <div class="col-md-7">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline mt-4">
+              <div class="timeline-item">
+                <h6 class="fw-bold mb-0 text-uppercase">
+                  Junior Web Developer
+                </h6>
+                <small class="text-primary fw-bold"
+                  >PT Indo Techno Medic | Jan 2025 - Present</small
+                >
+                <p class="small text-muted mt-2">
+                  Developing and maintaining secure SIMRS using CodeIgniter 3.
+                  Responsible for multi-user access systems, database
+                  optimization, technical on-site implementation, and
+                  comprehensive user training for hospital staff.
+                </p>
+              </div>
+              <div class="timeline-item">
+                <h6 class="fw-bold mb-0 text-uppercase">
+                  Cyber Security Engineer (Intern)
+                </h6>
+                <small class="text-muted fw-bold"
+                  >Gama Multi Group | Feb - Jun 2024</small
+                >
+                <p class="small text-muted mt-2">
+                  Executed security audits and penetration testing for
+                  government web applications to identify and mitigate critical
+                  vulnerabilities.
+                </p>
+              </div>
+              <div class="timeline-item">
+                <h6 class="fw-bold mb-0 text-uppercase">
+                  Fullstack Web Developer (Intern)
+                </h6>
+                <small class="text-muted fw-bold"
+                  >Diskominfo Kebumen | Aug - Dec 2023</small
+                >
+                <p class="small text-muted mt-2">
+                  Developed a full-stack Waste Bank Management system using CI3,
+                  digitalizing records and automating village reporting
+                  processes.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <h2 class="section-title">Education</h2>
+            <div
+              class="p-4 bg-white shadow-sm rounded-4 mb-4 mt-4 border-start">
+              <h6 class="fw-bold mb-1">Politeknik Negeri Cilacap</h6>
+              <p class="text-primary fw-bold small mb-2">
+                D3 Information Technology | 2021 - 2024
+              </p>
+              <p class="text-muted small mb-0">
+                Graduated <strong>GPA 3.75/4.00 (Cum Laude)</strong>. Active in
+                Programmer and English Clubs. Awarded Bronze & Silver
+                Certificates in Cisco NetAcad Riders 2023 & 2024.
+              </p>
+            </div>
+
+            <!-- <h2 class="section-title">Current Base</h2>
+            <div class="p-4 bg-white shadow-sm rounded-4 border-start">
+              <p class="text-muted mb-0">
+                <i class="fa-solid fa-location-dot me-2 text-primary"></i
+                >Yogyakarta, Indonesia
+              </p>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="gallery" class="py-5 bg-light">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="section-title">Showcase</h2>
+          <p class="text-muted">
+            A curated selection of my professional milestones and technical
+            projects.
           </p>
         </div>
-        <div class="row justify-content-">
-          <div class="col-md text-center">
-            <a href="https://drive.google.com/uc?export=download&id=1575Ppgt3fYRKBHQ22YSwbGCdHGZUOVY0"
-              target="_blank"><button type="button" class="btn btn-info custom-color text-white justify-content-center">Download
-                CV</button></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-      <path fill="#e2edff" fill-opacity="1"
-        d="M0,224L48,202.7C96,181,192,139,288,101.3C384,64,480,32,576,37.3C672,43,768,85,864,117.3C960,149,1056,171,1152,154.7C1248,139,1344,85,1392,58.7L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-      </path>
-    </svg>
-  </section>
-  <!-- Akhir Tentang Saya -->
-
-  <!-- Gallery -->
-  <section id="gallery">
-    <div class="container">
-      <div class="row text-center">
-        <div class="col mb-2">
-          <h2>Gallery</h2>
-        </div>
-      </div>
-      <div class="row mb-3 mt-3">
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/keb-cert.jpg" class="card-img-top" alt="gambar1" />
-            <div class="card-body">
-              <p class="card-text text-center">Jawa Tengah Skills Competition Certificate</p>
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed, laudantium aliquam numquam eaque illum optio, unde, aliquid similique modi ipsum omnis? Facilis, repellat? Nisi, obcaecati? Explicabo dolor magni nulla ad tempora enim velit obcaecati. Expedita ad unde esse quae quisquam quasi, maxime porro recusandae iste itaque ipsa obcaecati assumenda veniam nobis omnis, provident odio dolore ut ducimus ratione voluptas. Iure dignissimos nihil odit reiciendis? Esse debitis id recusandae dolore totam fuga natus, impedit exercitationem molestias laboriosam! Ullam tempore a ex quam, quo hic laudantium, nulla iusto autem, delectus illo commodi distinctio provident excepturi? Commodi, est aspernatur error neque officiis fugiat.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-3">
-            <img src="img/img2.jpg" class="card-img-top" alt="gambar2" />
-            <div class="card-body">
-              <p class="card-text text-center">VSGA JNA Completion Certificate</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-3">
-            <img src="img/3.jpg" class="card-img-top" alt="gambar3" />
-            <div class="card-body">
-              <p class="card-text text-center">Jawa Tengah Skills Competition 2021</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-3 mt-3">
-            <img src="img/4.jpg" class="card-img-top" alt="gambar4" />
-            <div class="card-body">
-              <p class="card-text text-center">Memes</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-3 mt-3">
-            <img src="img/5.jpg" class="card-img-top" alt="gambar5" />
-            <div class="card-body">
-              <p class="card-text text-center">KucingX</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-3 mt-3">
-            <img src="img/6.jpg" class="card-img-top" alt="gambar6" />
-            <div class="card-body">
-              <p class="card-text text-center">KucingZ</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-      <path fill="#ffffff" fill-opacity="1"
-        d="M0,128L34.3,106.7C68.6,85,137,43,206,64C274.3,85,343,171,411,176C480,181,549,107,617,85.3C685.7,64,754,96,823,133.3C891.4,171,960,213,1029,224C1097.1,235,1166,213,1234,186.7C1302.9,160,1371,128,1406,112L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z">
-      </path>
-    </svg>
-  </section>
-  <!-- Akhir Gallery -->
-  <!-- contact -->
-  <section id="contact" class="">
-    <div class="container">
-      <div class="row text-center">
-        <div class="col mb-3">
-          <h2>Hubungi Saya</h2>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <form name="chat-to-sheet">
-            <div class="mb-3">
-              <div class="alert alert-success my-alert d-none" role="alert">
-                Terima Kasih, Pesan Anda Berhasil Terkirim
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div
+              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+              <div class="card-img-wrapper">
+                <img
+                  src="assets/img/gallery/simrs.png"
+                  class="grayscale"
+                  alt="HMS Project"
+                  loading="lazy" />
               </div>
-              <label for="inputemail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                name="email" />
+              <div class="card-body">
+                <span class="badge bg-primary mb-2" style="font-size: 0.7rem"
+                  ><i class="fa-solid fa-diagram-project me-2"></i>Project</span
+                >
+                <h6 class="fw-bold mb-1">Hospital Management System / SIMRS</h6>
+                <p class="text-muted x-small mb-0">
+                  Maintain & optimize multi-user modules at Technomedic SIMRS.
+                </p>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="inpunama" class="form-label">Nama</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                name="nama" />
+          </div>
+          <div class="col-md-4">
+            <div
+              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+              <div class="card-img-wrapper">
+                <img
+                  src="assets/img/gallery/cikrak.png"
+                  class="grayscale"
+                  alt="Waste Bank App"
+                  loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="badge bg-primary mb-2" style="font-size: 0.7rem"
+                  ><i class="fa-solid fa-diagram-project me-2"></i>Project</span
+                >
+                <h6 class="fw-bold mb-1">Waste Bank Management</h6>
+                <p class="text-muted x-small mb-0">
+                  Fullstack CI3 App developed for Diskominfo.
+                </p>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="inputpesan" class="form-label">Pesan</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="pesan"></textarea>
+          </div>
+          <div class="col-md-4">
+            <div
+              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+              <div class="card-img-wrapper">
+                <img
+                  src="assets/img/gallery/bronze_cert.png"
+                  class="grayscale"
+                  alt="Cisco Bronze Certificate"
+                  loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="badge bg-info mb-2" style="font-size: 0.7rem"
+                  ><i class="fa-solid fa-star me-2"></i>Achievement</span
+                >
+                <h6 class="fw-bold mb-1">Cisco NetAcad Riders</h6>
+                <p class="text-muted x-small mb-0">
+                  Bronze Certificate Winner - 2023
+                </p>
+              </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-kirim" name="kirim">Kirim</button>
-            <button class="btn btn-primary d-none btn-loading" type="button" disabled>
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Loading...
-            </button>
-          </form>
+          </div>
+
+          <div class="col-md-4">
+            <div
+              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+              <div class="card-img-wrapper">
+                <img
+                  src="assets/img/gallery/silver_cert.png"
+                  class="grayscale"
+                  alt="Cisco Silver Certificate"
+                  loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="badge bg-info mb-2" style="font-size: 0.7rem"
+                  ><i class="fa-solid fa-star me-2"></i>Achievement</span
+                >
+                <h6 class="fw-bold mb-1">Cisco NetAcad Riders</h6>
+                <p class="text-muted x-small mb-0">
+                  Silver Certificate Winner - 2024
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div
+              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+              <div class="card-img-wrapper">
+                <img
+                  src="assets/img/gallery/mtcna.png"
+                  class="grayscale"
+                  alt="MikroTik MTCNA"
+                  loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="badge bg-success mb-2" style="font-size: 0.7rem"
+                  ><i class="fa-solid fa-id-card me-2"></i>Credential</span
+                >
+                <h6 class="fw-bold mb-1">MTCNA Certified</h6>
+                <p class="text-muted x-small mb-0">
+                  MikroTik Certified Network Associate
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div
+              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+              <div class="card-img-wrapper">
+                <img
+                  src="https://via.placeholder.com/600x400"
+                  class="grayscale"
+                  alt="Junior Web Developer BNSP"
+                  loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="badge bg-success mb-2" style="font-size: 0.7rem"
+                  ><i class="fa-solid fa-id-card me-2"></i>Credential</span
+                >
+                <h6 class="fw-bold mb-1">Junior Web Developer</h6>
+                <p class="text-muted x-small mb-0">
+                  BNSP Certified via Digital Talent Scholarship.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-      <path fill="#0dcaf0" fill-opacity="1" d="M0,32L0,128L1440,128L1440,320L0,320L0,320Z"></path>
-    </svg>
-  </section>
-  <!-- akhir contact -->
-  <!-- Footer -->
-
-  <footer class="text-center text-white bg-info pb-1">
-    <div class="container text-center">
-      <div class="row align-items-end">
-      </div>
-      <div class="col-md-12 text-end position text-white bg-info">
-        <!-- <p class="text-center">Created by <a class="text-white fw-bold" href="https://web.facebook.com/narindra.yogi/">Yogi Pradana</a> with Bootstrap</p> -->
-        <p class="text-end col-sm-13 fw-bold">Follow Me</p>
-        <div class="social-links text-white fs-4">
-          <a href="https://web.facebook.com/narindra.yogi" target="_blank" class="facebook text-white"><i
-              class="bi bi-facebook"></i></a>
-          <a href="https://www.youtube.com/channel/UC6unf58Q50a_u0FAsQ5kyIQ/videos?view=0&sort=p" target="_blank"
-            class="youtube text-white"><i class="bi bi-youtube"></i></a>
-          <a href="https://www.instagram.com/yogip002/" target="_blank" class="instagram text-white"><i
-              class="bi bi-instagram"></i></a>
-          <a href="https://discord.com/users/450547182131478530" target="_blank" class="discord text-white"><i
-              class="bi bi-discord"></i></a>
-          <a href="https://github.com/yogip45" target="_blank" class="github text-white"><i
-              class="bi bi-github"></i></a>
+    </section>
+    <section id="skills" class="py-5">
+      <div class="container text-center">
+        <h2 class="section-title">Tech Stack</h2>
+        <div class="row g-3 mt-2">
+          <div class="col-4 col-md-2">
+            <div class="skill-card">
+              <i class="fa-brands fa-php fa-2xl mb-3 text-primary"></i>
+              <p class="small fw-bold mb-0">PHP</p>
+            </div>
+          </div>
+          <div class="col-4 col-md-2">
+            <div class="skill-card">
+              <i class="fa-solid fa-fire fa-2xl mb-3 text-danger"></i>
+              <p class="small fw-bold mb-0">CI3</p>
+            </div>
+          </div>
+          <div class="col-4 col-md-2">
+            <div class="skill-card">
+              <i class="fa-solid fa-database fa-2xl mb-3 text-info"></i>
+              <p class="small fw-bold mb-0">Postgres</p>
+            </div>
+          </div>
+          <div class="col-4 col-md-2">
+            <div class="skill-card">
+              <i
+                class="fa-brands fa-bootstrap fa-2xl mb-3 text-purple"
+                style="color: #7952b3"></i>
+              <p class="small fw-bold mb-0">Bootstrap</p>
+            </div>
+          </div>
+          <div class="col-4 col-md-2">
+            <div class="skill-card">
+              <i class="fa-solid fa-terminal fa-2xl mb-3 text-dark"></i>
+              <p class="small fw-bold mb-0">Bash</p>
+            </div>
+          </div>
+          <div class="col-4 col-md-2">
+            <div class="skill-card">
+              <i class="fa-solid fa-code fa-2xl mb-3 text-secondary"></i>
+              <p class="small fw-bold mb-0">jQuery</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    </div>
-    </div>
-  </footer>
-  <!-- Akhir Footer -->
-  <!-- Optional JavaScript; choose one of the two! -->
+    </section>
 
-  <!-- Option 1: Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
-  <!-- Script contact me -->
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxegKwSNc08OpRqLY_p-WSJpnHQUKtKfq9tXF5GsJ275Es0_7fk9TvOTKkXPz61747D1Q/exec'
-    const form = document.forms['chat-to-sheet']
-    const btnKirim = document.querySelector('.btn-kirim');
-    const btnLoading = document.querySelector('.btn-loading');
-    const myAlert = document.querySelector('.my-alert');
+    <section id="contact" class="py-5 bg-light">
+      <div class="container text-center">
+        <h2 class="section-title">Let's Connect</h2>
+        <p class="text-muted mb-4">
+          Want to know more about me or maybe do a collaboration? <br />Reach
+          out through the platforms below.
+        </p>
 
+        <p class="text-muted small mb-5">
+          <i class="fa-solid fa-location-dot me-2 text-primary"></i>Kebumen,
+          Central Java, Indonesia
+        </p>
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault()
-      //tombol submit ditekan
-      //show loading unshow kirim
-      btnLoading.classList.toggle('d-none')
-      btnKirim.classList.toggle('d-none')
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+          <a
+            href="mailto:narindrayogipradana@gmail.com"
+            class="btn btn-dark px-4 rounded-pill shadow-sm">
+            <i class="fa-solid fa-envelope me-2"></i> Email Me
+          </a>
 
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-        .then(response => {
-          btnLoading.classList.toggle('d-none')
-          btnKirim.classList.toggle('d-none')
-          myAlert.classList.toggle('d-none')
-          form.reset()
-          console.log('Success!', response)
-        })
-        .catch(error => console.error('Error!', error.message))
-    })
-  </script>
-  <!-- akhir contact me -->
-</body>
+          <a
+            href="https://linkedin.com/in/narindra-yogi"
+            target="_blank"
+            class="btn btn-outline-primary px-4 rounded-pill shadow-sm">
+            <i class="fa-brands fa-linkedin me-2"></i> LinkedIn
+          </a>
 
+          <a
+            href="https://discordapp.com/users/450547182131478530"
+            target="_blank"
+            class="btn btn-outline-dark px-4 rounded-pill shadow-sm"
+            style="border-color: #5865f2; color: #5865f2">
+            <i class="fa-brands fa-discord me-2"></i> Discord
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer
+      class="py-5 text-white text-center"
+      style="background-color: #1a1a1a">
+      <div class="container">
+        <div class="mb-4">
+          <a
+            href="https://github.com/yogip45"
+            target="_blank"
+            class="text-white mx-3 opacity-75 hover-opacity-100"
+            ><i class="fa-brands fa-github fa-xl"></i
+          ></a>
+          <a
+            href="https://linkedin.com/in/narindra-yogi"
+            target="_blank"
+            class="text-white mx-3 opacity-75 hover-opacity-100"
+            ><i class="fa-brands fa-linkedin fa-xl"></i
+          ></a>
+          <a
+            href="mailto:narindrayogipradana@gmail.com"
+            class="text-white mx-3 opacity-75 hover-opacity-100"
+            ><i class="fa-solid fa-envelope fa-xl"></i
+          ></a>
+        </div>
+        <h5 class="fw-bold mb-1" style="letter-spacing: 2px">
+          NARINDRA YOGI PRADANA
+        </h5>
+        <p class="small opacity-50 mb-0">
+          Web Developer & Cybersecurity Enthusiast
+        </p>
+        <hr class="w-25 mx-auto my-4 opacity-25" />
+        <p class="x-small opacity-50 mb-0" style="font-size: 0.7rem">
+          &copy; 2026. Made with Precision and Passion.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script>
+      var typed = new Typed("#typed", {
+        strings: [
+          "Web Developer",
+          "Network Specialist",
+          "Cybersecurity Enthusiast",
+          "",
+        ],
+        typeSpeed: 50,
+        backSpeed: 30,
+        backDelay: 2000,
+        loop: true,
+        cursorChar: "_", // Menggunakan underscore agar lebih kental nuansa "tech/coding"
+      });
+    </script>
+  </body>
 </html>
