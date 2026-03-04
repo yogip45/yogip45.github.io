@@ -5,32 +5,33 @@ $(document).ready(function () {
 
   $(window).on("scroll", function () {
     var scrollPos = $(document).scrollTop();
-    var offset = 100; // Jarak agar highlight muncul sebelum mentok atas
+    var windowHeight = $(window).height();
+    var docHeight = $(document).height();
+    var offset = 150;
 
-    navLinks.each(function () {
-      var currLink = $(this);
-      var targetId = currLink.attr("href");
+    if (scrollPos + windowHeight >= docHeight - 50) {
+      navLinks.removeClass("active");
+      $('.nav-link[href="#contact"]').addClass("active");
+    } else {
+      navLinks.each(function () {
+        var currLink = $(this);
+        var targetId = currLink.attr("href");
 
-      // Lewati jika href hanya '#' atau link eksternal (GitHub)
-      if (targetId.startsWith("#") && targetId.length > 1) {
-        var refElement = $(targetId);
-
-        if (refElement.length) {
-          if (
-            refElement.position().top <= scrollPos + offset &&
-            refElement.position().top + refElement.outerHeight() >
-              scrollPos + offset
-          ) {
-            navLinks.removeClass("active");
-            currLink.addClass("active");
-          } else {
-            currLink.removeClass("active");
+        if (targetId.startsWith("#") && targetId.length > 1) {
+          var refElement = $(targetId);
+          if (refElement.length) {
+            var elementTop = refElement.position().top;
+            if (
+              elementTop <= scrollPos + offset &&
+              elementTop + refElement.outerHeight() > scrollPos + offset
+            ) {
+              navLinks.removeClass("active");
+              currLink.addClass("active");
+            }
           }
         }
-      }
-    });
-
-    // Efek Navbar Scrolled
+      });
+    }
     if (scrollPos > 50) {
       $(".navbar").addClass("scrolled");
     } else {
