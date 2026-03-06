@@ -70,6 +70,7 @@ var typed = new Typed("#typed", {
     "Junior Web Developer",
     "Certified Network Engineer",
     "Cybersecurity Enthusiast",
+    "Audio Enthusiast",
     "Self Proclaimed Bookworm",
     "",
   ],
