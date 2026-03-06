@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Station | Yog Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" type="image/x-icon" href="assets/img/new-pp.jpg" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700;800&family=Noto+Sans+JP:wght@900&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/music.css" />
+  </head>
+  <body>
+    <a href="index.html" class="btn btn-dark btn-back shadow-lg">
+      <i class="fa-solid fa-arrow-left me-2"></i> Back to Home
+    </a>
+
+    <section class="audio-hero">
+      <div class="kanji-bg-audio">オーディオ</div>
+      <div class="container text-center" style="position: relative; z-index: 2">
+        <h1 class="display-4 fw-800 mb-2">
+          Audio <span style="color: var(--accent-color)">Station.</span>
+        </h1>
+        <p class="lead opacity-75">
+          My Favorite Music Gwe & Audio Gear Showcase
+        </p>
+      </div>
+    </section>
+
+    <div class="container">
+      <div
+        class="music-status-card shadow-lg mb-4 position-relative overflow-hidden">
+        <div
+          class="position-absolute top-0 end-0 p-3 d-flex align-items-center bg-primary bg-opacity-25 rounded-bottom-start shadow-sm"
+          style="backdrop-filter: blur(8px); z-index: 5">
+          <div class="text-end me-2 d-none d-md-block">
+            <p class="mb-0 fw-bold text-white" id="user-display-name">yogpp</p>
+            <p class="mb-0 text-white-50" style="font-size: 0.6rem">
+              last.fm/user/yogpp
+            </p>
+          </div>
+          <img
+            id="user-avatar"
+            src=""
+            class="rounded-circle shadow-sm"
+            style="width: 50px; height: 50px; object-fit: cover" />
+        </div>
+
+        <div class="row align-items-center text-center text-md-start">
+          <div class="col-md-4 mb-2 mb-md-0 d-flex justify-content-center">
+            <div class="position-relative">
+              <img id="album-art" src="" alt="Album Art" class="img-fluid" />
+              <div
+                class="position-absolute bottom-0 end-0 bg-primary text-white p-2 rounded-circle shadow-lg d-none d-md-flex align-items-center justify-content-center"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  transform: translate(25%, 25%);
+                ">
+                <i class="fa-solid fa-compact-disc fa-spin"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div
+              class="d-flex align-items-center justify-content-center justify-content-md-start mb-3 mt-3 mt-md-0">
+              <div class="visualizer me-3" id="viz">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+              </div>
+              <span
+                class="badge rounded-pill bg-primary px-3 py-2 fw-bold shadow-sm"
+                id="status-text"
+                >FETCHING...</span
+              >
+            </div>
+            <h1
+              id="track-name"
+              class="fw-800 display-5 mb-1 text-white text-capitalize">
+              ...
+            </h1>
+            <h3 id="artist-name" class="text-white-50 mb-3 fw-light">
+              Artist Name
+            </h3>
+            <p class="small opacity-50 text-white mb-0">
+              <i class="fa-solid fa-record-vinyl me-2"></i
+              ><span id="album-name">Album Name</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4 d-flex align-items-stretch">
+        <div class="col-lg-12">
+          <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+            <h5 class="fw-bold mb-3 text-dark">
+              <i class="fa-solid fa-id-card text-primary me-2"></i>Current
+              Artist Bio
+            </h5>
+            <div id="bio-scroll">
+              <div
+                id="artist-bio"
+                class="text-dark"
+                style="font-size: 0.9rem; line-height: 1.6">
+                ...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-4 mb-4 d-flex align-items-stretch">
+        <div class="col-lg-12">
+          <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <h5 class="fw-bold mb-4">
+              <i class="fa-solid fa-fire text-danger me-2"></i>Heavy Rotation
+              (30 Days)
+            </h5>
+            <div id="top-artists" class="row g-3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-5">
+        <div class="col-lg-8">
+          <div
+            class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-dark text-white">
+            <h5 class="fw-bold mb-3">
+              <i class="fa-solid fa-wand-magic-sparkles text-info me-2"></i
+              >Discovery: Similar to
+              <span id="fav-artist-name" class="text-primary">...</span>
+            </h5>
+            <div id="similar-artists" class="row g-2 text-center"></div>
+          </div>
+
+          <div class="card border-0 shadow-sm rounded-4 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h5 class="fw-bold mb-0">
+                <i class="fa-solid fa-history text-primary me-2"></i>Recent
+                History
+              </h5>
+              <div class="pagination-controls d-flex gap-2">
+                <button
+                  id="prev-page"
+                  class="btn btn-sm btn-outline-primary"
+                  disabled>
+                  <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <span
+                  id="page-info"
+                  class="small fw-bold align-self-center mx-2 text-muted"
+                  >Page 1</span
+                >
+                <button id="next-page" class="btn btn-sm btn-outline-primary">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+            <div id="recent-list"></div>
+          </div>
+          <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
+            <h5 class="fw-bold mb-4">
+              <i class="fa-solid fa-headset text-primary me-2"></i>Audio Gears
+            </h5>
+            <div
+              class="gear-item-mini"
+              style="opacity: 0.7; border-style: dashed !important">
+              <img
+                src="https://ui-avatars.com/api/?name=W&size=64"
+                width="45"
+                height="45"
+                class="rounded me-3" />
+              <div>
+                <h6 class="fw-bold mb-0 small">Moondrop Lan 2</h6>
+                <p class="mb-0 text-muted x-small">Next Wishlist</p>
+              </div>
+            </div>
+            <div class="gear-item-mini">
+              <img
+                src="assets/img/gear/chu2.jpg"
+                width="45"
+                height="45"
+                class="rounded me-3" />
+              <div>
+                <h6 class="fw-bold mb-0 small">Moondrop Chu II</h6>
+                <p class="mb-0 text-muted x-small">Daily Driver</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div
+            class="stats-box mb-4 shadow-sm text-center position-relative overflow-hidden">
+            <i
+              class="fa-solid fa-headphones position-absolute opacity-10"
+              style="
+                font-size: 5rem;
+                right: -2px;
+                bottom: -5px;
+                transform: rotate(-20deg);
+              "></i>
+
+            <div class="position-relative" style="z-index: 2">
+              <i class="fa-solid fa-music mb-2 opacity-75"></i>
+              <h6 class="text-uppercase small fw-bold opacity-75 mb-1">
+                Total Listening
+              </h6>
+              <h1 class="fw-800 display-5 mb-0" id="total-scrobbles">0</h1>
+              <!-- <p class="x-small mb-0 opacity-50 mt-1">Captured via Last.fm</p> -->
+            </div>
+          </div>
+
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h5 class="fw-bold mb-3">
+              <i class="fa-solid fa-award text-warning me-2"></i>Top Artists
+            </h5>
+            <div id="all-time-top-list" class="d-flex flex-column gap-3"></div>
+          </div>
+
+          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h5 class="fw-bold mb-3">
+              <i class="fa-solid fa-chart-column text-primary me-2"></i>Genre
+              Analysis
+            </h5>
+            <canvas id="genreChart" height="230"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-center py-5 text-muted small">
+      &copy; 2026 Yog Audio Station
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      const API_KEY = "800d9d25a04d76a3434ef7a13e823aa1";
+      const USER = "yogpp";
+      const BASE_URL = "https://ws.audioscrobbler.com/2.0/";
+      let allTracks = [],
+        currentPage = 1,
+        tracksPerPage = 7,
+        genreChart;
+      // Fetch User Info (Avatar & Display Name)
+      $.getJSON(
+        `${BASE_URL}?method=user.getinfo&user=${USER}&api_key=${API_KEY}&format=json`,
+        function (data) {
+          if (data.user) {
+            const u = data.user;
+            if (u.image[2]["#text"])
+              $("#user-avatar").attr("src", u.image[2]["#text"]);
+            if (u.realname) $("#user-display-name").text(u.realname);
+          }
+        },
+      );
+      // iTunes Image Fetcher
+      async function getArtistImage(name) {
+        try {
+          const res = await fetch(
+            `https://itunes.apple.com/search?term=${encodeURIComponent(name)}&entity=album&limit=1`,
+          );
+          const data = await res.json();
+          if (data.results.length > 0)
+            return data.results[0].artworkUrl100.replace(
+              "100x100bb",
+              "300x300bb",
+            );
+        } catch (e) {}
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=128`;
+      }
+
+      function updateDashboard() {
+        // 1. Recent Tracks & Now Playing
+        $.getJSON(
+          `${BASE_URL}?method=user.getrecenttracks&user=${USER}&api_key=${API_KEY}&format=json&limit=50`,
+          function (data) {
+            allTracks = data.recenttracks.track;
+            const current = allTracks[0];
+            $("#track-name").text(current.name);
+            $("#artist-name").text(current.artist["#text"]);
+            $("#album-name").text(current.album["#text"]);
+            $("#total-scrobbles").text(
+              parseInt(data.recenttracks["@attr"].total).toLocaleString(),
+            );
+            if (current.image[3]["#text"])
+              $("#album-art").attr("src", current.image[3]["#text"]);
+
+            if (current["@attr"] && current["@attr"].nowplaying) {
+              $("#status-text")
+                .text("NOW VIBING")
+                .addClass("bg-primary")
+                .removeClass("bg-secondary");
+              $("#viz").css("display", "flex");
+            } else {
+              $("#status-text")
+                .text("LAST STOP")
+                .addClass("bg-secondary")
+                .removeClass("bg-primary");
+              $("#viz").hide();
+            }
+            fetchArtistInfo(current.artist["#text"]);
+            renderRecentPage(1);
+          },
+        );
+
+        // 2. Heavy Rotation & Discovery
+        $.getJSON(
+          `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=30day&limit=9&format=json`,
+          async function (data) {
+            const artists = data.topartists.artist;
+
+            if (artists && artists.length > 0) {
+              $("#fav-artist-name").text(artists[0].name);
+              fetchSimilar(artists[0].name);
+
+              const artistCardsPromises = artists.map(async (art) => {
+                try {
+                  const img = await getArtistImage(art.name);
+                  return `
+                <div class="col-6 col-md-4">
+                    <div class="artist-card shadow-sm h-100">
+                        <img src="${img}" class="artist-avatar" alt="${art.name}" loading="lazy">
+                        <h6 class="fw-bold mb-1 text-truncate small">${art.name}</h6>
+                        <span class="badge bg-light text-dark fw-normal x-small">${art.playcount} plays</span>
+                    </div>
+                </div>`;
+                } catch (err) {
+                  // Fallback kalau iTunes error
+                  return `
+                <div class="col-6 col-md-4">
+                    <div class="artist-card shadow-sm h-100">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(art.name)}&background=random&color=fff" class="artist-avatar">
+                        <h6 class="fw-bold mb-1 text-truncate small">${art.name}</h6>
+                        <span class="badge bg-light text-dark fw-normal x-small">${art.playcount} plays</span>
+                    </div>
+                </div>`;
+                }
+              });
+
+              const allCardsHtml = await Promise.all(artistCardsPromises);
+              $("#top-artists").html(allCardsHtml.join(""));
+            }
+          },
+        );
+
+        // 3. Top Artist Ever
+        $.getJSON(
+          `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=overall&limit=10&format=json`,
+          function (data) {
+            const artists = data.topartists.artist;
+            let html = "";
+
+            artists.forEach((top, index) => {
+              // Tentukan warna icon berdasarkan ranking
+              const iconColor =
+                index === 0
+                  ? "text-warning"
+                  : index === 1
+                    ? "text-secondary"
+                    : "text-muted";
+
+              html += `
+                <div class="d-flex align-items-center pb-2 ${index !== artists.length - 1 ? "border-bottom" : ""}" style="border-color: #f8f9fa !important;">
+                    <div class="me-3 d-flex align-items-center justify-content-center" style="width: 30px;">
+                        <i class="fa-solid fa-trophy ${iconColor}" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <div class="overflow-hidden flex-grow-1">
+                        <h6 class="fw-bold mb-0 text-truncate small" style="font-size: 0.8rem;">${top.name}</h6>
+                        <p class="x-small text-muted mb-0" style="font-size: 0.65rem;">${parseInt(top.playcount).toLocaleString()} total plays</p>
+                    </div>
+                    <div class="badge bg-light text-dark rounded-pill x-small">#${index + 1}</div>
+                </div>`;
+            });
+
+            $("#all-time-top-list").html(html);
+          },
+        );
+
+        // 4. Genre Chart
+        // $.getJSON(
+        //   `${BASE_URL}?method=user.gettoptags&user=${USER}&api_key=${API_KEY}&format=json`,
+        //   function (data) {
+        //     const tags = data.toptags.tag.slice(0, 5);
+        //     if (tags.length > 0)
+        //       renderChart(
+        //         tags.map((t) => t.name),
+        //         tags.map((t) => parseInt(t.count)),
+        //       );
+        //   },
+        // );
+        // 4. GENRE ANALYSIS (AGREGASI DARI TOP ARTISTS)
+        $.getJSON(
+          `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=7day&limit=5&format=json`,
+          async function (data) {
+            const artists = data.topartists.artist;
+            let tagCounts = {};
+
+            // Kita ambil tag dari 5 artis teratas
+            for (let art of artists) {
+              try {
+                const tagData = await $.getJSON(
+                  `${BASE_URL}?method=artist.gettoptags&artist=${encodeURIComponent(art.name)}&api_key=${API_KEY}&format=json`,
+                );
+                const topTags = tagData.toptags.tag.slice(0, 3); // Ambil 3 tag teratas per artis
+
+                topTags.forEach((t) => {
+                  // Filter tag yang gak penting (kayak 'seen live', 'favorites', dll)
+                  const forbidden = [
+                    "seen live",
+                    "favorites",
+                    "all",
+                    "awesome",
+                  ];
+                  if (!forbidden.includes(t.name.toLowerCase())) {
+                    tagCounts[t.name] = (tagCounts[t.name] || 0) + 1;
+                  }
+                });
+              } catch (e) {
+                console.error("Gagal ambil tag untuk " + art.name);
+              }
+            }
+
+            // Ubah object ke array dan urutkan
+            const sortedTags = Object.entries(tagCounts)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 5);
+
+            if (sortedTags.length > 0) {
+              renderChart(
+                sortedTags.map((t) => t[0]),
+                sortedTags.map((t) => t[1]),
+              );
+            }
+          },
+        );
+      }
+
+      function renderRecentPage(page) {
+        currentPage = page;
+        const start = (page - 1) * tracksPerPage;
+        const paged = allTracks.slice(start, start + tracksPerPage);
+        let html = "";
+        paged.forEach((t) => {
+          html += `<div class="recent-item"><img src="${t.image[2]["#text"] || ""}" class="recent-img" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(t.artist["#text"])}&size=64'"><div class="overflow-hidden"><h6 class="mb-0 text-truncate fw-bold small">${t.name}</h6><p class="mb-0 x-small text-muted">${t.artist["#text"]}</p></div></div>`;
+        });
+        $("#recent-list").hide().html(html).fadeIn(300);
+        $("#page-info").text(`Page ${currentPage}`);
+        $("#prev-page").prop("disabled", currentPage === 1);
+        $("#next-page").prop(
+          "disabled",
+          start + tracksPerPage >= allTracks.length,
+        );
+      }
+
+      function fetchArtistInfo(name) {
+        $.getJSON(
+          `${BASE_URL}?method=artist.getinfo&artist=${encodeURIComponent(name)}&api_key=${API_KEY}&format=json`,
+          (d) => {
+            if (d.artist)
+              $("#artist-bio").html(
+                d.artist.bio.summary.split("<a")[0] || "No bio available.",
+              );
+          },
+        );
+      }
+
+      function fetchSimilar(name) {
+        $.getJSON(
+          `${BASE_URL}?method=artist.getsimilar&artist=${encodeURIComponent(name)}&api_key=${API_KEY}&limit=12&format=json`,
+          (d) => {
+            let html = "";
+            if (d.similarartists && d.similarartists.artist) {
+              d.similarartists.artist.forEach((art) => {
+                html += `<div class="col-3"><div class="p-2 rounded-3 bg-primary small text-truncate fw-bold text-white text-center">${art.name}</div></div>`;
+              });
+              $("#similar-artists").html(html);
+            }
+          },
+        );
+      }
+
+      function renderChart(labels, data) {
+        const ctx = document.getElementById("genreChart").getContext("2d");
+        if (genreChart) genreChart.destroy();
+        genreChart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: data,
+                backgroundColor: [
+                  "#3d5afe",
+                  "#8c9eff",
+                  "#6366f1",
+                  "#a5b4fc",
+                  "#e0e7ff",
+                ],
+                borderWidth: 0,
+              },
+            ],
+          },
+          options: {
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: { boxWidth: 10, font: { size: 9 } },
+              },
+            },
+          },
+        });
+      }
+
+      $(document).on("click", "#prev-page", () => {
+        if (currentPage > 1) renderRecentPage(currentPage - 1);
+      });
+      $(document).on("click", "#next-page", () => {
+        if (currentPage * tracksPerPage < allTracks.length)
+          renderRecentPage(currentPage + 1);
+      });
+
+      updateDashboard();
+      setInterval(updateDashboard, 60000);
+    </script>
+  </body>
+</html>

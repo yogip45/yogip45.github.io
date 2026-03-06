@@ -1,0 +1,273 @@
+:root {
+  --accent-color: #3d5afe;
+  --bg-dark: #0f172a;
+}
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background-color: #f4f7fa;
+  color: #333;
+}
+
+/* Hero */
+.audio-hero {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, #1e293b 100%);
+  color: white;
+  padding: 80px 0 120px;
+  position: relative;
+  overflow: hidden;
+}
+.kanji-bg-audio {
+  position: absolute;
+  font-family: "Noto Sans JP";
+  font-size: 15rem;
+  color: rgba(255, 255, 255, 0.03);
+  top: 0;
+  right: -5%;
+  z-index: 1;
+}
+/* Custom Border Radius untuk User Badge */
+.rounded-bottom-start {
+  border-bottom-left-radius: 20px !important;
+}
+
+/* Multi-color Visualizer Bars */
+.bar {
+  width: 5px;
+  border-radius: 10px;
+  animation: bounce 0.8s ease-in-out infinite alternate;
+}
+.bar:nth-child(1) {
+  height: 10px;
+  animation-delay: 0.1s;
+  background: #3d5afe;
+}
+.bar:nth-child(2) {
+  height: 20px;
+  animation-delay: 0.3s;
+  background: #6366f1;
+}
+.bar:nth-child(3) {
+  height: 15px;
+  animation-delay: 0.2s;
+  background: #8c9eff;
+}
+.bar:nth-child(4) {
+  height: 25px;
+  animation-delay: 0.4s;
+  background: #3f51b5;
+}
+
+@keyframes bounce {
+  0% {
+    height: 5px;
+  }
+  100% {
+    height: 100%;
+  }
+}
+
+/* Responsive Padding for Mobile */
+@media (max-width: 768px) {
+  .music-status-card {
+    padding-top: 70px !important;
+  }
+}
+
+/* Now Playing Card */
+.music-status-card {
+  background: #1e293b;
+  color: white;
+  border-radius: 30px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: -60px;
+  position: relative;
+  z-index: 10;
+}
+#album-art {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Visualizer */
+.visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 25px;
+}
+/* Visualizer Multi-Color & Dynamic */
+.visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 25px;
+}
+
+.bar {
+  width: 5px;
+  border-radius: 10px;
+  animation: bounce 0.8s ease-in-out infinite alternate;
+  /* Multi-color menggunakan gradient atau warna solid berbeda */
+  background: var(--accent-color);
+}
+
+/* Variasi Warna & Delay tiap Bar agar tidak gerak barengan */
+.bar:nth-child(1) {
+  height: 10px;
+  animation-delay: 0.1s;
+  background: #3d5afe;
+}
+.bar:nth-child(2) {
+  height: 20px;
+  animation-delay: 0.3s;
+  background: #6366f1;
+}
+.bar:nth-child(3) {
+  height: 15px;
+  animation-delay: 0.2s;
+  background: #8c9eff;
+}
+.bar:nth-child(4) {
+  height: 25px;
+  animation-delay: 0.4s;
+  background: #3f51b5;
+}
+
+@keyframes bounce {
+  0% {
+    height: 5px;
+    transform: translateY(0);
+  }
+  100% {
+    height: 100%; /* Akan mengikuti tinggi container .visualizer */
+    transform: translateY(0);
+  }
+}
+@keyframes bounce {
+  10% {
+    height: 5px;
+  }
+  50% {
+    height: 25px;
+  }
+  100% {
+    height: 12px;
+  }
+}
+
+/* Equal Height Layout */
+.row.d-flex.align-items-stretch > [class*="col-"] {
+  display: flex;
+  flex-direction: column;
+}
+.card.h-100 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Artist Cards */
+.artist-card {
+  background: white;
+  border-radius: 20px;
+  padding: 15px;
+  text-align: center;
+  transition: 0.3s;
+  border: 1px solid #edf2f7;
+  height: 100%;
+}
+.artist-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-color);
+}
+.artist-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #f8f9fa;
+}
+
+/* Recent Items */
+.recent-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 15px;
+  transition: 0.3s;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1px solid #edf2f7;
+}
+.recent-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+/* Custom Scrollbar for Bio */
+#bio-scroll {
+  height: 100px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+#bio-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+#bio-scroll::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 10px;
+}
+
+.btn-back {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  border-radius: 50px;
+  padding: 10px 20px;
+}
+.stats-box {
+  background: linear-gradient(45deg, var(--accent-color), #6366f1);
+  color: white;
+  border-radius: 20px;
+  padding: 25px;
+}
+.pagination-controls .btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gear-item-mini {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 15px;
+  border: 1px solid #edf2f7;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+.gear-item-mini:hover {
+  border-color: var(--accent-color) !important;
+  transform: translateX(5px);
+}
+.x-small {
+  font-size: 0.75rem;
+}
+#top-artists {
+  padding-top: 10px;
+}
+.artist-card {
+  margin-bottom: 10px; /* Biar antar baris ada jarak */
+}
