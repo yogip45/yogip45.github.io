@@ -725,6 +725,10 @@
         tracksPerPage = 7,
         genreChart;
 
+      // Cache agar tidak nembak API berulang kali untuk artis/lagu yang sama
+      const imageCache = {};
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
       function getFallbackAvatar(name) {
         const initials = (name || "?")
           .split(" ")
@@ -739,7 +743,7 @@
         return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
       }
 
-      // Helper JSONP untuk Deezer Public API (bebas CORS & katalog J-Pop/Rock akurat)
+      // Helper JSONP untuk Lagu/Album di Deezer
       function searchDeezer(query) {
         return new Promise((resolve) => {
           $.ajax({
@@ -756,40 +760,79 @@
         });
       }
 
-      // 1. Ambil Foto Artis (Deezer Artist Picture -> iTunes JP -> Fallback SVG)
-      async function getArtistImage(name) {
-        try {
-          const results = await searchDeezer(`artist:"${name}"`);
-          const match = results.find(
-            (item) =>
-              item.artist &&
-              item.artist.name.toLowerCase().includes(name.toLowerCase()),
-          );
-          if (match && match.artist.picture_medium) {
-            return match.artist.picture_medium;
-          }
+      // Helper JSONP khusus Profil Artis di Deezer
+      function searchDeezerArtist(name) {
+        return new Promise((resolve) => {
+          $.ajax({
+            url: `https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=3&output=jsonp`,
+            dataType: "jsonp",
+            timeout: 4000,
+            success: function (res) {
+              resolve(res && res.data ? res.data : []);
+            },
+            error: function () {
+              resolve([]);
+            },
+          });
+        });
+      }
 
+      // 1. Ambil Foto Artis (Deezer Artist -> iTunes Album -> Fallback SVG)
+      async function getArtistImage(name) {
+        const cacheKey = `artist:${name.toLowerCase()}`;
+        if (imageCache[cacheKey]) return imageCache[cacheKey];
+
+        try {
+          const artists = await searchDeezerArtist(name);
+          const match =
+            artists.find(
+              (a) => a.name && a.name.toLowerCase() === name.toLowerCase(),
+            ) || artists[0];
+
+          if (
+            match &&
+            match.picture_medium &&
+            !match.picture_medium.includes("/artist//") &&
+            !match.picture_medium.includes("default")
+          ) {
+            imageCache[cacheKey] = match.picture_medium;
+            return match.picture_medium;
+          }
+        } catch (e) {}
+
+        // Fallback ke iTunes Store (untuk artis yang foto profil Deezer-nya kosong seperti Limp Bizkit)
+        try {
           const res = await fetch(
-            `https://itunes.apple.com/search?term=${encodeURIComponent(name)}&entity=album&country=JP&limit=3`,
+            `https://itunes.apple.com/search?term=${encodeURIComponent(name)}&entity=album&limit=5`,
           );
           if (res.ok) {
             const data = await res.json();
-            const itunesMatch = (data.results || []).find((r) =>
-              r.artistName.toLowerCase().includes(name.toLowerCase()),
-            );
+            const itunesMatch =
+              (data.results || []).find(
+                (r) => r.artistName.toLowerCase() === name.toLowerCase(),
+              ) ||
+              (data.results || []).find((r) =>
+                r.artistName.toLowerCase().includes(name.toLowerCase()),
+              );
             if (itunesMatch) {
-              return itunesMatch.artworkUrl100.replace(
+              const url = itunesMatch.artworkUrl100.replace(
                 "100x100bb",
                 "300x300bb",
               );
+              imageCache[cacheKey] = url;
+              return url;
             }
           }
         } catch (e) {}
+
         return getFallbackAvatar(name);
       }
 
-      // 2. Ambil Cover Lagu/Album Spesifik (Strict Artist + Track Match)
+      // 2. Ambil Cover Lagu Spesifik (Deezer Track -> iTunes JP -> Fallback SVG)
       async function getTrackArtwork(trackName, artistName) {
+        const cacheKey = `track:${artistName.toLowerCase()}-${trackName.toLowerCase()}`;
+        if (imageCache[cacheKey]) return imageCache[cacheKey];
+
         try {
           const results = await searchDeezer(
             `artist:"${artistName}" track:"${trackName}"`,
@@ -799,6 +842,7 @@
             results[0].album &&
             results[0].album.cover_medium
           ) {
+            imageCache[cacheKey] = results[0].album.cover_medium;
             return results[0].album.cover_medium;
           }
 
@@ -809,9 +853,13 @@
               item.artist.name.toLowerCase().includes(artistName.toLowerCase()),
           );
           if (validMatch && validMatch.album && validMatch.album.cover_medium) {
+            imageCache[cacheKey] = validMatch.album.cover_medium;
             return validMatch.album.cover_medium;
           }
+        } catch (e) {}
 
+        // Fallback ke iTunes JP
+        try {
           const res = await fetch(
             `https://itunes.apple.com/search?term=${encodeURIComponent(trackName + " " + artistName)}&entity=song&country=JP&limit=5`,
           );
@@ -821,13 +869,16 @@
               r.artistName.toLowerCase().includes(artistName.toLowerCase()),
             );
             if (itunesMatch) {
-              return itunesMatch.artworkUrl100.replace(
+              const url = itunesMatch.artworkUrl100.replace(
                 "100x100bb",
                 "200x200bb",
               );
+              imageCache[cacheKey] = url;
+              return url;
             }
           }
         } catch (e) {}
+
         return getFallbackAvatar(artistName);
       }
 
@@ -843,6 +894,7 @@
         },
       );
 
+      // Load Favorite Tracks secara berurutan (anti rate-limit Deezer)
       async function loadFavoriteTracks(mode = "loved") {
         const container = $("#favorite-tracks-grid");
         container.html(
@@ -850,62 +902,50 @@
         );
 
         try {
-          if (mode === "loved") {
-            const res = await $.getJSON(
-              `${BASE_URL}?method=user.getlovedtracks&user=${USER}&api_key=${API_KEY}&limit=8&format=json`,
-            );
-            const tracks = res.lovedtracks?.track || [];
+          const method =
+            mode === "loved" ? "user.getlovedtracks" : "user.gettoptracks";
+          const periodParam = mode === "loved" ? "" : "&period=7day";
+          const res = await $.getJSON(
+            `${BASE_URL}?method=${method}&user=${USER}&api_key=${API_KEY}${periodParam}&limit=8&format=json`,
+          );
 
-            if (tracks.length === 0) {
-              container.html(
-                `<div class="col-12 small text-muted py-2">Belum ada lagu yang di-Love di Last.fm. Klik ❤️ di Last.fm/scrobbler-mu untuk memunculkannya di sini otomatis!</div>`,
-              );
-              return;
-            }
+          const tracks =
+            mode === "loved"
+              ? res.lovedtracks?.track || []
+              : res.toptracks?.track || [];
 
-            const cards = await Promise.all(
-              tracks.map(async (t) => {
-                const artist = t.artist.name;
-                const artImg = await getTrackArtwork(t.name, artist);
-                return `
-                  <div class="col-md-6">
-                    <a href="${t.url}" target="_blank" rel="noopener" class="fav-track-card">
-                      <img src="${artImg}" class="fav-track-cover" alt="${t.name}" loading="lazy">
-                      <div class="overflow-hidden flex-grow-1">
-                        <h6 class="fw-bold mb-0 text-truncate small">${t.name}</h6>
-                        <p class="small text-muted mb-0 text-truncate">${artist}</p>
-                      </div>
-                      <span class="fav-badge"><i class="fa-solid fa-heart"></i></span>
-                    </a>
-                  </div>`;
-              }),
+          if (tracks.length === 0) {
+            container.html(
+              `<div class="col-12 small text-muted py-2">Belum ada lagu di daftar ini.</div>`,
             );
-            container.hide().html(cards.join("")).fadeIn(200);
-          } else {
-            const res = await $.getJSON(
-              `${BASE_URL}?method=user.gettoptracks&user=${USER}&api_key=${API_KEY}&period=7day&limit=8&format=json`,
-            );
-            const tracks = res.toptracks?.track || [];
-
-            const cards = await Promise.all(
-              tracks.map(async (t) => {
-                const artist = t.artist.name;
-                const artImg = await getTrackArtwork(t.name, artist);
-                return `
-                  <div class="col-md-6">
-                    <a href="${t.url}" target="_blank" rel="noopener" class="fav-track-card">
-                      <img src="${artImg}" class="fav-track-cover" alt="${t.name}" loading="lazy">
-                      <div class="overflow-hidden flex-grow-1">
-                        <h6 class="fw-bold mb-0 text-truncate small">${t.name}</h6>
-                        <p class="small text-muted mb-0 text-truncate">${artist}</p>
-                      </div>
-                      <span class="fav-badge">${t.playcount}x</span>
-                    </a>
-                  </div>`;
-              }),
-            );
-            container.hide().html(cards.join("")).fadeIn(200);
+            return;
           }
+
+          let cardsHtml = [];
+          for (const t of tracks) {
+            const artist = t.artist.name;
+            const artImg = await getTrackArtwork(t.name, artist);
+            const fallback = getFallbackAvatar(artist);
+            const badge =
+              mode === "loved"
+                ? `<i class="fa-solid fa-heart"></i>`
+                : `${t.playcount}x`;
+
+            cardsHtml.push(`
+              <div class="col-md-6">
+                <a href="${t.url}" target="_blank" rel="noopener" class="fav-track-card">
+                  <img src="${artImg}" class="fav-track-cover" alt="${t.name}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">
+                  <div class="overflow-hidden flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-truncate small">${t.name}</h6>
+                    <p class="small text-muted mb-0 text-truncate">${artist}</p>
+                  </div>
+                  <span class="fav-badge">${badge}</span>
+                </a>
+              </div>`);
+            await sleep(120);
+          }
+
+          container.hide().html(cardsHtml.join("")).fadeIn(200);
         } catch (err) {
           container.html(
             `<div class="col-12 small text-danger">Gagal memuat daftar lagu favorit.</div>`,
@@ -913,7 +953,8 @@
         }
       }
 
-      function updateDashboard() {
+      async function updateDashboard() {
+        // 1. Recent Tracks & Now Playing
         $.getJSON(
           `${BASE_URL}?method=user.getrecenttracks&user=${USER}&api_key=${API_KEY}&format=json&limit=50`,
           function (data) {
@@ -944,6 +985,7 @@
           },
         );
 
+        // 2. Heavy Rotation (Sequential + jeda 120ms agar tidak tabrakan dengan Favorite Tracks)
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=30day&limit=9&format=json`,
           async function (data) {
@@ -952,24 +994,27 @@
               $("#fav-artist-name").text(artists[0].name);
               fetchSimilar(artists[0].name);
 
-              const artistCardsPromises = artists.map(async (art) => {
+              let allCardsHtml = [];
+              for (const art of artists) {
                 const img = await getArtistImage(art.name);
-                return `
+                const fallback = getFallbackAvatar(art.name);
+                allCardsHtml.push(`
                   <div class="col-6 col-md-4">
                     <div class="artist-card h-100">
-                      <img src="${img}" class="artist-avatar" alt="${art.name}" loading="lazy">
+                      <img src="${img}" class="artist-avatar" alt="${art.name}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">
                       <h6 class="fw-bold mb-1 text-truncate small">${art.name}</h6>
                       <span class="font-mono x-small text-muted">${art.playcount} plays</span>
                     </div>
-                  </div>`;
-              });
+                  </div>`);
+                await sleep(120);
+              }
 
-              const allCardsHtml = await Promise.all(artistCardsPromises);
               $("#top-artists").html(allCardsHtml.join(""));
             }
           },
         );
 
+        // 3. All-Time Top 10
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=overall&limit=10&format=json`,
           function (data) {
@@ -992,6 +1037,7 @@
           },
         );
 
+        // 4. 7-Day Genre Mix
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=7day&limit=5&format=json`,
           async function (data) {
@@ -1133,8 +1179,13 @@
         loadFavoriteTracks(mode);
       });
 
-      updateDashboard();
-      loadFavoriteTracks("loved");
+      // Jalankan berurutan supaya tidak berebut kuota request Deezer saat awal buka
+      (async function init() {
+        await updateDashboard();
+        await sleep(600);
+        await loadFavoriteTracks("loved");
+      })();
+
       setInterval(updateDashboard, 60000);
     </script>
   </body>
