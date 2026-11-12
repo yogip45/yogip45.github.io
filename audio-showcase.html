@@ -13,64 +13,301 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700;800&family=Noto+Sans+JP:wght@900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+JP:wght@900&display=swap"
       rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/music.css" />
+
+    <style>
+      :root {
+        --bg-canvas: #f3f3ef;
+        --surface: #ffffff;
+        --surface-dark: #141416;
+        --border-subtle: #e2e2dc;
+        --border-strong: #141416;
+        --accent: #ff4500;
+        --text-main: #141416;
+        --text-muted: #6b6b66;
+      }
+
+      body {
+        background-color: var(--bg-canvas);
+        color: var(--text-main);
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .station-panel {
+        background: var(--surface);
+        border: 1px solid var(--border-subtle);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: border-color 0.2s ease;
+      }
+
+      .station-panel:hover {
+        border-color: #c5c5bd;
+      }
+
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-subtle);
+        padding-bottom: 0.75rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .panel-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+
+      /* --- AUDIO GEARS SHOWCASE --- */
+      .gear-card {
+        border: 1px solid var(--border-subtle);
+        border-radius: 10px;
+        background: #fafaf8;
+        padding: 1rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .gear-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-strong);
+      }
+
+      .gear-card.primary-gear {
+        background: #ffffff;
+      }
+
+      .gear-card.retired {
+        background: #f4f4f0;
+        border: 1px dashed #c8c8c0;
+        opacity: 0.78;
+      }
+
+      .gear-card.retired img {
+        filter: grayscale(100%);
+      }
+
+      .gear-thumb-box {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        background: #ecece6;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 0.85rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .gear-thumb-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .gear-tag {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.62rem;
+        padding: 2px 7px;
+        border-radius: 4px;
+        background: var(--surface-dark);
+        color: #fff;
+        letter-spacing: 0.04em;
+        z-index: 2;
+      }
+
+      .gear-tag.tag-main {
+        background: var(--accent);
+      }
+
+      .gear-tag.tag-retired {
+        background: #71717a;
+      }
+
+      .gear-specs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--border-subtle);
+      }
+
+      .spec-pill {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        background: #efefea;
+        color: #3a3a37;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .signal-chain {
+        background: var(--surface-dark);
+        color: #e4e4e7;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.75rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .signal-chain span.highlight {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .recent-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .recent-item:last-child {
+        border-bottom: none;
+      }
+      .recent-img {
+        width: 42px;
+        height: 42px;
+        border-radius: 6px;
+        object-fit: cover;
+      }
+
+      /* --- FAVORITE / CURATED TRACKS --- */
+      .fav-tab-btn {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 1px solid var(--border-subtle);
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .fav-tab-btn.active,
+      .fav-tab-btn:hover {
+        background: var(--surface-dark);
+        color: #ffffff;
+        border-color: var(--surface-dark);
+      }
+
+      .fav-track-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0.65rem 0.75rem;
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        background: #fafaf8;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.18s ease;
+      }
+
+      .fav-track-card:hover {
+        border-color: var(--border-strong);
+        background: #ffffff;
+        transform: translateX(3px);
+        color: inherit;
+      }
+
+      .fav-track-cover {
+        width: 46px;
+        height: 46px;
+        border-radius: 6px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .fav-badge {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--accent);
+        background: rgba(255, 69, 0, 0.08);
+        padding: 2px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+    </style>
   </head>
   <body>
-    <a href="index.html" class="btn btn-dark btn-back shadow-lg">
+    <a href="index.html" class="btn btn-dark btn-back">
       <i class="fa-solid fa-arrow-left me-2"></i> Back to Home
     </a>
 
     <section class="audio-hero">
       <div class="kanji-bg-audio">オーディオ</div>
       <div class="container text-center" style="position: relative; z-index: 2">
+        <span class="font-mono small text-uppercase opacity-75 d-block mb-1">
+          PERSONAL LISTENING LOG & HARDWARE
+        </span>
         <h1 class="display-4 fw-800 mb-2">
-          Audio <span style="color: var(--accent-color)">Station.</span>
+          Audio <span style="color: var(--accent)">Station.</span>
         </h1>
-        <p class="lead opacity-75">
-          My Favorite Music Gwe & Audio Gear Showcase
+        <p class="lead opacity-75 mb-0">
+          Scrobble telemetry & daily audio chain.
         </p>
       </div>
     </section>
 
     <div class="container">
-      <div
-        class="music-status-card shadow-lg mb-4 position-relative overflow-hidden">
+      <!-- NOW PLAYING CARD -->
+      <div class="music-status-card mb-4 position-relative overflow-hidden">
         <div
-          class="position-absolute top-0 end-0 p-3 d-flex align-items-center bg-primary bg-opacity-25 rounded-bottom-start shadow-sm"
+          class="position-absolute top-0 end-0 p-3 d-flex align-items-center bg-dark bg-opacity-50 rounded-bottom-start"
           style="backdrop-filter: blur(8px); z-index: 5">
           <div class="text-end me-2 d-none d-md-block">
             <p class="mb-0 fw-bold text-white" id="user-display-name">yogpp</p>
-            <p class="mb-0 text-white-50" style="font-size: 0.6rem">
+            <p class="mb-0 text-white-50 font-mono" style="font-size: 0.65rem">
               last.fm/user/yogpp
             </p>
           </div>
           <img
             id="user-avatar"
             src=""
-            class="rounded-circle shadow-sm"
-            style="width: 50px; height: 50px; object-fit: cover" />
+            class="rounded-circle"
+            style="width: 44px; height: 44px; object-fit: cover" />
         </div>
 
         <div class="row align-items-center text-center text-md-start">
-          <div class="col-md-4 mb-2 mb-md-0 d-flex justify-content-center">
+          <div class="col-md-4 mb-3 mb-md-0 d-flex justify-content-center">
             <div class="position-relative">
-              <img id="album-art" src="" alt="Album Art" class="img-fluid" />
-              <div
-                class="position-absolute bottom-0 end-0 bg-primary text-white p-2 rounded-circle shadow-lg d-none d-md-flex align-items-center justify-content-center"
-                style="
-                  width: 40px;
-                  height: 40px;
-                  transform: translate(25%, 25%);
-                ">
-                <i class="fa-solid fa-compact-disc fa-spin"></i>
-              </div>
+              <img
+                id="album-art"
+                src=""
+                alt="Album Art"
+                class="img-fluid rounded-3" />
             </div>
           </div>
           <div class="col-md-8">
             <div
-              class="d-flex align-items-center justify-content-center justify-content-md-start mb-3 mt-3 mt-md-0">
+              class="d-flex align-items-center justify-content-center justify-content-md-start mb-3">
               <div class="visualizer me-3" id="viz">
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -78,20 +315,19 @@
                 <div class="bar"></div>
               </div>
               <span
-                class="badge rounded-pill bg-primary px-3 py-2 fw-bold shadow-sm"
-                id="status-text"
-                >FETCHING...</span
-              >
+                class="badge font-mono px-2 py-1"
+                style="background-color: var(--accent)"
+                id="status-text">
+                FETCHING...
+              </span>
             </div>
-            <h1
-              id="track-name"
-              class="fw-800 display-5 mb-1 text-white text-capitalize">
+            <h1 id="track-name" class="fw-800 display-5 mb-1 text-white">
               ...
             </h1>
-            <h3 id="artist-name" class="text-white-50 mb-3 fw-light">
+            <h3 id="artist-name" class="text-white-50 mb-3 fw-normal">
               Artist Name
             </h3>
-            <p class="small opacity-50 text-white mb-0">
+            <p class="small opacity-50 text-white mb-0 font-mono">
               <i class="fa-solid fa-record-vinyl me-2"></i
               ><span id="album-name">Album Name</span>
             </p>
@@ -99,146 +335,343 @@
         </div>
       </div>
 
-      <div class="row g-4 mb-4 d-flex align-items-stretch">
+      <!-- AUDIO GEARS SHOWCASE (4-SLOT HARDWARE RACK) -->
+      <div class="station-panel mb-4">
+        <div class="panel-header">
+          <div>
+            <span class="panel-label d-block">01 HARDWARE INVENTORY</span>
+            <h5 class="fw-800 mb-0">Audio Gears</h5>
+          </div>
+          <span class="font-mono small text-muted d-none d-sm-block"
+            >3 ACTIVE · 1 RETIRED</span
+          >
+        </div>
+
+        <div class="signal-chain mb-4">
+          <span class="text-white">PRIMARY IEM:</span>
+          <span class="highlight">Moondrop Lan 2</span>
+          <span class="text-white ms-md-auto d-none d-md-inline"
+            >PRIMARY WIRELESS:
+          </span>
+          <span class="highlight">Galaxy Buds3 FE</span>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-sm-6 col-lg-3">
+            <div class="gear-card primary-gear">
+              <div>
+                <div class="gear-thumb-box">
+                  <span class="gear-tag tag-main">MAIN IEM</span>
+                  <img
+                    src="assets/img/gear/lan2.jpg"
+                    alt="Moondrop Lan 2"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    " />
+                  <div
+                    style="display: none"
+                    class="flex-column align-items-center text-muted">
+                    <i class="fa-solid fa-ear-listen fa-2x mb-1"></i>
+                    <span class="font-mono" style="font-size: 0.62rem"
+                      >IEM WIRED</span
+                    >
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-start gap-1">
+                  <h6 class="fw-800 mb-1">Moondrop Lan 2</h6>
+                  <span
+                    class="font-mono text-success fw-bold"
+                    style="font-size: 0.65rem; white-space: nowrap"
+                    >● MAIN</span
+                  >
+                </div>
+                <p class="small text-muted mb-0">
+                  Primary wired driver for focused listening, clean instrument
+                  separation, and desk sessions.
+                </p>
+              </div>
+              <div class="gear-specs">
+                <span class="spec-pill">Wired IEM</span>
+                <span class="spec-pill">10mm Dynamic Driver</span>
+                <span class="spec-pill">Daily Main</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <div class="gear-card">
+              <div>
+                <div class="gear-thumb-box">
+                  <span class="gear-tag tag-main">MAIN TWS</span>
+                  <img
+                    src="assets/img/gear/buds3fe.jpg"
+                    alt="Galaxy Buds3 FE"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    " />
+                  <div
+                    style="display: none"
+                    class="flex-column align-items-center text-muted">
+                    <i class="fa-solid fa-headphones fa-2x mb-1"></i>
+                    <span class="font-mono" style="font-size: 0.62rem"
+                      >SAMSUNG TWS</span
+                    >
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-start gap-1">
+                  <h6 class="fw-800 mb-1">Galaxy Buds3 FE</h6>
+                  <span
+                    class="font-mono text-success fw-bold"
+                    style="font-size: 0.65rem; white-space: nowrap"
+                    >● ACTIVE</span
+                  >
+                </div>
+                <p class="small text-muted mb-0">
+                  Go-to wireless buds for seamless daily commute, calls, and
+                  outdoor mobility.
+                </p>
+              </div>
+              <div class="gear-specs">
+                <span class="spec-pill">TWS / ANC</span>
+                <span class="spec-pill">11mm 1-way Dynamic Driver</span>
+                <span class="spec-pill">Commute</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <div class="gear-card">
+              <div>
+                <div class="gear-thumb-box">
+                  <span class="gear-tag">SECONDARY TWS</span>
+                  <img
+                    src="assets/img/gear/moondrop-moca-grey.jpg"
+                    alt="Moondrop Moca"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    " />
+                  <div
+                    style="display: none"
+                    class="flex-column align-items-center text-muted">
+                    <i class="fa-solid fa-wave-square fa-2x mb-1"></i>
+                    <span class="font-mono" style="font-size: 0.62rem"
+                      >MOONDROP TWS</span
+                    >
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-start gap-1">
+                  <h6 class="fw-800 mb-1">Moondrop Moca</h6>
+                  <span
+                    class="font-mono text-success fw-bold"
+                    style="font-size: 0.65rem; white-space: nowrap"
+                    >● ACTIVE</span
+                  >
+                </div>
+                <p class="small text-muted mb-0">
+                  Alternative wireless rotation with Moondrop's signature vocal
+                  tuning and LC3 support.
+                </p>
+              </div>
+              <div class="gear-specs">
+                <span class="spec-pill">10mm Ti-Ceramic</span>
+                <span class="spec-pill">Single Dynamic Driver</span>
+                <span class="spec-pill">Hybrid ANC</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <div class="gear-card retired">
+              <div>
+                <div class="gear-thumb-box">
+                  <span class="gear-tag tag-retired">RETIRED</span>
+                  <img
+                    src="assets/img/gear/chu2.jpg"
+                    alt="Moondrop Chu II"
+                    onerror="
+                      this.style.display = 'none';
+                      this.nextElementSibling.style.display = 'flex';
+                    " />
+                  <div
+                    style="display: none"
+                    class="flex-column align-items-center text-muted">
+                    <i class="fa-solid fa-box-archive fa-2x mb-1"></i>
+                    <span class="font-mono" style="font-size: 0.62rem"
+                      >ARCHIVED</span
+                    >
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-between align-items-start gap-1">
+                  <h6 class="fw-800 mb-1">Moondrop Chu II</h6>
+                  <span
+                    class="font-mono text-muted"
+                    style="font-size: 0.65rem; white-space: nowrap"
+                    >OFF-DUTY</span
+                  >
+                </div>
+                <p class="small text-muted mb-0">
+                  Former daily driver. Officially retired from rotation after
+                  upgrading to Lan 2.
+                </p>
+              </div>
+              <div class="gear-specs">
+                <span class="spec-pill">10mm Dynamic</span>
+                <span class="spec-pill">Retired</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARTIST BIO & HEAVY ROTATION -->
+      <div class="row g-4 mb-4">
         <div class="col-lg-12">
-          <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
-            <h5 class="fw-bold mb-3 text-dark">
-              <i class="fa-solid fa-id-card text-primary me-2"></i>Current
-              Artist Bio
-            </h5>
+          <div class="station-panel">
+            <div class="panel-header">
+              <span class="panel-label">02 CURRENT ARTIST BIO</span>
+              <span class="font-mono x-small text-muted">LAST.FM WIKI</span>
+            </div>
             <div id="bio-scroll">
               <div
                 id="artist-bio"
-                class="text-dark"
-                style="font-size: 0.9rem; line-height: 1.6">
+                style="font-size: 0.92rem; line-height: 1.65">
                 ...
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row g-4 mb-4 d-flex align-items-stretch">
+
+      <div class="row g-4 mb-4">
         <div class="col-lg-12">
-          <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
-            <h5 class="fw-bold mb-4">
-              <i class="fa-solid fa-fire text-danger me-2"></i>Heavy Rotation
-              (30 Days)
-            </h5>
+          <div class="station-panel">
+            <div class="panel-header">
+              <div>
+                <span class="panel-label d-block">03 30-DAY TELEMETRY</span>
+                <h5 class="fw-800 mb-0">Heavy Rotation</h5>
+              </div>
+            </div>
             <div id="top-artists" class="row g-3"></div>
           </div>
         </div>
       </div>
 
-      <div class="row g-4 mb-5">
-        <div class="col-lg-8">
+      <!-- DISCOVERY, RECENT HISTORY, FAVORITE SONGS & STATS -->
+      <div class="row g-4 mb-5 align-items-stretch">
+        <div class="col-lg-8 d-flex flex-column">
           <div
-            class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-dark text-white">
-            <h5 class="fw-bold mb-3">
-              <i class="fa-solid fa-wand-magic-sparkles text-info me-2"></i
-              >Discovery: Similar to
-              <span id="fav-artist-name" class="text-primary">...</span>
-            </h5>
+            class="station-panel mb-4"
+            style="background: var(--surface-dark); color: #fff">
+            <div class="panel-header" style="border-color: #27272a">
+              <div>
+                <span class="panel-label text-secondary d-block"
+                  >04 RECOMMENDATION ENGINE</span
+                >
+                <h5 class="fw-bold mb-0">
+                  Similar to
+                  <span id="fav-artist-name" style="color: var(--accent)"
+                    >...</span
+                  >
+                </h5>
+              </div>
+            </div>
             <div id="similar-artists" class="row g-2 text-center"></div>
           </div>
 
-          <div class="card border-0 shadow-sm rounded-4 p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h5 class="fw-bold mb-0">
-                <i class="fa-solid fa-history text-primary me-2"></i>Recent
-                History
-              </h5>
-              <div class="pagination-controls d-flex gap-2">
+          <div class="station-panel mb-4">
+            <div class="panel-header">
+              <div>
+                <span class="panel-label d-block">05 PLAYBACK LOG</span>
+                <h5 class="fw-800 mb-0">Recent History</h5>
+              </div>
+              <div class="pagination-controls d-flex align-items-center gap-2">
                 <button
                   id="prev-page"
-                  class="btn btn-sm btn-outline-primary"
+                  class="btn btn-sm btn-outline-dark"
                   disabled>
                   <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                <span
-                  id="page-info"
-                  class="small fw-bold align-self-center mx-2 text-muted"
-                  >Page 1</span
+                <span id="page-info" class="font-mono small fw-bold mx-1"
+                  >01</span
                 >
-                <button id="next-page" class="btn btn-sm btn-outline-primary">
+                <button id="next-page" class="btn btn-sm btn-outline-dark">
                   <i class="fa-solid fa-chevron-right"></i>
                 </button>
               </div>
             </div>
             <div id="recent-list"></div>
           </div>
-          <div class="card border-0 shadow-sm rounded-4 p-4 mt-4">
-            <h5 class="fw-bold mb-4">
-              <i class="fa-solid fa-headset text-primary me-2"></i>Audio Gears
-            </h5>
-            <div
-              class="gear-item-mini"
-              style="opacity: 0.7; border-style: dashed !important">
-              <img
-                src="https://ui-avatars.com/api/?name=W&size=64"
-                width="45"
-                height="45"
-                class="rounded me-3" />
-              <div>
-                <h6 class="fw-bold mb-0 small">Moondrop Lan 2</h6>
-                <p class="mb-0 text-muted x-small">Next Wishlist</p>
+
+          <!-- DYNAMIC SECTION: FAVORITE / CURATED TRACKS (FLEX-GROW SEJAJAR CHART) -->
+          <div
+            class="station-panel flex-grow-1 d-flex flex-column justify-content-between">
+            <div>
+              <div class="panel-header flex-wrap gap-2">
+                <div>
+                  <span class="panel-label d-block">06 CURATED CRATE</span>
+                  <h5 class="fw-800 mb-0">Favorite Tracks</h5>
+                </div>
+                <div class="d-flex align-items-center gap-1">
+                  <button class="fav-tab-btn active" data-mode="loved">
+                    <i
+                      class="fa-solid fa-heart me-1"
+                      style="color: var(--accent)"></i
+                    >Loved
+                  </button>
+                  <button class="fav-tab-btn" data-mode="top7d">
+                    On Repeat (7D)
+                  </button>
+                </div>
               </div>
-            </div>
-            <div class="gear-item-mini">
-              <img
-                src="assets/img/gear/chu2.jpg"
-                width="45"
-                height="45"
-                class="rounded me-3" />
-              <div>
-                <h6 class="fw-bold mb-0 small">Moondrop Chu II</h6>
-                <p class="mb-0 text-muted x-small">Daily Driver</p>
-              </div>
+              <div id="favorite-tracks-grid" class="row g-2"></div>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-4 d-flex flex-column">
           <div
-            class="stats-box mb-4 shadow-sm text-center position-relative overflow-hidden">
-            <i
-              class="fa-solid fa-headphones position-absolute opacity-10"
-              style="
-                font-size: 5rem;
-                right: -2px;
-                bottom: -5px;
-                transform: rotate(-20deg);
-              "></i>
-
-            <div class="position-relative" style="z-index: 2">
-              <i class="fa-solid fa-music mb-2 opacity-75"></i>
-              <h6 class="text-uppercase small fw-bold opacity-75 mb-1">
-                Total Listening
-              </h6>
-              <h1 class="fw-800 display-5 mb-0" id="total-scrobbles">0</h1>
-              <!-- <p class="x-small mb-0 opacity-50 mt-1">Captured via Last.fm</p> -->
-            </div>
+            class="station-panel mb-4"
+            style="background: var(--surface-dark); color: #fff">
+            <span class="panel-label text-secondary d-block mb-1"
+              >TOTAL SCROBBLES</span
+            >
+            <h1 class="fw-800 display-5 mb-0 font-mono" id="total-scrobbles">
+              0
+            </h1>
+            <p class="font-mono x-small text-secondary mb-0 mt-2">
+              SYNCED VIA LAST.FM API
+            </p>
           </div>
 
-          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-            <h5 class="fw-bold mb-3">
-              <i class="fa-solid fa-award text-warning me-2"></i>Top Artists
-            </h5>
+          <div class="station-panel mb-4">
+            <div class="panel-header">
+              <span class="panel-label">ALL-TIME TOP 10</span>
+            </div>
             <div id="all-time-top-list" class="d-flex flex-column gap-3"></div>
           </div>
 
-          <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-            <h5 class="fw-bold mb-3">
-              <i class="fa-solid fa-chart-column text-primary me-2"></i>Genre
-              Analysis
-            </h5>
-            <canvas id="genreChart" height="230"></canvas>
+          <div
+            class="station-panel flex-grow-1 d-flex flex-column justify-content-between">
+            <div class="panel-header">
+              <span class="panel-label">7-DAY GENRE MIX</span>
+            </div>
+            <div class="my-auto">
+              <canvas id="genreChart" height="230"></canvas>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <footer class="text-center py-5 text-muted small">
-      &copy; 2026 Yog Audio Station
+    <footer class="text-center py-5 text-muted font-mono small">
+      © 2026 YOG AUDIO STATION
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -250,7 +683,113 @@
         currentPage = 1,
         tracksPerPage = 7,
         genreChart;
-      // Fetch User Info (Avatar & Display Name)
+
+      function getFallbackAvatar(name) {
+        const initials = (name || "?")
+          .split(" ")
+          .map((w) => w[0])
+          .join("")
+          .substring(0, 2)
+          .toUpperCase();
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+          <rect width="200" height="200" fill="#141416"/>
+          <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#ff4500" font-family="monospace" font-weight="bold" font-size="64">${initials}</text>
+        </svg>`;
+        return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+      }
+
+      // Helper JSONP untuk Deezer Public API (bebas CORS & katalog J-Pop/Rock akurat)
+      function searchDeezer(query) {
+        return new Promise((resolve) => {
+          $.ajax({
+            url: `https://api.deezer.com/search?q=${encodeURIComponent(query)}&limit=3&output=jsonp`,
+            dataType: "jsonp",
+            timeout: 4000,
+            success: function (res) {
+              resolve(res && res.data ? res.data : []);
+            },
+            error: function () {
+              resolve([]);
+            },
+          });
+        });
+      }
+
+      // 1. Ambil Foto Artis (Deezer Artist Picture -> iTunes JP -> Fallback SVG)
+      async function getArtistImage(name) {
+        try {
+          const results = await searchDeezer(`artist:"${name}"`);
+          const match = results.find(
+            (item) =>
+              item.artist &&
+              item.artist.name.toLowerCase().includes(name.toLowerCase()),
+          );
+          if (match && match.artist.picture_medium) {
+            return match.artist.picture_medium;
+          }
+
+          const res = await fetch(
+            `https://itunes.apple.com/search?term=${encodeURIComponent(name)}&entity=album&country=JP&limit=3`,
+          );
+          if (res.ok) {
+            const data = await res.json();
+            const itunesMatch = (data.results || []).find((r) =>
+              r.artistName.toLowerCase().includes(name.toLowerCase()),
+            );
+            if (itunesMatch) {
+              return itunesMatch.artworkUrl100.replace(
+                "100x100bb",
+                "300x300bb",
+              );
+            }
+          }
+        } catch (e) {}
+        return getFallbackAvatar(name);
+      }
+
+      // 2. Ambil Cover Lagu/Album Spesifik (Strict Artist + Track Match)
+      async function getTrackArtwork(trackName, artistName) {
+        try {
+          const results = await searchDeezer(
+            `artist:"${artistName}" track:"${trackName}"`,
+          );
+          if (
+            results.length > 0 &&
+            results[0].album &&
+            results[0].album.cover_medium
+          ) {
+            return results[0].album.cover_medium;
+          }
+
+          const looseResults = await searchDeezer(`${trackName} ${artistName}`);
+          const validMatch = looseResults.find(
+            (item) =>
+              item.artist &&
+              item.artist.name.toLowerCase().includes(artistName.toLowerCase()),
+          );
+          if (validMatch && validMatch.album && validMatch.album.cover_medium) {
+            return validMatch.album.cover_medium;
+          }
+
+          const res = await fetch(
+            `https://itunes.apple.com/search?term=${encodeURIComponent(trackName + " " + artistName)}&entity=song&country=JP&limit=5`,
+          );
+          if (res.ok) {
+            const data = await res.json();
+            const itunesMatch = (data.results || []).find((r) =>
+              r.artistName.toLowerCase().includes(artistName.toLowerCase()),
+            );
+            if (itunesMatch) {
+              return itunesMatch.artworkUrl100.replace(
+                "100x100bb",
+                "200x200bb",
+              );
+            }
+          }
+        } catch (e) {}
+        return getFallbackAvatar(artistName);
+      }
+
       $.getJSON(
         `${BASE_URL}?method=user.getinfo&user=${USER}&api_key=${API_KEY}&format=json`,
         function (data) {
@@ -262,24 +801,78 @@
           }
         },
       );
-      // iTunes Image Fetcher
-      async function getArtistImage(name) {
+
+      async function loadFavoriteTracks(mode = "loved") {
+        const container = $("#favorite-tracks-grid");
+        container.html(
+          `<div class="col-12 font-mono small text-muted py-3">Fetching ${mode === "loved" ? "loved tracks" : "top rotation"}...</div>`,
+        );
+
         try {
-          const res = await fetch(
-            `https://itunes.apple.com/search?term=${encodeURIComponent(name)}&entity=album&limit=1`,
-          );
-          const data = await res.json();
-          if (data.results.length > 0)
-            return data.results[0].artworkUrl100.replace(
-              "100x100bb",
-              "300x300bb",
+          if (mode === "loved") {
+            const res = await $.getJSON(
+              `${BASE_URL}?method=user.getlovedtracks&user=${USER}&api_key=${API_KEY}&limit=8&format=json`,
             );
-        } catch (e) {}
-        return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=128`;
+            const tracks = res.lovedtracks?.track || [];
+
+            if (tracks.length === 0) {
+              container.html(
+                `<div class="col-12 small text-muted py-2">Belum ada lagu yang di-Love di Last.fm. Klik ❤️ di Last.fm/scrobbler-mu untuk memunculkannya di sini otomatis!</div>`,
+              );
+              return;
+            }
+
+            const cards = await Promise.all(
+              tracks.map(async (t) => {
+                const artist = t.artist.name;
+                const artImg = await getTrackArtwork(t.name, artist);
+                return `
+                  <div class="col-md-6">
+                    <a href="${t.url}" target="_blank" rel="noopener" class="fav-track-card">
+                      <img src="${artImg}" class="fav-track-cover" alt="${t.name}" loading="lazy">
+                      <div class="overflow-hidden flex-grow-1">
+                        <h6 class="fw-bold mb-0 text-truncate small">${t.name}</h6>
+                        <p class="small text-muted mb-0 text-truncate">${artist}</p>
+                      </div>
+                      <span class="fav-badge"><i class="fa-solid fa-heart"></i></span>
+                    </a>
+                  </div>`;
+              }),
+            );
+            container.hide().html(cards.join("")).fadeIn(200);
+          } else {
+            const res = await $.getJSON(
+              `${BASE_URL}?method=user.gettoptracks&user=${USER}&api_key=${API_KEY}&period=7day&limit=8&format=json`,
+            );
+            const tracks = res.toptracks?.track || [];
+
+            const cards = await Promise.all(
+              tracks.map(async (t) => {
+                const artist = t.artist.name;
+                const artImg = await getTrackArtwork(t.name, artist);
+                return `
+                  <div class="col-md-6">
+                    <a href="${t.url}" target="_blank" rel="noopener" class="fav-track-card">
+                      <img src="${artImg}" class="fav-track-cover" alt="${t.name}" loading="lazy">
+                      <div class="overflow-hidden flex-grow-1">
+                        <h6 class="fw-bold mb-0 text-truncate small">${t.name}</h6>
+                        <p class="small text-muted mb-0 text-truncate">${artist}</p>
+                      </div>
+                      <span class="fav-badge">${t.playcount}x</span>
+                    </a>
+                  </div>`;
+              }),
+            );
+            container.hide().html(cards.join("")).fadeIn(200);
+          }
+        } catch (err) {
+          container.html(
+            `<div class="col-12 small text-danger">Gagal memuat daftar lagu favorit.</div>`,
+          );
+        }
       }
 
       function updateDashboard() {
-        // 1. Recent Tracks & Now Playing
         $.getJSON(
           `${BASE_URL}?method=user.getrecenttracks&user=${USER}&api_key=${API_KEY}&format=json&limit=50`,
           function (data) {
@@ -296,15 +889,13 @@
 
             if (current["@attr"] && current["@attr"].nowplaying) {
               $("#status-text")
-                .text("NOW VIBING")
-                .addClass("bg-primary")
-                .removeClass("bg-secondary");
+                .text("NOW SPINNING")
+                .css("background-color", "var(--accent)");
               $("#viz").css("display", "flex");
             } else {
               $("#status-text")
-                .text("LAST STOP")
-                .addClass("bg-secondary")
-                .removeClass("bg-primary");
+                .text("LAST PLAYED")
+                .css("background-color", "#3f3f46");
               $("#viz").hide();
             }
             fetchArtistInfo(current.artist["#text"]);
@@ -312,38 +903,24 @@
           },
         );
 
-        // 2. Heavy Rotation & Discovery
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=30day&limit=9&format=json`,
           async function (data) {
             const artists = data.topartists.artist;
-
             if (artists && artists.length > 0) {
               $("#fav-artist-name").text(artists[0].name);
               fetchSimilar(artists[0].name);
 
               const artistCardsPromises = artists.map(async (art) => {
-                try {
-                  const img = await getArtistImage(art.name);
-                  return `
-                <div class="col-6 col-md-4">
-                    <div class="artist-card shadow-sm h-100">
-                        <img src="${img}" class="artist-avatar" alt="${art.name}" loading="lazy">
-                        <h6 class="fw-bold mb-1 text-truncate small">${art.name}</h6>
-                        <span class="badge bg-light text-dark fw-normal x-small">${art.playcount} plays</span>
+                const img = await getArtistImage(art.name);
+                return `
+                  <div class="col-6 col-md-4">
+                    <div class="artist-card h-100">
+                      <img src="${img}" class="artist-avatar" alt="${art.name}" loading="lazy">
+                      <h6 class="fw-bold mb-1 text-truncate small">${art.name}</h6>
+                      <span class="font-mono x-small text-muted">${art.playcount} plays</span>
                     </div>
-                </div>`;
-                } catch (err) {
-                  // Fallback kalau iTunes error
-                  return `
-                <div class="col-6 col-md-4">
-                    <div class="artist-card shadow-sm h-100">
-                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(art.name)}&background=random&color=fff" class="artist-avatar">
-                        <h6 class="fw-bold mb-1 text-truncate small">${art.name}</h6>
-                        <span class="badge bg-light text-dark fw-normal x-small">${art.playcount} plays</span>
-                    </div>
-                </div>`;
-                }
+                  </div>`;
               });
 
               const allCardsHtml = await Promise.all(artistCardsPromises);
@@ -352,68 +929,40 @@
           },
         );
 
-        // 3. Top Artist Ever
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=overall&limit=10&format=json`,
           function (data) {
             const artists = data.topartists.artist;
             let html = "";
-
             artists.forEach((top, index) => {
-              // Tentukan warna icon berdasarkan ranking
-              const iconColor =
-                index === 0
-                  ? "text-warning"
-                  : index === 1
-                    ? "text-secondary"
-                    : "text-muted";
-
+              const rank = String(index + 1).padStart(2, "0");
               html += `
-                <div class="d-flex align-items-center pb-2 ${index !== artists.length - 1 ? "border-bottom" : ""}" style="border-color: #f8f9fa !important;">
-                    <div class="me-3 d-flex align-items-center justify-content-center" style="width: 30px;">
-                        <i class="fa-solid fa-trophy ${iconColor}" style="font-size: 0.9rem;"></i>
-                    </div>
-                    <div class="overflow-hidden flex-grow-1">
-                        <h6 class="fw-bold mb-0 text-truncate small" style="font-size: 0.8rem;">${top.name}</h6>
-                        <p class="x-small text-muted mb-0" style="font-size: 0.65rem;">${parseInt(top.playcount).toLocaleString()} total plays</p>
-                    </div>
-                    <div class="badge bg-light text-dark rounded-pill x-small">#${index + 1}</div>
+                <div class="d-flex align-items-center pb-2 ${index !== artists.length - 1 ? "border-bottom" : ""}" style="border-color: var(--border-subtle) !important;">
+                  <div class="me-3 font-mono fw-bold small" style="color: ${index === 0 ? "var(--accent)" : "var(--text-muted)"}">
+                    ${rank}
+                  </div>
+                  <div class="overflow-hidden flex-grow-1">
+                    <h6 class="fw-bold mb-0 text-truncate small">${top.name}</h6>
+                    <p class="font-mono text-muted mb-0" style="font-size: 0.68rem;">${parseInt(top.playcount).toLocaleString()} plays</p>
+                  </div>
                 </div>`;
             });
-
             $("#all-time-top-list").html(html);
           },
         );
 
-        // 4. Genre Chart
-        // $.getJSON(
-        //   `${BASE_URL}?method=user.gettoptags&user=${USER}&api_key=${API_KEY}&format=json`,
-        //   function (data) {
-        //     const tags = data.toptags.tag.slice(0, 5);
-        //     if (tags.length > 0)
-        //       renderChart(
-        //         tags.map((t) => t.name),
-        //         tags.map((t) => parseInt(t.count)),
-        //       );
-        //   },
-        // );
-        // 4. GENRE ANALYSIS (AGREGASI DARI TOP ARTISTS)
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=7day&limit=5&format=json`,
           async function (data) {
             const artists = data.topartists.artist;
             let tagCounts = {};
-
-            // Kita ambil tag dari 5 artis teratas
             for (let art of artists) {
               try {
                 const tagData = await $.getJSON(
                   `${BASE_URL}?method=artist.gettoptags&artist=${encodeURIComponent(art.name)}&api_key=${API_KEY}&format=json`,
                 );
-                const topTags = tagData.toptags.tag.slice(0, 3); // Ambil 3 tag teratas per artis
-
+                const topTags = tagData.toptags.tag.slice(0, 3);
                 topTags.forEach((t) => {
-                  // Filter tag yang gak penting (kayak 'seen live', 'favorites', dll)
                   const forbidden = [
                     "seen live",
                     "favorites",
@@ -424,16 +973,11 @@
                     tagCounts[t.name] = (tagCounts[t.name] || 0) + 1;
                   }
                 });
-              } catch (e) {
-                console.error("Gagal ambil tag untuk " + art.name);
-              }
+              } catch (e) {}
             }
-
-            // Ubah object ke array dan urutkan
             const sortedTags = Object.entries(tagCounts)
               .sort((a, b) => b[1] - a[1])
               .slice(0, 5);
-
             if (sortedTags.length > 0) {
               renderChart(
                 sortedTags.map((t) => t[0]),
@@ -450,10 +994,19 @@
         const paged = allTracks.slice(start, start + tracksPerPage);
         let html = "";
         paged.forEach((t) => {
-          html += `<div class="recent-item"><img src="${t.image[2]["#text"] || ""}" class="recent-img" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(t.artist["#text"])}&size=64'"><div class="overflow-hidden"><h6 class="mb-0 text-truncate fw-bold small">${t.name}</h6><p class="mb-0 x-small text-muted">${t.artist["#text"]}</p></div></div>`;
+          const fallback = getFallbackAvatar(t.artist["#text"]);
+          const imgSrc = t.image[2]["#text"] || fallback;
+          html += `
+            <div class="recent-item">
+              <img src="${imgSrc}" class="recent-img" onerror="this.onerror=null;this.src='${fallback}'">
+              <div class="overflow-hidden">
+                <h6 class="mb-0 text-truncate fw-bold small">${t.name}</h6>
+                <p class="mb-0 small text-muted">${t.artist["#text"]}</p>
+              </div>
+            </div>`;
         });
-        $("#recent-list").hide().html(html).fadeIn(300);
-        $("#page-info").text(`Page ${currentPage}`);
+        $("#recent-list").hide().html(html).fadeIn(200);
+        $("#page-info").text(String(currentPage).padStart(2, "0"));
         $("#prev-page").prop("disabled", currentPage === 1);
         $("#next-page").prop(
           "disabled",
@@ -480,7 +1033,7 @@
             let html = "";
             if (d.similarartists && d.similarartists.artist) {
               d.similarartists.artist.forEach((art) => {
-                html += `<div class="col-3"><div class="p-2 rounded-3 bg-primary small text-truncate fw-bold text-white text-center">${art.name}</div></div>`;
+                html += `<div class="col-6 col-md-3"><div class="p-2 rounded-2 small text-truncate font-mono text-white text-center" style="background: #222226; border: 1px solid #323238">${art.name}</div></div>`;
               });
               $("#similar-artists").html(html);
             }
@@ -499,21 +1052,25 @@
               {
                 data: data,
                 backgroundColor: [
-                  "#3d5afe",
-                  "#8c9eff",
-                  "#6366f1",
-                  "#a5b4fc",
-                  "#e0e7ff",
+                  "#ff4500",
+                  "#141416",
+                  "#52525b",
+                  "#a1a1aa",
+                  "#d4d4d8",
                 ],
                 borderWidth: 0,
               },
             ],
           },
           options: {
+            cutout: "68%",
             plugins: {
               legend: {
                 position: "bottom",
-                labels: { boxWidth: 10, font: { size: 9 } },
+                labels: {
+                  boxWidth: 10,
+                  font: { size: 10, family: "JetBrains Mono" },
+                },
               },
             },
           },
@@ -528,7 +1085,15 @@
           renderRecentPage(currentPage + 1);
       });
 
+      $(document).on("click", ".fav-tab-btn", function () {
+        $(".fav-tab-btn").removeClass("active");
+        $(this).addClass("active");
+        const mode = $(this).data("mode");
+        loadFavoriteTracks(mode);
+      });
+
       updateDashboard();
+      loadFavoriteTracks("loved");
       setInterval(updateDashboard, 60000);
     </script>
   </body>
