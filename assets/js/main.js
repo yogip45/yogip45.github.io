@@ -1,26 +1,64 @@
-// navbar highlight
 $(document).ready(function () {
-  // Ambil semua link navigasi yang punya href diawali #
-  var navLinks = $(".navbar-nav .nav-link");
+  // Hero Image Card Shuffle on Click
+  const heroImgContainer = $(".hero-img-container");
+  let isShuffling = false;
 
-  $(window).on("scroll", function () {
-    var scrollPos = $(document).scrollTop();
-    var windowHeight = $(window).height();
-    var docHeight = $(document).height();
-    var offset = 150;
+  heroImgContainer.on("click", function () {
+    if (isShuffling) return; // Mencegah spam klik saat animasi berjalan
+    isShuffling = true;
+    $("#shuffleHint").addClass("is-hidden");
+    const $container = $(this);
+    const isSwapped = $container.hasClass("is-swapped");
+    const $frontImg = isSwapped
+      ? $container.find(".hero-img-hover")
+      : $container.find(".hero-img-original");
+    const $backImg = isSwapped
+      ? $container.find(".hero-img-original")
+      : $container.find(".hero-img-hover");
 
+    $frontImg.addClass("card-front");
+    $backImg.addClass("card-back");
+    $container.addClass("shuffling");
+
+    setTimeout(() => {
+      $container.toggleClass("is-swapped");
+      $container.removeClass("shuffling");
+      $frontImg.removeClass("card-front");
+      $backImg.removeClass("card-back");
+      isShuffling = false;
+    }, 550);
+  });
+  const navLinks = $(".navbar-nav .nav-link");
+  const navbar = $(".navbar");
+  const scrollProgress = $("#scrollProgress");
+
+  // Scroll Spy, Navbar State & Top Progress Bar
+  function handleScroll() {
+    const scrollPos = $(document).scrollTop();
+    const windowHeight = $(window).height();
+    const docHeight = $(document).height();
+    const offset = 150;
+
+    // Update thin scroll progress indicator
+    const scrollableHeight = docHeight - windowHeight;
+    if (scrollableHeight > 0 && scrollProgress.length) {
+      const progress = Math.min((scrollPos / scrollableHeight) * 100, 100);
+      scrollProgress.css("width", progress + "%");
+    }
+
+    // Active section highlight
     if (scrollPos + windowHeight >= docHeight - 50) {
       navLinks.removeClass("active");
       $('.nav-link[href="#contact"]').addClass("active");
     } else {
       navLinks.each(function () {
-        var currLink = $(this);
-        var targetId = currLink.attr("href");
+        const currLink = $(this);
+        const targetId = currLink.attr("href");
 
-        if (targetId.startsWith("#") && targetId.length > 1) {
-          var refElement = $(targetId);
+        if (targetId && targetId.startsWith("#") && targetId.length > 1) {
+          const refElement = $(targetId);
           if (refElement.length) {
-            var elementTop = refElement.position().top;
+            const elementTop = refElement.position().top;
             if (
               elementTop <= scrollPos + offset &&
               elementTop + refElement.outerHeight() > scrollPos + offset
@@ -32,51 +70,84 @@ $(document).ready(function () {
         }
       });
     }
-    if (scrollPos > 50) {
-      $(".navbar").addClass("scrolled");
+
+    // Navbar scrolled styling
+    if (scrollPos > 40) {
+      navbar.addClass("scrolled");
     } else {
-      $(".navbar").removeClass("scrolled");
+      navbar.removeClass("scrolled");
     }
-  });
+  }
 
-  // Smooth Scrolling saat Klik
+  $(window).on("scroll", handleScroll);
+  handleScroll();
+
+  // Smooth Scrolling on Nav Click
   navLinks.on("click", function (e) {
-    var targetId = $(this).attr("href");
+    const targetId = $(this).attr("href");
 
-    if (targetId.startsWith("#") && targetId.length > 1) {
+    if (targetId && targetId.startsWith("#") && targetId.length > 1) {
       e.preventDefault();
-      var target = $(targetId);
+      const target = $(targetId);
 
       if (target.length) {
         $("html, body")
           .stop()
           .animate(
             {
-              scrollTop: target.offset().top - 75, // Sesuai tinggi navbar
+              scrollTop: target.offset().top - 72,
             },
-            600,
+            550,
           );
 
-        // Tutup menu mobile otomatis setelah klik
         if ($(".navbar-toggler").is(":visible")) {
           $(".navbar-collapse").collapse("hide");
         }
       }
     }
   });
+
+  // Subtle Reveal Animation via IntersectionObserver
+  const revealElements = document.querySelectorAll(".reveal-up");
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const delay = entry.target.getAttribute("data-delay") || 0;
+            setTimeout(() => {
+              entry.target.classList.add("is-visible");
+            }, Number(delay));
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px",
+      },
+    );
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+  } else {
+    revealElements.forEach((el) => el.classList.add("is-visible"));
+  }
 });
-var typed = new Typed("#typed", {
-  strings: [
-    "Junior Web Developer",
-    "Certified Network Engineer",
-    "Cybersecurity Enthusiast",
-    "Audio Enthusiast",
-    "Self Proclaimed Bookworm",
-    "",
-  ],
-  typeSpeed: 50,
-  backSpeed: 30,
-  backDelay: 2000,
-  loop: true,
-  cursorChar: "_",
-});
+
+// Typed.js Role Animation
+if (document.getElementById("typed")) {
+  new Typed("#typed", {
+    strings: [
+      "Web Developer",
+      "System Implementer",
+      "Certified Network Associate",
+      "Cybersecurity Enthusiast",
+      "Personal Audio Enthusiast",
+    ],
+    typeSpeed: 48,
+    backSpeed: 28,
+    backDelay: 2200,
+    loop: true,
+    cursorChar: "_",
+  });
+}
