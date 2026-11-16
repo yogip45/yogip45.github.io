@@ -1,60 +1,109 @@
-:root {
-  --accent-color: #3d5afe;
-  --bg-dark: #0f172a;
-}
-body {
+.font-mono {
   font-family: "Plus Jakarta Sans", sans-serif;
-  background-color: #f4f7fa;
-  color: #333;
 }
 
 /* Hero */
 .audio-hero {
-  background: linear-gradient(135deg, var(--bg-dark) 0%, #1e293b 100%);
-  color: white;
-  padding: 80px 0 120px;
+  background:
+    radial-gradient(
+      circle at 80% 25%,
+      rgba(212, 118, 51, 0.08),
+      transparent 48%
+    ),
+    var(--bg-warm);
+  border-bottom: 1px solid var(--border-warm);
+  padding: 130px 0 110px;
   position: relative;
   overflow: hidden;
 }
+
 .kanji-bg-audio {
   position: absolute;
-  font-family: "Noto Sans JP";
-  font-size: 15rem;
-  color: rgba(255, 255, 255, 0.03);
-  top: 0;
-  right: -5%;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 900;
+  font-size: 13rem;
+  color: var(--jp-text);
+  top: 10%;
+  right: -4%;
   z-index: 1;
-}
-/* Custom Border Radius untuk User Badge */
-.rounded-bottom-start {
-  border-bottom-left-radius: 20px !important;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
 }
 
-/* Multi-color Visualizer Bars */
-.bar {
-  width: 5px;
-  border-radius: 10px;
-  animation: bounce 0.8s ease-in-out infinite alternate;
+/* Now Playing Card */
+.music-status-card {
+  background: linear-gradient(135deg, #2c2422 0%, #3a2f2c 100%);
+  color: #ffffff;
+  border-radius: 24px;
+  padding: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 40px rgba(44, 36, 34, 0.16);
+  margin-top: -55px;
+  position: relative;
+  z-index: 10;
 }
+
+.user-pill-badge {
+  background: rgba(24, 20, 19, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom-left-radius: 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 5;
+}
+
+#album-art {
+  width: 100%;
+  max-width: 195px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+  .music-status-card {
+    padding-top: 74px !important;
+  }
+}
+
+/* Visualizer */
+.visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 3.5px;
+  height: 22px;
+}
+
+.bar {
+  width: 4.5px;
+  border-radius: 8px;
+  animation: bounce 0.75s ease-in-out infinite alternate;
+}
+
 .bar:nth-child(1) {
   height: 10px;
   animation-delay: 0.1s;
-  background: #3d5afe;
+  background: var(--eye-amber);
 }
+
 .bar:nth-child(2) {
   height: 20px;
   animation-delay: 0.3s;
-  background: #6366f1;
+  background: #e59356;
 }
+
 .bar:nth-child(3) {
-  height: 15px;
+  height: 14px;
   animation-delay: 0.2s;
-  background: #8c9eff;
+  background: var(--accent-color);
 }
+
 .bar:nth-child(4) {
-  height: 25px;
+  height: 22px;
   animation-delay: 0.4s;
-  background: #3f51b5;
+  background: #cbbeb9;
 }
 
 @keyframes bounce {
@@ -66,208 +115,354 @@ body {
   }
 }
 
-/* Responsive Padding for Mobile */
-@media (max-width: 768px) {
-  .music-status-card {
-    padding-top: 70px !important;
-  }
+/* Station Panels */
+.station-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-warm);
+  border-radius: 14px;
+  padding: 1.5rem;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-/* Now Playing Card */
-.music-status-card {
-  background: #1e293b;
-  color: white;
-  border-radius: 30px;
-  padding: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: -60px;
-  position: relative;
-  z-index: 10;
-}
-#album-art {
-  width: 100%;
-  max-width: 200px;
-  border-radius: 20px;
-  object-fit: cover;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+.station-panel:hover {
+  border-color: rgba(135, 104, 93, 0.45);
 }
 
-/* Visualizer */
-.visualizer {
+.panel-espresso {
+  background: #2c2422;
+  border-color: #3d322f;
+  color: #f2ece9;
+}
+
+.panel-espresso .panel-header {
+  border-color: #3d322f;
+}
+
+.panel-espresso .panel-label {
+  color: #cbbeb9;
+}
+
+.panel-header {
   display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  height: 25px;
-}
-/* Visualizer Multi-Color & Dynamic */
-.visualizer {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 25px;
-}
-
-.bar {
-  width: 5px;
-  border-radius: 10px;
-  animation: bounce 0.8s ease-in-out infinite alternate;
-  /* Multi-color menggunakan gradient atau warna solid berbeda */
-  background: var(--accent-color);
-}
-
-/* Variasi Warna & Delay tiap Bar agar tidak gerak barengan */
-.bar:nth-child(1) {
-  height: 10px;
-  animation-delay: 0.1s;
-  background: #3d5afe;
-}
-.bar:nth-child(2) {
-  height: 20px;
-  animation-delay: 0.3s;
-  background: #6366f1;
-}
-.bar:nth-child(3) {
-  height: 15px;
-  animation-delay: 0.2s;
-  background: #8c9eff;
-}
-.bar:nth-child(4) {
-  height: 25px;
-  animation-delay: 0.4s;
-  background: #3f51b5;
-}
-
-@keyframes bounce {
-  0% {
-    height: 5px;
-    transform: translateY(0);
-  }
-  100% {
-    height: 100%; /* Akan mengikuti tinggi container .visualizer */
-    transform: translateY(0);
-  }
-}
-@keyframes bounce {
-  10% {
-    height: 5px;
-  }
-  50% {
-    height: 25px;
-  }
-  100% {
-    height: 12px;
-  }
-}
-
-/* Equal Height Layout */
-.row.d-flex.align-items-stretch > [class*="col-"] {
-  display: flex;
-  flex-direction: column;
-}
-.card.h-100 {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Artist Cards */
-.artist-card {
-  background: white;
-  border-radius: 20px;
-  padding: 15px;
-  text-align: center;
-  transition: 0.3s;
-  border: 1px solid #edf2f7;
-  height: 100%;
-}
-.artist-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent-color);
-}
-.artist-avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 10px;
-  border: 2px solid #f8f9fa;
-}
-
-/* Recent Items */
-.recent-item {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 12px;
-  border-radius: 15px;
-  transition: 0.3s;
-  margin-bottom: 8px;
-  background: #fff;
-  border: 1px solid #edf2f7;
-}
-.recent-img {
-  width: 45px;
-  height: 45px;
-  border-radius: 8px;
-  object-fit: cover;
-  margin-right: 15px;
+  border-bottom: 1px solid var(--border-warm);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
 }
 
-/* Custom Scrollbar for Bio */
-#bio-scroll {
-  height: 100px;
-  overflow-y: auto;
-  padding-right: 5px;
+.panel-label {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brown-muted);
+  font-weight: 600;
 }
+
+/* Bio Scroll */
+#bio-scroll {
+  max-height: 110px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.bio-text {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--brown-mid);
+}
+
 #bio-scroll::-webkit-scrollbar {
   width: 4px;
 }
+
 #bio-scroll::-webkit-scrollbar-thumb {
   background: var(--accent-color);
   border-radius: 10px;
 }
 
-.btn-back {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1000;
-  border-radius: 50px;
-  padding: 10px 20px;
+/* Audio Gears */
+.signal-chain {
+  background: #2c2422;
+  color: #f2ece9;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.78rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
 }
-.stats-box {
-  background: linear-gradient(45deg, var(--accent-color), #6366f1);
-  color: white;
-  border-radius: 20px;
-  padding: 25px;
+
+.signal-chain span.highlight {
+  color: var(--eye-amber);
+  font-weight: 700;
 }
-.pagination-controls .btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50% !important;
+
+.gear-card {
+  border: 1px solid var(--border-warm);
+  border-radius: 12px;
+  background: var(--bg-warm);
+  padding: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition:
+    transform 0.25s var(--ease-out-expo),
+    border-color 0.25s ease;
+}
+
+.gear-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-color);
+}
+
+.gear-card.primary-gear {
+  background: var(--bg-card);
+  border-color: rgba(135, 104, 93, 0.4);
+}
+
+.gear-card.retired {
+  background: var(--bg-warm);
+  border: 1px dashed var(--border-warm);
+  opacity: 0.76;
+}
+
+.gear-card.retired img {
+  filter: grayscale(100%);
+}
+
+.gear-thumb-box {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--bg-main);
+  border: 1px solid var(--border-warm);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.gear-item-mini {
+.gear-thumb-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gear-thumb-box.gear-thumb-featured {
+  aspect-ratio: 16 / 8.5;
+}
+
+.gear-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.64rem;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: #2c2422;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  z-index: 2;
+}
+
+.gear-tag.tag-main {
+  background: var(--accent-color);
+}
+
+.gear-tag.tag-retired {
+  background: var(--brown-muted);
+}
+
+.gear-status-active {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #2e7d5b;
+  white-space: nowrap;
+}
+
+.gear-status-retired {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.68rem;
+  color: var(--brown-muted);
+  white-space: nowrap;
+}
+
+.gear-desc {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--brown-muted);
+}
+
+.gear-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-warm);
+}
+
+.spec-pill {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.68rem;
+  background: var(--bg-main);
+  border: 1px solid var(--border-warm);
+  color: var(--brown-mid);
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+/* Heavy Rotation & Similar */
+.artist-card {
+  background: var(--bg-warm);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  transition:
+    transform 0.25s var(--ease-out-expo),
+    border-color 0.25s ease;
+  border: 1px solid var(--border-warm);
+}
+
+.artist-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-color);
+}
+
+.artist-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid var(--border-warm);
+}
+
+.artist-card-title {
+  font-size: 0.9rem;
+  color: var(--brown-dark);
+}
+
+.similar-pill {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.76rem;
+  color: #f2ece9;
+  background: #382e2b;
+  border: 1px solid #4a3d39;
+}
+
+/* Recent History & Favorite Tracks */
+.recent-item {
   display: flex;
   align-items: center;
-  padding: 12px;
-  border-radius: 15px;
-  border: 1px solid #edf2f7;
-  margin-bottom: 10px;
-  transition: 0.3s;
+  gap: 12px;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border-warm);
 }
-.gear-item-mini:hover {
-  border-color: var(--accent-color) !important;
-  transform: translateX(5px);
+
+.recent-item:last-child {
+  border-bottom: none;
 }
-.x-small {
-  font-size: 0.75rem;
+
+.recent-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
 }
-#top-artists {
-  padding-top: 10px;
+
+.track-title {
+  font-size: 0.9rem;
+  color: var(--brown-dark);
 }
-.artist-card {
-  margin-bottom: 10px; /* Biar antar baris ada jarak */
+
+.track-artist {
+  font-size: 0.82rem;
+}
+
+.pagination-controls .btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50% !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fav-tab-btn {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.74rem;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-warm);
+  background: transparent;
+  color: var(--brown-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fav-tab-btn.active,
+.fav-tab-btn:hover {
+  background: var(--accent-color);
+  color: #ffffff;
+  border-color: var(--accent-color);
+}
+
+.fav-track-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border-warm);
+  border-radius: 10px;
+  background: var(--bg-warm);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.2s var(--ease-out-expo),
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.fav-track-card:hover {
+  border-color: var(--accent-color);
+  background: var(--bg-card);
+  transform: translateX(3px);
+  color: inherit;
+}
+
+.fav-track-cover {
+  width: 46px;
+  height: 46px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.fav-badge {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.72rem;
+  color: var(--eye-amber);
+  background: rgba(212, 118, 51, 0.12);
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* Dark Mode Adjustments */
+[data-theme="dark"] .gear-status-active {
+  color: #6fd1a6;
 }

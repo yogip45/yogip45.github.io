@@ -3,306 +3,129 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Audio Station | Yog Portfolio</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Audio Station — Yog's Web Portfolio</title>
     <link rel="icon" type="image/x-icon" href="assets/img/new-pp.jpg" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      href="assets/css/bootstrap@5.3.0/bootstrap.min.css"
       rel="stylesheet" />
+    <link href="assets/font-awesome/css/all.min.css" rel="stylesheet" />
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+JP:wght@900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+JP:wght@400;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/music.css" />
-
-    <style>
-      :root {
-        --bg-canvas: #f3f3ef;
-        --surface: #ffffff;
-        --surface-dark: #141416;
-        --border-subtle: #e2e2dc;
-        --border-strong: #141416;
-        --accent: #ff4500;
-        --text-main: #141416;
-        --text-muted: #6b6b66;
-      }
-
-      body {
-        background-color: var(--bg-canvas);
-        color: var(--text-main);
-        font-family: "Plus Jakarta Sans", sans-serif;
-      }
-
-      .font-mono {
-        font-family: "JetBrains Mono", monospace;
-      }
-
-      .station-panel {
-        background: var(--surface);
-        border: 1px solid var(--border-subtle);
-        border-radius: 12px;
-        padding: 1.5rem;
-        transition: border-color 0.2s ease;
-      }
-
-      .station-panel:hover {
-        border-color: #c5c5bd;
-      }
-
-      .panel-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--border-subtle);
-        padding-bottom: 0.75rem;
-        margin-bottom: 1.25rem;
-      }
-
-      .panel-label {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--text-muted);
-        font-weight: 600;
-      }
-
-      /* --- AUDIO GEARS SHOWCASE --- */
-      .gear-card {
-        border: 1px solid var(--border-subtle);
-        border-radius: 10px;
-        background: #fafaf8;
-        padding: 1rem;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        transition:
-          transform 0.2s ease,
-          border-color 0.2s ease;
-      }
-
-      .gear-card:hover {
-        transform: translateY(-2px);
-        border-color: var(--border-strong);
-      }
-
-      .gear-card.primary-gear {
-        background: #ffffff;
-      }
-
-      .gear-card.retired {
-        background: #f4f4f0;
-        border: 1px dashed #c8c8c0;
-        opacity: 0.78;
-      }
-
-      .gear-card.retired img {
-        filter: grayscale(100%);
-      }
-
-      .gear-thumb-box {
-        width: 100%;
-        aspect-ratio: 16 / 10;
-        background: #ecece6;
-        border-radius: 6px;
-        overflow: hidden;
-        margin-bottom: 0.85rem;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .gear-thumb-box img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .gear-tag {
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.62rem;
-        padding: 2px 7px;
-        border-radius: 4px;
-        background: var(--surface-dark);
-        color: #fff;
-        letter-spacing: 0.04em;
-        z-index: 2;
-      }
-
-      .gear-tag.tag-main {
-        background: var(--accent);
-      }
-
-      .gear-tag.tag-retired {
-        background: #71717a;
-      }
-
-      .gear-specs {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-        margin-top: 0.75rem;
-        padding-top: 0.75rem;
-        border-top: 1px solid var(--border-subtle);
-      }
-
-      .spec-pill {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.65rem;
-        background: #efefea;
-        color: #3a3a37;
-        padding: 2px 6px;
-        border-radius: 4px;
-      }
-
-      .signal-chain {
-        background: var(--surface-dark);
-        color: #e4e4e7;
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.75rem;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .signal-chain span.highlight {
-        color: var(--accent);
-        font-weight: 700;
-      }
-
-      .recent-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 0.6rem 0;
-        border-bottom: 1px solid var(--border-subtle);
-      }
-      .recent-item:last-child {
-        border-bottom: none;
-      }
-      .recent-img {
-        width: 42px;
-        height: 42px;
-        border-radius: 6px;
-        object-fit: cover;
-      }
-
-      /* --- FAVORITE / CURATED TRACKS --- */
-      .fav-tab-btn {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.7rem;
-        padding: 4px 10px;
-        border-radius: 6px;
-        border: 1px solid var(--border-subtle);
-        background: transparent;
-        color: var(--text-muted);
-        cursor: pointer;
-        transition: all 0.15s ease;
-      }
-
-      .fav-tab-btn.active,
-      .fav-tab-btn:hover {
-        background: var(--surface-dark);
-        color: #ffffff;
-        border-color: var(--surface-dark);
-      }
-
-      .fav-track-card {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 0.65rem 0.75rem;
-        border: 1px solid var(--border-subtle);
-        border-radius: 8px;
-        background: #fafaf8;
-        text-decoration: none;
-        color: inherit;
-        transition: all 0.18s ease;
-      }
-
-      .fav-track-card:hover {
-        border-color: var(--border-strong);
-        background: #ffffff;
-        transform: translateX(3px);
-        color: inherit;
-      }
-
-      .fav-track-cover {
-        width: 46px;
-        height: 46px;
-        border-radius: 6px;
-        object-fit: cover;
-        flex-shrink: 0;
-      }
-
-      .fav-badge {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 0.65rem;
-        color: var(--accent);
-        background: rgba(255, 69, 0, 0.08);
-        padding: 2px 6px;
-        border-radius: 4px;
-        white-space: nowrap;
-      }
-    </style>
   </head>
   <body>
-    <!-- <a href="index.html" class="btn btn-dark btn-back">
-      <i class="fa-solid fa-arrow-left me-2"></i> Back to Home
-    </a> -->
+    <!-- Navbar Terintegrasi -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="scroll-progress" id="scrollProgress"></div>
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html#home">
+          YOG<span class="accent-dot">.</span>
+        </a>
 
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars-staggered" style="font-size: 1.2rem"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto text-center align-items-center">
+            <li class="nav-item">
+              <a class="nav-link px-3" href="index.html#home">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="index.html#about">ABOUT</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="index.html#resume">EXPERIENCE</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="index.html#gallery">SHOWCASE</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="index.html#hobbies"
+                >BEYOND CODING</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3 active" href="audio-showcase.html"
+                >AUDIO STATION</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="index.html#contact">CONNECT</a>
+            </li>
+            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+              <button
+                type="button"
+                class="btn btn-theme-toggle"
+                id="themeToggle"
+                aria-label="Toggle dark mode"
+                title="Switch theme">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+              </button>
+            </li>
+            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+              <a
+                href="https://github.com/yogip45"
+                target="_blank"
+                rel="noopener"
+                class="btn btn-theme-dark btn-github rounded-2">
+                <i class="fa-brands fa-github me-2"></i>GitHub
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Audio Hero -->
     <section class="audio-hero">
       <div class="kanji-bg-audio">オーディオ</div>
       <div class="container text-center" style="position: relative; z-index: 2">
-        <span class="font-mono small text-uppercase opacity-75 d-block mb-1">
-          PERSONAL LISTENING LOG & HARDWARE
-        </span>
-        <h1 class="display-4 fw-800 mb-2">
-          Audio <span style="color: var(--accent)">Station.</span>
+        <div class="hero-eyebrow mb-3">
+          <span class="status-dot"></span>
+          <span>PERSONAL LISTENING LOG & HARDWARE</span>
+        </div>
+        <h1 class="hero-title mb-2">
+          Audio <span class="text-accent">Station.</span>
         </h1>
-        <p class="lead opacity-75 mb-0">
-          Scrobble telemetry & daily audio driver.
+        <p class="hero-subtitle mx-auto mb-0">
+          Real-time Last.fm scrobble telemetry, daily IEM rotation, and personal
+          listening logs.
         </p>
       </div>
     </section>
 
-    <div class="container">
+    <div class="container pb-5">
       <!-- NOW PLAYING CARD -->
       <div class="music-status-card mb-4 position-relative overflow-hidden">
         <div
-          class="position-absolute top-0 end-0 p-3 d-flex align-items-center bg-dark bg-opacity-50 rounded-bottom-start"
-          style="backdrop-filter: blur(8px); z-index: 5">
+          class="user-pill-badge position-absolute top-0 end-0 p-3 d-flex align-items-center">
           <div class="text-end me-2 d-none d-md-block">
             <p class="mb-0 fw-bold text-white" id="user-display-name">yogpp</p>
-            <p class="mb-0 text-white-50 font-mono" style="font-size: 0.65rem">
+            <p class="mb-0 text-white-50 font-mono" style="font-size: 0.72rem">
               last.fm/user/yogpp
             </p>
           </div>
           <img
             id="user-avatar"
             src=""
+            alt="Last.fm Profile"
             class="rounded-circle"
-            style="width: 44px; height: 44px; object-fit: cover" />
+            style="width: 42px; height: 42px; object-fit: cover" />
         </div>
 
         <div class="row align-items-center text-center text-md-start">
           <div class="col-md-4 mb-3 mb-md-0 d-flex justify-content-center">
             <div class="position-relative">
-              <img
-                id="album-art"
-                src=""
-                alt="Album Art"
-                class="img-fluid rounded-3" />
+              <img id="album-art" src="" alt="Album Art" class="img-fluid" />
             </div>
           </div>
           <div class="col-md-8">
@@ -316,67 +139,70 @@
               </div>
               <span
                 class="badge font-mono px-2 py-1"
-                style="background-color: var(--accent)"
+                style="background-color: var(--eye-amber); color: #fff"
                 id="status-text">
                 FETCHING...
               </span>
             </div>
-            <h1 id="track-name" class="fw-800 display-5 mb-1 text-white">
+            <h2 id="track-name" class="fw-800 display-6 mb-1 text-white">
               ...
-            </h1>
-            <h3 id="artist-name" class="text-white-50 mb-3 fw-normal">
+            </h2>
+            <h4 id="artist-name" class="text-white-50 mb-3 fw-normal">
               Artist Name
-            </h3>
-            <p class="small opacity-50 text-white mb-0 font-mono">
+            </h4>
+            <p class="text-white-50 mb-0 font-mono" style="font-size: 0.85rem">
               <i class="fa-solid fa-record-vinyl me-2"></i
               ><span id="album-name">Album Name</span>
             </p>
           </div>
         </div>
       </div>
-      <!-- ARTIST BIO & HEAVY ROTATION -->
+
+      <!-- 01 ARTIST BIO -->
       <div class="row g-4 mb-4">
         <div class="col-lg-12">
           <div class="station-panel">
             <div class="panel-header">
               <span class="panel-label">01 CURRENT ARTIST BIO</span>
-              <span class="font-mono x-small text-muted">LAST.FM WIKI</span>
+              <span class="font-mono text-muted" style="font-size: 0.75rem"
+                >LAST.FM WIKI</span
+              >
             </div>
             <div id="bio-scroll">
-              <div
-                id="artist-bio"
-                style="font-size: 0.92rem; line-height: 1.65">
-                ...
-              </div>
+              <div id="artist-bio" class="bio-text">...</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- AUDIO GEARS SHOWCASE (4-SLOT HARDWARE RACK) -->
+      <!-- 02 AUDIO GEARS SHOWCASE -->
       <div class="station-panel mb-4">
         <div class="panel-header">
           <div>
             <span class="panel-label d-block">02 HARDWARE INVENTORY</span>
             <h5 class="fw-800 mb-0">Audio Gears</h5>
           </div>
-          <span class="font-mono small text-muted d-none d-sm-block"
-            >3 ACTIVE · 1 RETIRED</span
+          <span
+            class="font-mono text-muted d-none d-sm-block"
+            style="font-size: 0.78rem"
+            >3 ACTIVE · 2 RETIRED</span
           >
         </div>
 
         <div class="signal-chain mb-4">
-          <span class="text-white">PRIMARY WIRED:</span>
+          <span>PRIMARY WIRED:</span>
           <span class="highlight">Moondrop Lan 2</span>
-          <span class="text-white">PRIMARY WIRELESS:</span>
+          <span class="opacity-50">|</span>
+          <span>PRIMARY WIRELESS:</span>
           <span class="highlight">Galaxy Buds3 FE</span>
         </div>
 
         <div class="row g-3">
-          <div class="col-sm-6 col-lg-3">
+          <!-- Baris 1: Primary / Main Gears (2 Kolom Besar: col-lg-6) -->
+          <div class="col-md-6">
             <div class="gear-card primary-gear">
               <div>
-                <div class="gear-thumb-box">
+                <div class="gear-thumb-box gear-thumb-featured">
                   <span class="gear-tag tag-main">MAIN IEM</span>
                   <img
                     src="assets/img/gear/lan2.jpg"
@@ -389,7 +215,7 @@
                     style="display: none"
                     class="flex-column align-items-center text-muted">
                     <i class="fa-solid fa-ear-listen fa-2x mb-1"></i>
-                    <span class="font-mono" style="font-size: 0.62rem"
+                    <span class="font-mono" style="font-size: 0.7rem"
                       >IEM WIRED</span
                     >
                   </div>
@@ -397,13 +223,9 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Moondrop Lan 2</h6>
-                  <span
-                    class="font-mono text-success fw-bold"
-                    style="font-size: 0.65rem; white-space: nowrap"
-                    >● MAIN</span
-                  >
+                  <span class="gear-status-active">● MAIN</span>
                 </div>
-                <p class="small text-muted mb-0">
+                <p class="gear-desc mb-0">
                   Primary wired driver for focused listening, clean instrument
                   separation, and desk sessions.
                 </p>
@@ -416,10 +238,10 @@
             </div>
           </div>
 
-          <div class="col-sm-6 col-lg-3">
-            <div class="gear-card">
+          <div class="col-md-6">
+            <div class="gear-card primary-gear">
               <div>
-                <div class="gear-thumb-box">
+                <div class="gear-thumb-box gear-thumb-featured">
                   <span class="gear-tag tag-main">MAIN TWS</span>
                   <img
                     src="assets/img/gear/buds3fe.jpg"
@@ -432,7 +254,7 @@
                     style="display: none"
                     class="flex-column align-items-center text-muted">
                     <i class="fa-solid fa-headphones fa-2x mb-1"></i>
-                    <span class="font-mono" style="font-size: 0.62rem"
+                    <span class="font-mono" style="font-size: 0.7rem"
                       >SAMSUNG TWS</span
                     >
                   </div>
@@ -440,26 +262,23 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Galaxy Buds3 FE</h6>
-                  <span
-                    class="font-mono text-success fw-bold"
-                    style="font-size: 0.65rem; white-space: nowrap"
-                    >● ACTIVE</span
-                  >
+                  <span class="gear-status-active">● MAIN</span>
                 </div>
-                <p class="small text-muted mb-0">
+                <p class="gear-desc mb-0">
                   Go-to wireless buds for seamless daily commute, calls, and
                   outdoor mobility.
                 </p>
               </div>
               <div class="gear-specs">
                 <span class="spec-pill">TWS / ANC</span>
-                <span class="spec-pill">11mm 1-way Dynamic Driver</span>
+                <span class="spec-pill">11mm 1-way Dynamic</span>
                 <span class="spec-pill">Commute</span>
               </div>
             </div>
           </div>
 
-          <div class="col-sm-6 col-lg-3">
+          <!-- Baris 2: Secondary & Retired Gears (3 Kolom Ringkas: col-lg-4) -->
+          <div class="col-sm-6 col-lg-4">
             <div class="gear-card">
               <div>
                 <div class="gear-thumb-box">
@@ -475,7 +294,7 @@
                     style="display: none"
                     class="flex-column align-items-center text-muted">
                     <i class="fa-solid fa-wave-square fa-2x mb-1"></i>
-                    <span class="font-mono" style="font-size: 0.62rem"
+                    <span class="font-mono" style="font-size: 0.7rem"
                       >MOONDROP TWS</span
                     >
                   </div>
@@ -483,26 +302,22 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Moondrop Moca</h6>
-                  <span
-                    class="font-mono text-success fw-bold"
-                    style="font-size: 0.65rem; white-space: nowrap"
-                    >● ACTIVE</span
-                  >
+                  <span class="gear-status-active">● ACTIVE</span>
                 </div>
-                <p class="small text-muted mb-0">
+                <p class="gear-desc mb-0">
                   Alternative wireless rotation with Moondrop's signature vocal
                   tuning and LC3 support.
                 </p>
               </div>
               <div class="gear-specs">
                 <span class="spec-pill">10mm Ti-Ceramic</span>
-                <span class="spec-pill">Single Dynamic Driver</span>
+                <span class="spec-pill">Single Dynamic</span>
                 <span class="spec-pill">Hybrid ANC</span>
               </div>
             </div>
           </div>
 
-          <div class="col-sm-6 col-lg-3">
+          <div class="col-sm-6 col-lg-4">
             <div class="gear-card retired">
               <div>
                 <div class="gear-thumb-box">
@@ -518,7 +333,7 @@
                     style="display: none"
                     class="flex-column align-items-center text-muted">
                     <i class="fa-solid fa-box-archive fa-2x mb-1"></i>
-                    <span class="font-mono" style="font-size: 0.62rem"
+                    <span class="font-mono" style="font-size: 0.7rem"
                       >ARCHIVED</span
                     >
                   </div>
@@ -526,13 +341,9 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Moondrop Chu II</h6>
-                  <span
-                    class="font-mono text-muted"
-                    style="font-size: 0.65rem; white-space: nowrap"
-                    >OFF-DUTY</span
-                  >
+                  <span class="gear-status-retired">OFF-DUTY</span>
                 </div>
-                <p class="small text-muted mb-0">
+                <p class="gear-desc mb-0">
                   Former daily driver. Officially retired from rotation after
                   having a problem with the left driver and upgrading to Lan 2.
                 </p>
@@ -543,7 +354,8 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-6 col-lg-3">
+
+          <div class="col-sm-6 col-lg-4">
             <div class="gear-card retired">
               <div>
                 <div class="gear-thumb-box">
@@ -559,7 +371,7 @@
                     style="display: none"
                     class="flex-column align-items-center text-muted">
                     <i class="fa-solid fa-box-archive fa-2x mb-1"></i>
-                    <span class="font-mono" style="font-size: 0.62rem"
+                    <span class="font-mono" style="font-size: 0.7rem"
                       >ARCHIVED</span
                     >
                   </div>
@@ -567,14 +379,10 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Moondrop Nekocake</h6>
-                  <span
-                    class="font-mono text-muted"
-                    style="font-size: 0.65rem; white-space: nowrap"
-                    >OFF-DUTY</span
-                  >
+                  <span class="gear-status-retired">OFF-DUTY</span>
                 </div>
-                <p class="small text-muted mb-0">
-                  Former daily driver TWS. Officially retired from upgrading to
+                <p class="gear-desc mb-0">
+                  Former daily driver TWS. Officially retired after upgrading to
                   Moondrop Moca.
                 </p>
               </div>
@@ -587,6 +395,7 @@
         </div>
       </div>
 
+      <!-- 03 HEAVY ROTATION -->
       <div class="row g-4 mb-4">
         <div class="col-lg-12">
           <div class="station-panel">
@@ -601,20 +410,18 @@
         </div>
       </div>
 
-      <!-- DISCOVERY, RECENT HISTORY, FAVORITE SONGS & STATS -->
-      <div class="row g-4 mb-5 align-items-stretch">
+      <!-- 04-06 DISCOVERY, RECENT HISTORY, FAVORITE TRACKS & STATS -->
+      <div class="row g-4 mb-4 align-items-stretch">
         <div class="col-lg-8 d-flex flex-column">
-          <div
-            class="station-panel mb-4"
-            style="background: var(--surface-dark); color: #fff">
-            <div class="panel-header" style="border-color: #27272a">
+          <div class="station-panel panel-espresso mb-4">
+            <div class="panel-header">
               <div>
-                <span class="panel-label text-secondary d-block"
+                <span class="panel-label d-block"
                   >04 RECOMMENDATION ENGINE</span
                 >
-                <h5 class="fw-bold mb-0">
+                <h5 class="fw-bold mb-0 text-white">
                   Similar to
-                  <span id="fav-artist-name" style="color: var(--accent)"
+                  <span id="fav-artist-name" style="color: var(--eye-amber)"
                     >...</span
                   >
                 </h5>
@@ -630,16 +437,16 @@
                 <h5 class="fw-800 mb-0">Recent History</h5>
               </div>
               <div class="pagination-controls d-flex align-items-center gap-2">
-                <button
-                  id="prev-page"
-                  class="btn btn-sm btn-outline-dark"
-                  disabled>
+                <button id="prev-page" class="btn btn-theme-outline" disabled>
                   <i class="fa-solid fa-chevron-left"></i>
                 </button>
-                <span id="page-info" class="font-mono small fw-bold mx-1"
+                <span
+                  id="page-info"
+                  class="font-mono fw-bold mx-1"
+                  style="font-size: 0.85rem"
                   >01</span
                 >
-                <button id="next-page" class="btn btn-sm btn-outline-dark">
+                <button id="next-page" class="btn btn-theme-outline">
                   <i class="fa-solid fa-chevron-right"></i>
                 </button>
               </div>
@@ -647,7 +454,6 @@
             <div id="recent-list"></div>
           </div>
 
-          <!-- DYNAMIC SECTION: FAVORITE / CURATED TRACKS (FLEX-GROW SEJAJAR CHART) -->
           <div
             class="station-panel flex-grow-1 d-flex flex-column justify-content-between">
             <div>
@@ -660,7 +466,7 @@
                   <button class="fav-tab-btn active" data-mode="loved">
                     <i
                       class="fa-solid fa-heart me-1"
-                      style="color: var(--accent)"></i
+                      style="color: var(--eye-amber)"></i
                     >Loved
                   </button>
                   <button class="fav-tab-btn" data-mode="top7d">
@@ -674,16 +480,16 @@
         </div>
 
         <div class="col-lg-4 d-flex flex-column">
-          <div
-            class="station-panel mb-4"
-            style="background: var(--surface-dark); color: #fff">
-            <span class="panel-label text-secondary d-block mb-1"
-              >TOTAL SCROBBLES</span
-            >
-            <h1 class="fw-800 display-5 mb-0 font-mono" id="total-scrobbles">
+          <div class="station-panel panel-espresso mb-4">
+            <span class="panel-label d-block mb-1">TOTAL SCROBBLES</span>
+            <h2
+              class="fw-800 display-5 mb-0 font-mono text-white"
+              id="total-scrobbles">
               0
-            </h1>
-            <p class="font-mono x-small text-secondary mb-0 mt-2">
+            </h2>
+            <p
+              class="font-mono mb-0 mt-2 opacity-75"
+              style="font-size: 0.72rem">
               SYNCED VIA LAST.FM API
             </p>
           </div>
@@ -708,11 +514,49 @@
       </div>
     </div>
 
-    <footer class="text-center py-5 text-muted font-mono small">
-      © 2026 YOG AUDIO STATION
+    <!-- Footer Terintegrasi -->
+    <footer class="py-5 text-white text-center">
+      <div class="container">
+        <div class="mb-4">
+          <a
+            href="https://github.com/yogip45"
+            target="_blank"
+            rel="noopener"
+            class="footer-social mx-3"
+            aria-label="GitHub">
+            <i class="fa-brands fa-github fa-lg"></i>
+          </a>
+          <a
+            href="https://linkedin.com/in/narindra-yogi"
+            target="_blank"
+            rel="noopener"
+            class="footer-social mx-3"
+            aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin fa-lg"></i>
+          </a>
+          <a
+            href="mailto:narindrayogipradana@gmail.com"
+            class="footer-social mx-3"
+            aria-label="Email">
+            <i class="fa-solid fa-envelope fa-lg"></i>
+          </a>
+        </div>
+        <h5 class="fw-bold mb-1" style="letter-spacing: 2px">
+          NARINDRA YOGI PRADANA
+        </h5>
+        <p class="opacity-75 mb-0" style="font-size: 0.88rem">
+          Web Developer • Networking & Security Enthusiast
+        </p>
+        <hr class="w-25 mx-auto my-4 opacity-25" />
+        <p class="mb-0 opacity-50" style="font-size: 0.75rem">
+          © 2026 Narindra Yogi Pradana. Crafted with precision.
+        </p>
+      </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/main.js"></script>
     <script>
       const API_KEY = "800d9d25a04d76a3434ef7a13e823aa1";
       const USER = "yogpp";
@@ -722,7 +566,6 @@
         tracksPerPage = 7,
         genreChart;
 
-      // Cache agar tidak nembak API berulang kali untuk artis/lagu yang sama
       const imageCache = {};
       const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -734,47 +577,36 @@
           .substring(0, 2)
           .toUpperCase();
         const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
-          <rect width="200" height="200" fill="#141416"/>
-          <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#ff4500" font-family="monospace" font-weight="bold" font-size="64">${initials}</text>
+          <rect width="200" height="200" fill="#2c2422"/>
+          <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#d47633" font-family="monospace" font-weight="bold" font-size="64">${initials}</text>
         </svg>`;
         return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
       }
 
-      // Helper JSONP untuk Lagu/Album di Deezer
       function searchDeezer(query) {
         return new Promise((resolve) => {
           $.ajax({
             url: `https://api.deezer.com/search?q=${encodeURIComponent(query)}&limit=3&output=jsonp`,
             dataType: "jsonp",
             timeout: 4000,
-            success: function (res) {
-              resolve(res && res.data ? res.data : []);
-            },
-            error: function () {
-              resolve([]);
-            },
+            success: (res) => resolve(res && res.data ? res.data : []),
+            error: () => resolve([]),
           });
         });
       }
 
-      // Helper JSONP khusus Profil Artis di Deezer
       function searchDeezerArtist(name) {
         return new Promise((resolve) => {
           $.ajax({
             url: `https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=3&output=jsonp`,
             dataType: "jsonp",
             timeout: 4000,
-            success: function (res) {
-              resolve(res && res.data ? res.data : []);
-            },
-            error: function () {
-              resolve([]);
-            },
+            success: (res) => resolve(res && res.data ? res.data : []),
+            error: () => resolve([]),
           });
         });
       }
 
-      // 1. Ambil Foto Artis (Deezer Artist -> iTunes Album -> Fallback SVG)
       async function getArtistImage(name) {
         const cacheKey = `artist:${name.toLowerCase()}`;
         if (imageCache[cacheKey]) return imageCache[cacheKey];
@@ -797,7 +629,6 @@
           }
         } catch (e) {}
 
-        // Fallback ke iTunes Store (untuk artis yang foto profil Deezer-nya kosong seperti Limp Bizkit)
         try {
           const res = await fetch(
             `https://itunes.apple.com/search?term=${encodeURIComponent(name)}&entity=album&limit=5`,
@@ -825,7 +656,6 @@
         return getFallbackAvatar(name);
       }
 
-      // 2. Ambil Cover Lagu Spesifik (Deezer Track -> iTunes JP -> Fallback SVG)
       async function getTrackArtwork(trackName, artistName) {
         const cacheKey = `track:${artistName.toLowerCase()}-${trackName.toLowerCase()}`;
         if (imageCache[cacheKey]) return imageCache[cacheKey];
@@ -855,7 +685,6 @@
           }
         } catch (e) {}
 
-        // Fallback ke iTunes JP
         try {
           const res = await fetch(
             `https://itunes.apple.com/search?term=${encodeURIComponent(trackName + " " + artistName)}&entity=song&country=JP&limit=5`,
@@ -891,11 +720,10 @@
         },
       );
 
-      // Load Favorite Tracks secara berurutan (anti rate-limit Deezer)
       async function loadFavoriteTracks(mode = "loved") {
         const container = $("#favorite-tracks-grid");
         container.html(
-          `<div class="col-12 font-mono small text-muted py-3">Fetching ${mode === "loved" ? "loved tracks" : "top rotation"}...</div>`,
+          `<div class="col-12 font-mono text-muted py-3" style="font-size: 0.85rem">Fetching ${mode === "loved" ? "loved tracks" : "top rotation"}...</div>`,
         );
 
         try {
@@ -913,7 +741,7 @@
 
           if (tracks.length === 0) {
             container.html(
-              `<div class="col-12 small text-muted py-2">Belum ada lagu di daftar ini.</div>`,
+              `<div class="col-12 text-muted py-2" style="font-size: 0.88rem">Belum ada lagu di daftar ini.</div>`,
             );
             return;
           }
@@ -933,8 +761,8 @@
                 <a href="${t.url}" target="_blank" rel="noopener" class="fav-track-card">
                   <img src="${artImg}" class="fav-track-cover" alt="${t.name}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">
                   <div class="overflow-hidden flex-grow-1">
-                    <h6 class="fw-bold mb-0 text-truncate small">${t.name}</h6>
-                    <p class="small text-muted mb-0 text-truncate">${artist}</p>
+                    <h6 class="fw-bold mb-0 text-truncate track-title">${t.name}</h6>
+                    <p class="text-muted mb-0 text-truncate track-artist">${artist}</p>
                   </div>
                   <span class="fav-badge">${badge}</span>
                 </a>
@@ -945,13 +773,12 @@
           container.hide().html(cardsHtml.join("")).fadeIn(200);
         } catch (err) {
           container.html(
-            `<div class="col-12 small text-danger">Gagal memuat daftar lagu favorit.</div>`,
+            `<div class="col-12 text-danger" style="font-size: 0.88rem">Gagal memuat daftar lagu favorit.</div>`,
           );
         }
       }
 
       async function updateDashboard() {
-        // 1. Recent Tracks & Now Playing
         $.getJSON(
           `${BASE_URL}?method=user.getrecenttracks&user=${USER}&api_key=${API_KEY}&format=json&limit=50`,
           function (data) {
@@ -969,12 +796,12 @@
             if (current["@attr"] && current["@attr"].nowplaying) {
               $("#status-text")
                 .text("NOW PLAYING")
-                .css("background-color", "var(--accent)");
+                .css("background-color", "var(--eye-amber)");
               $("#viz").css("display", "flex");
             } else {
               $("#status-text")
                 .text("LAST PLAYED")
-                .css("background-color", "#3f3f46");
+                .css("background-color", "var(--accent-color)");
               $("#viz").hide();
             }
             fetchArtistInfo(current.artist["#text"]);
@@ -982,7 +809,6 @@
           },
         );
 
-        // 2. Heavy Rotation (Sequential + jeda 120ms agar tidak tabrakan dengan Favorite Tracks)
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=30day&limit=9&format=json`,
           async function (data) {
@@ -999,8 +825,8 @@
                   <div class="col-6 col-md-4">
                     <div class="artist-card h-100">
                       <img src="${img}" class="artist-avatar" alt="${art.name}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">
-                      <h6 class="fw-bold mb-1 text-truncate small">${art.name}</h6>
-                      <span class="font-mono x-small text-muted">${art.playcount} plays</span>
+                      <h6 class="fw-bold mb-1 text-truncate artist-card-title">${art.name}</h6>
+                      <span class="font-mono text-muted" style="font-size: 0.75rem">${art.playcount} plays</span>
                     </div>
                   </div>`);
                 await sleep(120);
@@ -1011,7 +837,6 @@
           },
         );
 
-        // 3. All-Time Top 10
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=overall&limit=10&format=json`,
           function (data) {
@@ -1020,13 +845,13 @@
             artists.forEach((top, index) => {
               const rank = String(index + 1).padStart(2, "0");
               html += `
-                <div class="d-flex align-items-center pb-2 ${index !== artists.length - 1 ? "border-bottom" : ""}" style="border-color: var(--border-subtle) !important;">
-                  <div class="me-3 font-mono fw-bold small" style="color: ${index === 0 ? "var(--accent)" : "var(--text-muted)"}">
+                <div class="d-flex align-items-center pb-2 ${index !== artists.length - 1 ? "border-bottom" : ""}" style="border-color: var(--border-warm) !important;">
+                  <div class="me-3 font-mono fw-bold" style="font-size: 0.85rem; color: ${index === 0 ? "var(--eye-amber)" : "var(--brown-muted)"}">
                     ${rank}
                   </div>
                   <div class="overflow-hidden flex-grow-1">
-                    <h6 class="fw-bold mb-0 text-truncate small">${top.name}</h6>
-                    <p class="font-mono text-muted mb-0" style="font-size: 0.68rem;">${parseInt(top.playcount).toLocaleString()} plays</p>
+                    <h6 class="fw-bold mb-0 text-truncate track-title">${top.name}</h6>
+                    <p class="font-mono text-muted mb-0" style="font-size: 0.72rem;">${parseInt(top.playcount).toLocaleString()} plays</p>
                   </div>
                 </div>`;
             });
@@ -1034,7 +859,6 @@
           },
         );
 
-        // 4. 7-Day Genre Mix
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=7day&limit=5&format=json`,
           async function (data) {
@@ -1084,8 +908,8 @@
             <div class="recent-item">
               <img src="${imgSrc}" class="recent-img" onerror="this.onerror=null;this.src='${fallback}'">
               <div class="overflow-hidden">
-                <h6 class="mb-0 text-truncate fw-bold small">${t.name}</h6>
-                <p class="mb-0 small text-muted">${t.artist["#text"]}</p>
+                <h6 class="mb-0 text-truncate fw-bold track-title">${t.name}</h6>
+                <p class="mb-0 text-muted track-artist">${t.artist["#text"]}</p>
               </div>
             </div>`;
         });
@@ -1117,7 +941,7 @@
             let html = "";
             if (d.similarartists && d.similarartists.artist) {
               d.similarartists.artist.forEach((art) => {
-                html += `<div class="col-6 col-md-3"><div class="p-2 rounded-2 small text-truncate font-mono text-white text-center" style="background: #222226; border: 1px solid #323238">${art.name}</div></div>`;
+                html += `<div class="col-6 col-md-3"><div class="similar-pill text-truncate font-mono">${art.name}</div></div>`;
               });
               $("#similar-artists").html(html);
             }
@@ -1136,11 +960,11 @@
               {
                 data: data,
                 backgroundColor: [
-                  "#ff4500",
-                  "#141416",
-                  "#52525b",
-                  "#a1a1aa",
-                  "#d4d4d8",
+                  "#d47633",
+                  "#87685d",
+                  "#2c2422",
+                  "#a68579",
+                  "#cbbeb9",
                 ],
                 borderWidth: 0,
               },
@@ -1152,8 +976,11 @@
               legend: {
                 position: "bottom",
                 labels: {
+                  color: getComputedStyle(document.documentElement)
+                    .getPropertyValue("--brown-muted")
+                    .trim(),
                   boxWidth: 10,
-                  font: { size: 10, family: "JetBrains Mono" },
+                  font: { size: 11, family: "JetBrains Mono" },
                 },
               },
             },
@@ -1172,11 +999,9 @@
       $(document).on("click", ".fav-tab-btn", function () {
         $(".fav-tab-btn").removeClass("active");
         $(this).addClass("active");
-        const mode = $(this).data("mode");
-        loadFavoriteTracks(mode);
+        loadFavoriteTracks($(this).data("mode"));
       });
 
-      // Jalankan berurutan supaya tidak berebut kuota request Deezer saat awal buka
       (async function init() {
         await updateDashboard();
         await sleep(600);
