@@ -175,18 +175,21 @@
           </div>
 
           <div class="col-lg-5 d-none d-lg-block reveal-up" data-delay="150">
-            <div class="hero-img-container shadow-lg">
-              <img
-                src="assets/img/new-pp.jpg"
-                class="img-fluid hero-img-original"
-                alt="Narindra Yogi Pradana - Web Developer" />
-              <img
-                src="assets/img/new-paap-original.jpg"
-                class="img-fluid hero-img-hover"
-                alt="Yog - Cybersecurity & Networking Enthusiast" />
-              <span class="shuffle-hint" id="shuffleHint">
-                <i class="fa-solid fa-layer-group me-1"></i> Click to shuffle
-              </span>
+            <div class="hero-img-wrapper">
+              <div class="hero-img-frame"></div>
+              <div class="hero-img-container shadow-lg">
+                <img
+                  src="assets/img/new-pp.jpg"
+                  class="img-fluid hero-img-original"
+                  alt="Narindra Yogi Pradana - Web Developer" />
+                <img
+                  src="assets/img/new-paap-original.jpg"
+                  class="img-fluid hero-img-hover"
+                  alt="Yog - Cybersecurity & Networking Enthusiast" />
+                <span class="shuffle-hint" id="shuffleHint">
+                  <i class="fa-solid fa-layer-group me-1"></i> Click to shuffle
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -809,7 +812,53 @@
         </p>
       </div>
     </footer>
+    <div
+      class="squad404-overlay"
+      id="squad404Modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="squad404Title">
+      <div class="squad404-dialog">
+        <span class="corner-bracket tl"></span>
+        <span class="corner-bracket tr"></span>
+        <span class="corner-bracket bl"></span>
+        <span class="corner-bracket br"></span>
 
+        <div class="squad404-header">
+          <div class="d-flex align-items-center gap-2">
+            <span class="signal-pulse"></span>
+            <span class="squad404-tag" id="squad404Title">
+              ENCRYPTED COMMS // SQUAD 404
+            </span>
+          </div>
+          <span class="squad404-freq">FREQ 40.4 MHz</span>
+        </div>
+
+        <div class="squad404-body">
+          <div class="squad404-avatar-box">
+            <img src="assets/img/ump-og.jpeg" alt="UMP45" />
+          </div>
+          <div class="squad404-message">
+            <p class="squad404-quote mb-2" id="squad404Quote">
+              "Those who don't exist have no need for names. Just get the job
+              done."
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="squad404-sender" id="squad404Sender">
+                — UMP45 // SQUAD 404
+              </span>
+              <span class="squad404-status">DECRYPTED</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="squad404-footer">
+          <button type="button" class="squad404-ack-btn" id="close404Modal">
+            [ ACKNOWLEDGE ]
+          </button>
+        </div>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

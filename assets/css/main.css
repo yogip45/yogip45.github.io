@@ -872,28 +872,22 @@ footer {
 section {
   scroll-margin-top: 75px;
 }
-/* Smooth Page Transition */
 body {
-  animation: pageFadeIn 0.45s var(--ease-out-expo) both;
+  animation: pageFadeIn 0.4s ease-out both;
 }
 
 body.page-leaving {
   opacity: 0;
-  transform: translateY(-6px);
-  transition:
-    opacity 0.28s ease,
-    transform 0.28s ease;
+  transition: opacity 0.25s ease;
   pointer-events: none;
 }
 
 @keyframes pageFadeIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -904,4 +898,196 @@ body.page-leaving {
     transition: none;
     transform: none;
   }
+}
+/* Squad 404 Tactical Modal Easter Egg */
+.hero-img-container img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.squad404-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1090;
+  background: rgba(18, 14, 13, 0.68);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+@media (min-width: 992px) {
+  .squad404-overlay {
+    justify-content: flex-end;
+    padding-right: 10%;
+  }
+}
+
+.squad404-overlay.is-shown {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.squad404-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: #1e1917;
+  color: #f2ece9;
+  border: 1px solid rgba(166, 133, 121, 0.35);
+  border-radius: 6px;
+  padding: 22px 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  transform: translateY(14px) scale(0.96);
+  transition: transform 0.35s var(--ease-out-expo);
+}
+
+.squad404-overlay.is-shown .squad404-dialog {
+  transform: translateY(0) scale(1);
+}
+
+/* Siku Taktis di 4 Sudut */
+.corner-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--eye-amber);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.corner-bracket.tl {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.corner-bracket.tr {
+  top: -1px;
+  right: -1px;
+  border-width: 2px 2px 0 0;
+}
+
+.corner-bracket.bl {
+  bottom: -1px;
+  left: -1px;
+  border-width: 0 0 2px 2px;
+}
+
+.corner-bracket.br {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+.squad404-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(166, 133, 121, 0.22);
+}
+
+.signal-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--eye-amber);
+  box-shadow: 0 0 0 3px rgba(212, 118, 51, 0.25);
+}
+
+.squad404-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--eye-amber);
+}
+
+.squad404-freq {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  color: #9e8f8a;
+}
+
+.squad404-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.squad404-avatar-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1.5px solid var(--accent-color);
+  background: #2c2422;
+}
+
+.squad404-avatar-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.squad404-quote {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #f2ece9;
+  font-style: italic;
+}
+
+.squad404-sender {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #cbbeb9;
+}
+
+.squad404-status {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  color: #6fd1a6;
+  background: rgba(111, 209, 166, 0.12);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.squad404-footer {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(166, 133, 121, 0.22);
+  text-align: right;
+}
+
+.squad404-ack-btn {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--eye-amber);
+  background: rgba(212, 118, 51, 0.1);
+  border: 1px solid var(--eye-amber);
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.squad404-ack-btn:hover {
+  background: var(--eye-amber);
+  color: #181413;
 }
