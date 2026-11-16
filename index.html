@@ -3,32 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yog's Web Portofolio</title>
+    <title>Yog's Web Portfolio</title>
     <link rel="icon" type="image/x-icon" href="assets/img/new-pp.jpg" />
-    <link rel="stylesheet" href="assets/css/main.css" />
     <link
       href="assets/css/bootstrap@5.3.0/bootstrap.min.css"
       rel="stylesheet" />
     <link href="assets/font-awesome/css/all.min.css" rel="stylesheet" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="scroll-progress" id="scrollProgress"></div>
       <div class="container">
         <a class="navbar-brand fw-bold" href="#home">
-          YOG<span style="color: var(--accent-color)">.</span>
+          YOG<span class="accent-dot">.</span>
         </a>
 
         <button
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarNav">
+          data-bs-target="#navbarNav"
+          aria-label="Toggle navigation">
           <i class="fa-solid fa-bars-staggered" style="font-size: 1.2rem"></i>
         </button>
 
@@ -38,13 +41,13 @@
               <a class="nav-link px-3" href="#home">HOME</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link px-3" href="#about">ABOUT ME</a>
+              <a class="nav-link px-3" href="#about">ABOUT</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link px-3" href="#resume">RESUME</a>
+              <a class="nav-link px-3" href="#resume">EXPERIENCE</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link px-3" href="#services">SERVICES</a>
+              <a class="nav-link px-3" href="#services">WHAT I DO</a>
             </li>
             <li class="nav-item">
               <a class="nav-link px-3" href="#gallery">SHOWCASE</a>
@@ -56,14 +59,15 @@
               <a class="nav-link px-3" href="#hobbies">BEYOND CODING</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link px-3" href="#contact">LET'S CONNECT</a>
+              <a class="nav-link px-3" href="#contact">CONNECT</a>
             </li>
-            <li class="nav-item ms-lg-2">
+            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
               <a
                 href="https://github.com/yogip45"
                 target="_blank"
-                class="btn btn-dark btn-github rounded-2">
-                <i class="fa-brands fa-github me-2"></i>Github
+                rel="noopener"
+                class="btn btn-theme-dark btn-github rounded-2">
+                <i class="fa-brands fa-github me-2"></i>GitHub
               </a>
             </li>
           </ul>
@@ -71,63 +75,56 @@
       </div>
     </nav>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
       <span
         class="kanji-bg d-none d-md-block"
-        style="font-size: 15rem; top: -5%; right: -5%"
+        style="font-size: 14rem; top: 4%; right: -3%"
         >プレーダナ</span
       >
       <div class="container" style="position: relative; z-index: 2">
-        <div class="row align-items-center">
-          <div class="col-lg-7">
-            <h1 class="hero-title mb-4">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7 reveal-up">
+            <div class="hero-eyebrow mb-3">
+              <span class="status-dot"></span>
+              <span>WEB DEVELOPER • SYSTEM IMPLEMENTER</span>
+            </div>
+            <h1 class="hero-title mb-3">
               Narindra<br />
-              <span style="color: var(--accent-color)">Yogi Pradana.</span>
-              <span
-                id="typed-container"
-                style="
-                  display: block;
-                  font-size: 1.5rem;
-                  font-weight: 400;
-                  font-family: &quot;Plus Jakarta Sans&quot;, sans-serif;
-                "
-                class="text-muted mt-4">
-                I'm a
-                <span
-                  id="typed"
-                  style="color: var(--accent-color); font-weight: 700"></span>
-              </span>
+              <span class="text-accent">Yogi Pradana.</span>
             </h1>
-            <!-- <p class="lead text-muted mb-5 w-75">
-              <strong>Junior Web Developer</strong> at PT Indo Techno Medic,
-              passionate about <strong>Networking</strong> and
-              <strong>Cybersecurity</strong>. Focus on developing secure web
-              applications while exploring the synergy between code and network
-              infrastructure.
-            </p> -->
-            <div class="d-flex gap-3">
+            <div id="typed-container" class="mb-4">
+              I'm a <span id="typed" class="text-accent fw-bold"></span>
+            </div>
+            <p class="hero-subtitle mb-4">
+              Building resilient healthcare web applications, streamlining
+              database performance, and bridging complex clinical workflows with
+              reliable infrastructure.
+            </p>
+            <div class="d-flex flex-wrap gap-3 pt-1">
               <a
                 href="assets/download/cv-yog.pdf"
                 target="_blank"
-                class="btn btn-sm btn-dark btn-lg px-4 rounded-2 shadow-sm btn-cv">
+                class="btn btn-theme-dark px-4 py-2 rounded-2 btn-action">
                 <i class="fa-solid fa-download me-2"></i>Resume
               </a>
               <a
                 href="https://www.linkedin.com/in/narindra-yogi/"
                 target="_blank"
-                class="btn btn-sm btn-primary btn-lg px-4 rounded-2 shadow-sm btn-cv">
+                rel="noopener"
+                class="btn btn-theme-outline px-4 py-2 rounded-2 btn-action">
                 <i class="fa-brands fa-linkedin me-2"></i>LinkedIn
               </a>
               <a
                 href="audio-showcase.html"
                 target="_blank"
-                class="btn btn-sm text-white btn-lg px-4 rounded-2 shadow-sm btn-cv"
-                style="background-color: #ff4500">
-                <i class="fa-solid fa-music me-2"></i>Audio Station
+                class="btn btn-theme-accent px-4 py-2 rounded-2 btn-action">
+                <i class="fa-solid fa-headphones me-2"></i>Audio Station
               </a>
             </div>
           </div>
-          <div class="col-lg-5 d-none d-lg-block">
+
+          <div class="col-lg-5 d-none d-lg-block reveal-up" data-delay="150">
             <div class="hero-img-container shadow-lg">
               <img
                 src="assets/img/new-pp.jpg"
@@ -136,361 +133,342 @@
               <img
                 src="assets/img/new-paap-original.jpg"
                 class="img-fluid hero-img-hover"
-                alt="Yog - Cybersecurity Enthusiast" />
+                alt="Yog - Cybersecurity & Networking Enthusiast" />
+              <span class="shuffle-hint" id="shuffleHint">
+                <i class="fa-solid fa-layer-group me-1"></i> Click to shuffle
+              </span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="about" class="py-5 bg-light">
-      <div class="container">
+    <!-- About Section -->
+    <section id="about" class="py-5 section-warm">
+      <div class="container py-3">
         <div class="row justify-content-center">
-          <div class="col-lg-10 text-center">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content mt-4">
-              <p
-                class="text-muted lead px-md-5 mb-4"
-                style="line-height: 1.8; letter-spacing: 0.2px">
-                I am a <strong>Junior Web Developer</strong> at
+          <div class="col-lg-9 text-center reveal-up">
+            <h2 class="section-title section-title-center">About Me</h2>
+            <div class="about-content mt-3">
+              <p class="lead mb-0">
+                I am a <strong>Web Developer</strong> at
                 <a
                   href="https://technomedic.id"
                   target="_blank"
-                  class="text-decoration-none fw-bold"
-                  style="
-                    color: inherit;
-                    border-bottom: 1px dashed var(--accent-color);
-                  ">
+                  rel="noopener"
+                  class="inline-link">
                   PT Indo Techno Medic
                 </a>
-                and an <strong>Informatics Engineering</strong> graduate from
-                Politeknik Negeri Cilacap. I am deeply passionate about
+                and an <strong>Information Technology</strong> graduate from
+                Politeknik Negeri Cilacap. With a strong foundation in
                 <strong>Networking</strong> and <strong>Cybersecurity</strong>,
-                always exploring the synergy between robust code and secure
-                network infrastructure.
+                I specialize in building and optimizing multi-user
+                <strong>Hospital Management Systems (SIMRS)</strong>, handling
+                REST API integrations, and leading on-site technical rollouts
+                and user training for partner hospitals—bringing a practical,
+                security-first mindset backed by hands-on experience in
+                application security auditing.
               </p>
-
-              <!-- <p
-                class="text-muted px-md-5"
-                style="
-                  line-height: 1.8;
-                  letter-spacing: 0.2px;
-                  font-size: 1.05rem;
-                ">
-                Currently, I specialize in developing secure, multi-user
-                <strong>Hospital Management Systems (SIMRS)</strong>. With a
-                background in conducting security audits and penetration testing
-                for government-level applications, I bring a
-                <strong>security-first mindset</strong> to every project,
-                ensuring resilient environments that prioritize data integrity
-                and user safety.
-              </p> -->
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Experience & Education Section -->
     <section id="resume" class="py-5 bg-white">
-      <div class="container">
+      <div class="container py-3">
         <div class="row g-5">
-          <div class="col-md-7">
+          <div class="col-lg-7 reveal-up">
             <h2 class="section-title">Experience</h2>
             <div class="timeline mt-4">
               <div class="timeline-item">
-                <h6 class="fw-bold mb-0 text-uppercase">
-                  Junior Web Developer
-                </h6>
-                <small class="text-primary fw-bold"
-                  >PT Indo Techno Medic | Jan 2025 - Present</small
+                <div
+                  class="d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+                  <h6 class="fw-bold mb-0 text-uppercase">Web Developer</h6>
+                  <span class="timeline-badge">Jan 2025 – Present</span>
+                </div>
+                <small class="text-accent fw-bold d-block mt-1"
+                  >PT Indo Techno Medic</small
                 >
-                <p class="small text-muted mt-2">
-                  Developing and maintaining secure SIMRS using CodeIgniter 3.
-                  Responsible for multi-user access systems, database
-                  optimization, technical on-site implementation, and
-                  comprehensive user training for hospital staff.
+                <p class="text-muted mt-2 mb-0">
+                  Developing, refactoring, and maintaining web-based SIMRS and
+                  E-Pasien modules. Responsible for multi-user access logic,
+                  database query optimization, REST API integrations, on-site
+                  hospital deployment, and conducting train-the-trainer sessions
+                  for medical and administrative staff.
                 </p>
               </div>
+
               <div class="timeline-item">
-                <h6 class="fw-bold mb-0 text-uppercase">
-                  Cyber Security Engineer (Intern)
-                </h6>
-                <small class="text-muted fw-bold"
-                  >Gama Multi Group | Feb - Jun 2024</small
+                <div
+                  class="d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+                  <h6 class="fw-bold mb-0 text-uppercase">
+                    Cyber Security Engineer (Intern)
+                  </h6>
+                  <span class="timeline-badge muted">Feb – Jun 2024</span>
+                </div>
+                <small class="text-brown-muted fw-bold d-block mt-1"
+                  >Gama Multi Group</small
                 >
-                <p class="small text-muted mt-2">
-                  Executed security audits and penetration testing for
-                  government web applications to identify and mitigate critical
+                <p class="text-muted mt-2 mb-0">
+                  Executed security audits and penetration testing on government
+                  web applications to identify, document, and mitigate critical
                   vulnerabilities.
                 </p>
               </div>
+
               <div class="timeline-item">
-                <h6 class="fw-bold mb-0 text-uppercase">
-                  Fullstack Web Developer (Intern)
-                </h6>
-                <small class="text-muted fw-bold"
-                  >Diskominfo Kebumen | Aug - Dec 2023</small
+                <div
+                  class="d-flex flex-wrap justify-content-between align-items-baseline gap-2">
+                  <h6 class="fw-bold mb-0 text-uppercase">
+                    Fullstack Web Developer (Intern)
+                  </h6>
+                  <span class="timeline-badge muted">Aug – Dec 2023</span>
+                </div>
+                <small class="text-brown-muted fw-bold d-block mt-1"
+                  >Diskominfo Kebumen</small
                 >
-                <p class="small text-muted mt-2">
-                  Developed a full-stack Waste Bank Management system using CI3,
-                  digitalizing records and automating village reporting
-                  processes.
+                <p class="text-muted mt-2 mb-0">
+                  Built a full-stack Waste Bank Management system using
+                  CodeIgniter 3, digitalizing waste records and automating
+                  village-level reporting workflows.
                 </p>
               </div>
             </div>
           </div>
 
-          <div class="col-md-5">
+          <div class="col-lg-5 reveal-up" data-delay="120">
             <h2 class="section-title">Education</h2>
-            <div
-              class="p-4 bg-white shadow-sm rounded-4 mb-4 mt-4 border-start">
+            <div class="edu-card p-4 rounded-4 mt-4">
+              <div
+                class="d-flex align-items-center justify-content-between mb-2">
+                <span class="timeline-badge">2021 – 2024</span>
+                <span class="gpa-pill">GPA 3.75 / 4.00</span>
+              </div>
               <h6 class="fw-bold mb-1">Politeknik Negeri Cilacap</h6>
-              <p class="text-primary fw-bold small mb-2">
-                D3 Information Technology | 2021 - 2024
+              <p class="text-accent fw-bold mb-2">
+                D3 Information Technology • Cum Laude
               </p>
-              <p class="text-muted small mb-0">
-                Graduated <strong>GPA 3.75/4.00 (Cum Laude)</strong>. Active in
-                Programmer and English Clubs. Awarded Bronze & Silver
-                Certificates in Cisco NetAcad Riders 2023 & 2024.
+              <p class="text-muted mb-0">
+                Active member of the Programmer and English Clubs. Awarded
+                Bronze & Silver Certificates in the Cisco NetAcad Riders
+                competitions (2023 & 2024).
               </p>
             </div>
-
-            <!-- <h2 class="section-title">Current Base</h2>
-            <div class="p-4 bg-white shadow-sm rounded-4 border-start">
-              <p class="text-muted mb-0">
-                <i class="fa-solid fa-location-dot me-2 text-primary"></i
-                >Yogyakarta, Indonesia
-              </p>
-            </div> -->
           </div>
         </div>
       </div>
     </section>
-    <section id="services" class="py-5 bg-light">
-      <div class="container">
-        <!-- Judul di Tengah -->
-        <div class="text-center mb-5">
-          <h2 class="section-title">What I Do</h2>
-          <p class="text-muted small">
-            Bridging healthcare needs with technical solutions
+
+    <!-- What I Do Section -->
+    <section id="services" class="py-5 section-warm">
+      <div class="container py-3">
+        <div class="text-center mb-5 reveal-up">
+          <h2 class="section-title section-title-center">What I Do</h2>
+          <p class="text-muted">
+            Bridging clinical and operational needs with dependable web
+            engineering
           </p>
         </div>
 
         <div class="row g-4 justify-content-center">
-          <!-- Row 1: 3 Cards -->
-          <!-- Development -->
-          <div class="col-md-4">
-            <div
-              class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
-              <div class="icon-box mb-3 text-primary">
-                <i class="fa-solid fa-code fa-2xl"></i>
+          <div class="col-md-4 reveal-up" data-delay="0">
+            <div class="service-card h-100 rounded-4 p-4 text-center">
+              <div class="icon-box mb-3">
+                <i class="fa-solid fa-code fa-xl"></i>
               </div>
-              <h5 class="fw-bold">Development</h5>
-              <p class="small text-muted mb-0">
-                Develop and maintain Technomedic's Web-based Hospital Management
-                Application (SIMRS) with high attention to security and
-                scalability.
+              <h5 class="fw-bold">Web Development</h5>
+              <p class="text-muted mb-0">
+                Developing and maintaining modular Hospital Management Systems
+                (SIMRS) and patient portals with clean UI aesthetics and
+                security in mind.
               </p>
             </div>
           </div>
 
-          <!-- Logic & Workflow -->
-          <div class="col-md-4">
-            <div
-              class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
-              <div class="icon-box mb-3 text-primary">
-                <i class="fa-solid fa-diagram-project fa-2xl"></i>
+          <div class="col-md-4 reveal-up" data-delay="80">
+            <div class="service-card h-100 rounded-4 p-4 text-center">
+              <div class="icon-box mb-3">
+                <i class="fa-solid fa-diagram-project fa-xl"></i>
               </div>
-              <h5 class="fw-bold">Logic & Workflow</h5>
-              <p class="small text-muted mb-0">
-                Translating complex hospital business processes into seamless
-                multi-user workflows and robust system logic.
+              <h5 class="fw-bold">Logic & API Integration</h5>
+              <p class="text-muted mb-0">
+                Translating complex hospital business processes into structured
+                multi-user workflows and seamless REST API integrations.
               </p>
             </div>
           </div>
 
-          <!-- Optimization -->
-          <div class="col-md-4">
-            <div
-              class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
-              <div class="icon-box mb-3 text-primary">
-                <i class="fa-solid fa-database fa-2xl"></i>
+          <div class="col-md-4 reveal-up" data-delay="160">
+            <div class="service-card h-100 rounded-4 p-4 text-center">
+              <div class="icon-box mb-3">
+                <i class="fa-solid fa-database fa-xl"></i>
               </div>
-              <h5 class="fw-bold">Optimization</h5>
-              <p class="small text-muted mb-0">
-                Debugging and optimizing database queries to ensure fast
-                performance, even with large-scale medical data.
+              <h5 class="fw-bold">Database Optimization</h5>
+              <p class="text-muted mb-0">
+                Profiling and tuning relational queries across PostgreSQL,
+                MySQL, and MS SQL Server to keep high-volume medical records
+                responsive.
               </p>
             </div>
           </div>
 
-          <!-- Row 2: 2 Cards (Dibuat center text juga biar seragam tingginya pas) -->
-          <!-- Implementation -->
-          <div class="col-md-4">
-            <div
-              class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
-              <div class="icon-box mb-3 text-primary">
-                <i class="fa-solid fa-truck-ramp-box fa-2xl"></i>
+          <div class="col-md-4 reveal-up" data-delay="80">
+            <div class="service-card h-100 rounded-4 p-4 text-center">
+              <div class="icon-box mb-3">
+                <i class="fa-solid fa-server fa-xl"></i>
               </div>
-              <h5 class="fw-bold">Implementation</h5>
-              <p class="small text-muted mb-0">
-                Managing on-site implementation for new hospital clients,
-                ensuring a smooth migration from legacy systems.
+              <h5 class="fw-bold">Deployment & Rollout</h5>
+              <p class="text-muted mb-0">
+                Managing Linux server environments and on-site system
+                implementations to ensure smooth transitions from legacy
+                workflows.
               </p>
             </div>
           </div>
 
-          <!-- User Support -->
-          <div class="col-md-4">
-            <div
-              class="card h-100 border-0 shadow-sm rounded-4 p-4 text-center">
-              <div class="icon-box mb-3 text-primary">
-                <i class="fa-solid fa-headset fa-2xl"></i>
+          <div class="col-md-4 reveal-up" data-delay="160">
+            <div class="service-card h-100 rounded-4 p-4 text-center">
+              <div class="icon-box mb-3">
+                <i class="fa-solid fa-chalkboard-user fa-xl"></i>
               </div>
-              <h5 class="fw-bold">User Support</h5>
-              <p class="small text-muted mb-0">
-                Conducting comprehensive training and providing technical
-                assistance for hospital staff during critical rollout phases.
+              <h5 class="fw-bold">Training & Support</h5>
+              <p class="text-muted mb-0">
+                Leading hands-on workshops and train-the-trainer sessions for
+                hospital staff during critical go-live phases.
               </p>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Showcase Section -->
     <section id="gallery" class="py-5 bg-white">
-      <div class="container">
-        <div class="text-center mb-5">
-          <h2 class="section-title">Showcase</h2>
+      <div class="container py-3">
+        <div class="text-center mb-5 reveal-up">
+          <h2 class="section-title section-title-center">Showcase</h2>
           <p class="text-muted">
-            A curated selection of my professional milestones and technical
-            projects.
+            A curated selection of my professional milestones, projects, and
+            credentials.
           </p>
         </div>
+
         <div class="row g-4">
-          <div class="col-md-4">
-            <div
-              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+          <div class="col-md-4 reveal-up" data-delay="0">
+            <div class="card h-100 border-0 overflow-hidden project-card">
               <div class="card-img-wrapper">
                 <img
                   src="assets/img/gallery/simrs.png"
-                  class="grayscale"
-                  alt="HMS Project"
+                  alt="Hospital Management System / SIMRS"
                   loading="lazy" />
               </div>
-              <div class="card-body">
-                <span class="badge bg-primary mb-2" style="font-size: 0.7rem"
-                  ><i class="fa-solid fa-diagram-project me-2"></i>Project</span
-                >
+              <div class="card-body p-4">
+                <span class="showcase-badge badge-project mb-2">
+                  <i class="fa-solid fa-diagram-project me-1"></i> Project
+                </span>
                 <h6 class="fw-bold mb-1">Hospital Management System / SIMRS</h6>
-                <p class="text-muted x-small mb-0">
-                  Maintain & optimize multi-user modules at Technomedic SIMRS.
+                <p class="text-muted mb-0">
+                  Developing & optimizing multi-user clinical and administrative
+                  modules at Technomedic SIMRS.
                 </p>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div
-              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+
+          <div class="col-md-4 reveal-up" data-delay="80">
+            <div class="card h-100 border-0 overflow-hidden project-card">
               <div class="card-img-wrapper">
                 <img
                   src="assets/img/gallery/cikrak.png"
-                  class="grayscale"
-                  alt="Waste Bank App"
+                  alt="Waste Bank Management"
                   loading="lazy" />
               </div>
-              <div class="card-body">
-                <span class="badge bg-primary mb-2" style="font-size: 0.7rem"
-                  ><i class="fa-solid fa-diagram-project me-2"></i>Project</span
-                >
+              <div class="card-body p-4">
+                <span class="showcase-badge badge-project mb-2">
+                  <i class="fa-solid fa-diagram-project me-1"></i> Project
+                </span>
                 <h6 class="fw-bold mb-1">Waste Bank Management</h6>
-                <p class="text-muted x-small mb-0">
-                  Fullstack CI3 App developed for Diskominfo.
+                <p class="text-muted mb-0">
+                  Fullstack CodeIgniter 3 application developed for Diskominfo
+                  Kebumen.
                 </p>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div
-              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+
+          <div class="col-md-4 reveal-up" data-delay="160">
+            <div class="card h-100 border-0 overflow-hidden project-card">
               <div class="card-img-wrapper">
                 <img
                   src="assets/img/gallery/bronze_cert.png"
-                  class="grayscale"
                   alt="Cisco Bronze Certificate"
                   loading="lazy" />
               </div>
-              <div class="card-body">
-                <span class="badge bg-info mb-2" style="font-size: 0.7rem"
-                  ><i class="fa-solid fa-star me-2"></i>Achievement</span
-                >
+              <div class="card-body p-4">
+                <span class="showcase-badge badge-achievement mb-2">
+                  <i class="fa-solid fa-award me-1"></i> Achievement
+                </span>
                 <h6 class="fw-bold mb-1">Cisco NetAcad Riders</h6>
-                <p class="text-muted x-small mb-0">
-                  Bronze Certificate Winner - 2023
-                </p>
+                <p class="text-muted mb-0">Bronze Certificate Winner — 2023</p>
               </div>
             </div>
           </div>
 
-          <div class="col-md-4">
-            <div
-              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+          <div class="col-md-4 reveal-up" data-delay="0">
+            <div class="card h-100 border-0 overflow-hidden project-card">
               <div class="card-img-wrapper">
                 <img
                   src="assets/img/gallery/silver_cert.png"
-                  class="grayscale"
                   alt="Cisco Silver Certificate"
                   loading="lazy" />
               </div>
-              <div class="card-body">
-                <span class="badge bg-info mb-2" style="font-size: 0.7rem"
-                  ><i class="fa-solid fa-star me-2"></i>Achievement</span
-                >
+              <div class="card-body p-4">
+                <span class="showcase-badge badge-achievement mb-2">
+                  <i class="fa-solid fa-award me-1"></i> Achievement
+                </span>
                 <h6 class="fw-bold mb-1">Cisco NetAcad Riders</h6>
-                <p class="text-muted x-small mb-0">
-                  Silver Certificate Winner - 2024
-                </p>
+                <p class="text-muted mb-0">Silver Certificate Winner — 2024</p>
               </div>
             </div>
           </div>
 
-          <div class="col-md-4">
-            <div
-              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+          <div class="col-md-4 reveal-up" data-delay="80">
+            <div class="card h-100 border-0 overflow-hidden project-card">
               <div class="card-img-wrapper">
                 <img
                   src="assets/img/gallery/mtcna.png"
-                  class="grayscale"
                   alt="MikroTik MTCNA"
                   loading="lazy" />
               </div>
-              <div class="card-body">
-                <span class="badge bg-success mb-2" style="font-size: 0.7rem"
-                  ><i class="fa-solid fa-id-card me-2"></i>Credential</span
-                >
+              <div class="card-body p-4">
+                <span class="showcase-badge badge-credential mb-2">
+                  <i class="fa-solid fa-id-card me-1"></i> Credential
+                </span>
                 <h6 class="fw-bold mb-1">MTCNA Certified</h6>
-                <p class="text-muted x-small mb-0">
+                <p class="text-muted mb-0">
                   MikroTik Certified Network Associate
                 </p>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div
-              class="card h-100 shadow-sm border-0 overflow-hidden project-card">
+
+          <div class="col-md-4 reveal-up" data-delay="160">
+            <div class="card h-100 border-0 overflow-hidden project-card">
               <div class="card-img-wrapper">
                 <img
                   src="assets/img/gallery/jwd.png"
-                  class="grayscale"
                   alt="Junior Web Developer BNSP"
                   loading="lazy" />
               </div>
-              <div class="card-body">
-                <span class="badge bg-success mb-2" style="font-size: 0.7rem"
-                  ><i class="fa-solid fa-id-card me-2"></i>Credential</span
-                >
+              <div class="card-body p-4">
+                <span class="showcase-badge badge-credential mb-2">
+                  <i class="fa-solid fa-id-card me-1"></i> Credential
+                </span>
                 <h6 class="fw-bold mb-1">Junior Web Developer</h6>
-                <p class="text-muted x-small mb-0">
-                  BNSP Certified via Digital Talent Scholarship.
+                <p class="text-muted mb-0">
+                  BNSP Certified via Digital Talent Scholarship
                 </p>
               </div>
             </div>
@@ -498,264 +476,290 @@
         </div>
       </div>
     </section>
-    <section id="skills" class="py-5 bg-light">
-      <div class="container text-center">
-        <h2 class="section-title">Tools & Tech Stack</h2>
-        <div class="row g-4 mt-2 justify-content-center">
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-php-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">PHP</p>
+
+    <!-- Tech Stack Section -->
+    <section id="skills" class="py-5 section-warm">
+      <div class="container py-3 text-center">
+        <div class="reveal-up">
+          <h2 class="section-title section-title-center">Tools & Tech Stack</h2>
+        </div>
+
+        <div class="row g-3 g-md-4 mt-2 justify-content-center reveal-up">
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-php-plain colored"></i>
+              <p class="fw-bold mb-0">PHP</p>
             </div>
           </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-codeigniter-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">CodeIgniter</p>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-codeigniter-plain colored"></i>
+              <p class="fw-bold mb-0">CodeIgniter</p>
             </div>
           </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-postgresql-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">PostgreSQL</p>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-postgresql-plain colored"></i>
+              <p class="fw-bold mb-0">PostgreSQL</p>
             </div>
           </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-mysql-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">MySQL</p>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-mysql-plain colored"></i>
+              <p class="fw-bold mb-0">MySQL</p>
             </div>
           </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-bootstrap-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">Bootstrap</p>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-microsoftsqlserver-plain colored"></i>
+              <p class="fw-bold mb-0">SQL Server</p>
             </div>
           </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-jquery-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">jQuery</p>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-bootstrap-plain colored"></i>
+              <p class="fw-bold mb-0">Bootstrap</p>
             </div>
           </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-centos-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">Centos</p>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-jquery-plain colored"></i>
+              <p class="fw-bold mb-0">jQuery</p>
             </div>
           </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-ubuntu-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">Ubuntu</p>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-ubuntu-plain colored"></i>
+              <p class="fw-bold mb-0">Ubuntu</p>
             </div>
           </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-centos-plain colored"></i>
+              <p class="fw-bold mb-0">CentOS</p>
+            </div>
+          </div>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-nginx-plain colored"></i>
+              <p class="fw-bold mb-0">Nginx</p>
+            </div>
+          </div>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
+              <i class="devicon-docker-plain colored"></i>
+              <p class="fw-bold mb-0">Docker</p>
+            </div>
+          </div>
+          <div class="col-4 col-sm-3 col-md-2">
+            <div class="skill-card">
               <i
-                class="devicon-bash-plain display-4 mb-2"
-                style="color: #4eaa25"></i>
-              <p class="small fw-bold mb-0">Bash</p>
-            </div>
-          </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-vscode-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">Vs Code</p>
-            </div>
-          </div>
-          <div class="col-4 col-md-2">
-            <div class="skill-card bg-light">
-              <i class="devicon-nginx-plain colored display-4 mb-2"></i>
-              <p class="small fw-bold mb-0">Nginx</p>
+                class="devicon-bash-plain"
+                style="color: var(--brown-dark)"></i>
+              <p class="fw-bold mb-0">Bash</p>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Beyond Coding Section -->
     <section id="hobbies" class="py-5 bg-white">
-      <div class="container text-center">
-        <h2 class="section-title">Beyond Coding</h2>
-        <p class="text-muted mb-5">
-          When I'm not in front of my laptop, you can find me enjoying these:
-        </p>
+      <div class="container py-3 text-center">
+        <div class="reveal-up">
+          <h2 class="section-title section-title-center">Beyond Coding</h2>
+          <p class="text-muted mb-5">
+            When I'm away from the terminal, you'll usually find me exploring
+            these:
+          </p>
+        </div>
+
         <div class="row g-4 justify-content-center">
-          <div class="col-6 col-md-3">
-            <div class="hobby-card p-4 bg-white shadow-sm rounded-4">
-              <i
-                class="fa-solid fa-headphones-simple fa-2xl mb-3 text-primary"></i>
-              <h6 class="fw-bold">Audiophile & Music</h6>
-              <p class="small text-muted mb-0">
-                Enjoying Nu-Metal riffs and J-Pop beats with my favorite IEMs.
-              </p>
-            </div>
-          </div>
-          <div class="col-6 col-md-3">
-            <div class="hobby-card p-4 bg-white shadow-sm rounded-4">
-              <i class="fa-solid fa-book-open fa-2xl mb-3 text-success"></i>
-              <h6 class="fw-bold">Literature & Manga</h6>
-              <p class="small text-muted mb-0">
-                Exploring a wide range of literature, from
-                <strong>mystery novels and manga</strong> to profound
-                <strong>non-fiction</strong> works on psychology and philosophy.
+          <div class="col-6 col-lg-3 reveal-up" data-delay="0">
+            <div class="hobby-card p-4 rounded-4">
+              <div class="hobby-icon mb-3">
+                <i class="fa-solid fa-headphones-simple fa-xl"></i>
+              </div>
+              <h6 class="fw-bold">Personal Audio & Music</h6>
+              <p class="text-muted mb-0">
+                Listening to alternative rock, metal, and J-Pop through IEMs
+                while tracking scrobbles on Last.fm.
               </p>
             </div>
           </div>
 
-          <div class="col-6 col-md-3">
-            <div class="hobby-card p-4 bg-white shadow-sm rounded-4">
-              <i class="fa-solid fa-video fa-2xl mb-3 text-warning"></i>
-              <h6 class="fw-bold">Watching Anime</h6>
-              <p class="small text-muted mb-0">
-                A great way to unwind, diving into
-                <strong>captivating stories</strong> and high-quality animation
-                during my downtime.
+          <div class="col-6 col-lg-3 reveal-up" data-delay="80">
+            <div class="hobby-card p-4 rounded-4">
+              <div class="hobby-icon mb-3">
+                <i class="fa-solid fa-server fa-xl"></i>
+              </div>
+              <h6 class="fw-bold">Home Lab & Self-Hosting</h6>
+              <p class="text-muted mb-0">
+                Tinkering with mini PCs, Docker containers, private mesh
+                networks, and local DNS setups.
               </p>
             </div>
           </div>
 
-          <div class="col-6 col-md-3">
-            <div class="hobby-card p-4 bg-white shadow-sm rounded-4">
-              <i class="fa-brands fa-youtube fa-2xl mb-3 text-danger"></i>
-              <h6 class="fw-bold">YouTube Enthusiast</h6>
-              <p class="small text-muted mb-0">
-                Exploring tech reviews, server builds, and creative content.
+          <div class="col-6 col-lg-3 reveal-up" data-delay="160">
+            <div class="hobby-card p-4 rounded-4">
+              <div class="hobby-icon mb-3">
+                <i class="fa-solid fa-book-open fa-xl"></i>
+              </div>
+              <h6 class="fw-bold">Books & Manga</h6>
+              <p class="text-muted mb-0">
+                Diving into mystery fiction, classic literature, and manga
+                series during quiet downtime.
               </p>
             </div>
           </div>
 
-          <div class="col-6 col-md-3">
-            <div class="hobby-card p-4 bg-white shadow-sm rounded-4">
-              <i class="fa-solid fa-server fa-2xl mb-3 text-dark"></i>
-              <h6 class="fw-bold">Home Server</h6>
-              <p class="small text-muted mb-0">
-                Experimenting with mini PCs and network infrastructure projects.
+          <div class="col-6 col-lg-3 reveal-up" data-delay="240">
+            <div class="hobby-card p-4 rounded-4">
+              <div class="hobby-icon mb-3">
+                <i class="fa-solid fa-film fa-xl"></i>
+              </div>
+              <h6 class="fw-bold">Anime & Tech Essays</h6>
+              <p class="text-muted mb-0">
+                Unwinding with well-crafted animation, soundtracks, and
+                deep-dive infrastructure videos.
               </p>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section id="contact" class="py-5 bg-light">
-      <div class="container text-center">
-        <h2 class="section-title">Let's Connect</h2>
-        <p class="text-muted mb-4">
-          Want to know more about me or maybe do a collaboration? <br />Reach
-          out through the platforms below.
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 section-warm">
+      <div class="container py-3 text-center reveal-up">
+        <h2 class="section-title section-title-center">Let's Connect</h2>
+        <p class="text-muted mb-3">
+          Have a project in mind, want to discuss web systems, or just want to
+          say hello?<br />Reach out through any of the channels below.
         </p>
 
-        <p class="text-muted small mb-5">
-          <i class="fa-solid fa-location-dot me-2 text-primary"></i>Kebumen,
+        <p class="text-muted mb-4">
+          <i class="fa-solid fa-location-dot me-2 text-accent"></i>Kebumen,
           Central Java, Indonesia
         </p>
 
-        <div class="d-flex justify-content-center flex-wrap gap-3">
+        <div class="d-flex justify-content-center flex-wrap gap-3 mb-5">
           <a
             href="mailto:narindrayogipradana@gmail.com"
-            class="btn btn-dark px-4 rounded-pill shadow-sm">
-            <i class="fa-solid fa-envelope me-2"></i> Email
+            class="btn btn-theme-dark px-4 rounded-pill">
+            <i class="fa-solid fa-envelope me-2"></i>Email
           </a>
 
           <a
             href="https://linkedin.com/in/narindra-yogi"
             target="_blank"
-            class="btn btn-outline-primary px-4 rounded-pill shadow-sm">
-            <i class="fa-brands fa-linkedin me-2"></i> LinkedIn
+            rel="noopener"
+            class="btn btn-theme-outline px-4 rounded-pill">
+            <i class="fa-brands fa-linkedin me-2"></i>LinkedIn
           </a>
 
           <a
             href="https://discordapp.com/users/450547182131478530"
             target="_blank"
-            class="btn btn-outline-dark px-4 rounded-pill shadow-sm"
-            style="border-color: #5865f2; color: #5865f2">
-            <i class="fa-brands fa-discord me-2"></i> Discord
+            rel="noopener"
+            class="btn btn-theme-outline px-4 rounded-pill">
+            <i class="fa-brands fa-discord me-2"></i>Discord
           </a>
         </div>
-      </div>
-      <div class="row justify-content-center mb-5">
-        <div class="col-md-6 text-start">
-          <form action="https://formspree.io/f/mdabvlwe" method="POST">
-            <div class="mb-3">
-              <label for="name" class="form-label small fw-bold">Name</label>
-              <input
-                type="text"
-                name="name"
-                class="form-control rounded-3"
-                id="name"
-                placeholder="Your Name"
-                required />
+
+        <div class="row justify-content-center">
+          <div class="col-md-6 text-start">
+            <div class="contact-form-card p-4 p-md-5 rounded-4">
+              <form action="https://formspree.io/f/mdabvlwe" method="POST">
+                <div class="mb-3">
+                  <label for="name" class="form-label fw-bold">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    class="form-control rounded-3"
+                    id="name"
+                    placeholder="Your Name"
+                    required />
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label fw-bold"
+                    >Email Address</label
+                  >
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control rounded-3"
+                    id="email"
+                    placeholder="name@example.com"
+                    required />
+                </div>
+                <div class="mb-4">
+                  <label for="message" class="form-label fw-bold"
+                    >Message</label
+                  >
+                  <textarea
+                    name="message"
+                    class="form-control rounded-3"
+                    id="message"
+                    rows="4"
+                    placeholder="Hi Yogi, let's collaborate!"
+                    required></textarea>
+                </div>
+                <div class="text-center">
+                  <button
+                    type="submit"
+                    class="btn btn-theme-accent px-5 py-2 rounded-pill w-100 w-sm-auto">
+                    Send Message <i class="fa-solid fa-paper-plane ms-2"></i>
+                  </button>
+                </div>
+              </form>
             </div>
-            <div class="mb-3">
-              <label for="email" class="form-label small fw-bold"
-                >Email Address</label
-              >
-              <input
-                type="email"
-                name="email"
-                class="form-control rounded-3"
-                id="email"
-                placeholder="name@example.com"
-                required />
-            </div>
-            <div class="mb-3">
-              <label for="message" class="form-label small fw-bold"
-                >Message</label
-              >
-              <textarea
-                name="message"
-                class="form-control rounded-3"
-                id="message"
-                rows="4"
-                placeholder="Hi Yogi, let's collaborate!"
-                required></textarea>
-            </div>
-            <div class="text-center">
-              <button
-                type="submit"
-                class="btn btn-primary px-5 rounded-pill shadow-sm">
-                Send Message <i class="fa-solid fa-paper-plane ms-2"></i>
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </section>
 
-    <footer
-      class="py-5 text-white text-center"
-      style="background-color: #1a1a1a">
+    <!-- Footer -->
+    <footer class="py-5 text-white text-center">
       <div class="container">
         <div class="mb-4">
           <a
             href="https://github.com/yogip45"
             target="_blank"
-            class="text-white mx-3 opacity-75 hover-opacity-100"
-            ><i class="fa-brands fa-github fa-xl"></i
-          ></a>
+            rel="noopener"
+            class="footer-social mx-3"
+            aria-label="GitHub">
+            <i class="fa-brands fa-github fa-lg"></i>
+          </a>
           <a
             href="https://linkedin.com/in/narindra-yogi"
             target="_blank"
-            class="text-white mx-3 opacity-75 hover-opacity-100"
-            ><i class="fa-brands fa-linkedin fa-xl"></i
-          ></a>
+            rel="noopener"
+            class="footer-social mx-3"
+            aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin fa-lg"></i>
+          </a>
           <a
             href="mailto:narindrayogipradana@gmail.com"
-            class="text-white mx-3 opacity-75 hover-opacity-100"
-            ><i class="fa-solid fa-envelope fa-xl"></i
-          ></a>
+            class="footer-social mx-3"
+            aria-label="Email">
+            <i class="fa-solid fa-envelope fa-lg"></i>
+          </a>
         </div>
         <h5 class="fw-bold mb-1" style="letter-spacing: 2px">
           NARINDRA YOGI PRADANA
         </h5>
-        <p class="small opacity-50 mb-0">
-          Web Developer & Cybersecurity Enthusiast
+        <p class="opacity-75 mb-0">
+          Web Developer • Networking & Security Enthusiast
         </p>
         <hr class="w-25 mx-auto my-4 opacity-25" />
-        <p class="x-small opacity-50 mb-0" style="font-size: 0.7rem">
-          &copy; 2026. Made with Precision, Passion and with the help of Gemini.
+        <p class="mb-0 opacity-50" style="font-size: 0.75rem">
+          © 2026 Narindra Yogi Pradana. Crafted with precision.
         </p>
       </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
