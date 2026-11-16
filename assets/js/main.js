@@ -132,6 +132,35 @@ $(document).ready(function () {
   } else {
     revealElements.forEach((el) => el.classList.add("is-visible"));
   }
+  // Dark / Light Mode Toggle (UMP45 Night Ops)
+  const $html = $("html");
+  const $themeToggle = $("#themeToggle");
+  const $themeIcon = $("#themeIcon");
+
+  function applyTheme(theme) {
+    if (theme === "dark") {
+      $html.attr("data-theme", "dark");
+      $themeIcon.removeClass("fa-moon").addClass("fa-sun");
+    } else {
+      $html.removeAttr("data-theme");
+      $themeIcon.removeClass("fa-sun").addClass("fa-moon");
+    }
+  }
+
+  // Cek preferensi tersimpan atau preferensi OS pengguna
+  const savedTheme = localStorage.getItem("yog-portfolio-theme");
+  const currentHour = new Date().getHours();
+  const isNightTime = currentHour >= 18 || currentHour < 6;
+
+  // Prioritas: Pilihan manual di localStorage -> Jam malam (18:00 - 05:59)
+  applyTheme(savedTheme || (isNightTime ? "dark" : "light"));
+
+  $themeToggle.on("click", function () {
+    const isDark = $html.attr("data-theme") === "dark";
+    const nextTheme = isDark ? "light" : "dark";
+    applyTheme(nextTheme);
+    localStorage.setItem("yog-portfolio-theme", nextTheme);
+  });
 });
 
 // Typed.js Role Animation
