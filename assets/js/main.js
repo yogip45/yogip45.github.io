@@ -161,6 +161,37 @@ $(document).ready(function () {
     applyTheme(nextTheme);
     localStorage.setItem("yog-portfolio-theme", nextTheme);
   });
+  // Smooth Page Transition saat pindah antar halaman (index.html <-> audio-showcase.html)
+  $('a[href$=".html"], a[href*=".html#"]').on("click", function (e) {
+    const href = $(this).attr("href");
+    const target = $(this).attr("target");
+
+    // Abaikan jika dibuka di tab baru atau ada tombol modifier (Ctrl/Cmd + klik)
+    if (
+      !href ||
+      target === "_blank" ||
+      e.ctrlKey ||
+      e.metaKey ||
+      e.shiftKey ||
+      e.altKey
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+    $("body").addClass("page-leaving");
+
+    setTimeout(() => {
+      window.location.href = href;
+    }, 260);
+  });
+
+  // Reset state jika user menekan tombol Back di browser (bfcache)
+  $(window).on("pageshow", function (event) {
+    if (event.originalEvent && event.originalEvent.persisted) {
+      $("body").removeClass("page-leaving");
+    }
+  });
 });
 
 // Typed.js Role Animation
