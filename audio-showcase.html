@@ -60,8 +60,8 @@
           Audio <span class="text-accent">Station.</span>
         </h1>
         <p class="hero-subtitle mx-auto mb-0">
-          Real-time Last.fm scrobble telemetry, daily IEM rotation, and personal
-          listening logs.
+          Real-time Last.fm scrobble, daily IEM rotation, and personal listening
+          logs.
         </p>
       </div>
     </section>
@@ -120,6 +120,58 @@
           </div>
         </div>
       </div>
+      <!-- CURRENT OBSESSION STRIP (ALA LAST.FM) -->
+      <div class="obsession-card mb-4" id="obsession-card">
+        <div class="d-flex align-items-center gap-3 overflow-hidden">
+          <div class="obsession-cover-wrap">
+            <img
+              id="obsession-art"
+              src=""
+              alt="Obsession Cover"
+              class="obsession-cover" />
+            <span class="obsession-pin" title="Current Obsession">
+              <i class="fa-solid fa-fire"></i>
+            </span>
+          </div>
+
+          <div class="overflow-hidden flex-grow-1">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+              <span class="obsession-badge">CURRENT OBSESSION</span>
+            </div>
+            <h5 class="fw-800 mb-0 text-truncate" id="obsession-track">
+              Loading obsession...
+            </h5>
+            <p
+              class="mb-0 text-muted text-truncate"
+              style="font-size: 0.86rem"
+              id="obsession-artist">
+              —
+            </p>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 mt-3 mt-md-0 flex-shrink-0">
+          <div class="text-md-end">
+            <span class="obsession-plays font-mono fw-bold" id="obsession-plays"
+              >0x</span
+            >
+            <span
+              class="d-block font-mono text-muted"
+              style="font-size: 0.68rem"
+              >THIS WEEK</span
+            >
+          </div>
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener"
+            id="obsession-link"
+            class="btn btn-theme-outline py-1 px-3 rounded-2 font-mono"
+            style="font-size: 0.75rem">
+            Last.fm <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+          </a>
+        </div>
+      </div>
 
       <!-- 01 ARTIST BIO -->
       <div class="row g-4 mb-4">
@@ -142,7 +194,7 @@
       <div class="station-panel mb-4">
         <div class="panel-header">
           <div>
-            <span class="panel-label d-block">02 HARDWARE INVENTORY</span>
+            <span class="panel-label d-block">02 HARDWARE</span>
             <h5 class="fw-800 mb-0">Audio Gears</h5>
           </div>
           <span
@@ -189,7 +241,7 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Moondrop Lan 2</h6>
-                  <span class="gear-status-active">● MAIN</span>
+                  <span class="gear-status-active">ACTIVE</span>
                 </div>
                 <p class="gear-desc mb-0">
                   Primary wired driver for focused listening, clean instrument
@@ -228,7 +280,7 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Galaxy Buds3 FE</h6>
-                  <span class="gear-status-active">● MAIN</span>
+                  <span class="gear-status-active">ACTIVE</span>
                 </div>
                 <p class="gear-desc mb-0">
                   Go-to wireless buds for seamless daily commute, calls, and
@@ -267,7 +319,7 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Edifier MP85</h6>
-                  <span class="gear-status-active">● MAIN</span>
+                  <span class="gear-status-active">ACTIVE</span>
                 </div>
                 <p class="gear-desc mb-0">
                   Ultra-compact 70g portable speaker with vocal-tuned clarity
@@ -307,7 +359,7 @@
                 <div
                   class="d-flex justify-content-between align-items-start gap-1">
                   <h6 class="fw-800 mb-1">Moondrop Moca</h6>
-                  <span class="gear-status-active">● ACTIVE</span>
+                  <span class="gear-status-active">ACTIVE</span>
                 </div>
                 <p class="gear-desc mb-0">
                   Alternative wireless rotation with Moondrop's signature vocal
@@ -406,7 +458,7 @@
           <div class="station-panel">
             <div class="panel-header flex-wrap gap-3">
               <div>
-                <span class="panel-label d-block">03 LAST.FM TAPESTRY</span>
+                <span class="panel-label d-block">03 Personal Peaks</span>
                 <h5 class="fw-800 mb-0">Top Albums & Artists</h5>
               </div>
 
@@ -556,13 +608,13 @@
             <p
               class="font-mono mb-0 mt-2 opacity-75"
               style="font-size: 0.72rem">
-              SYNCED VIA LAST.FM API
+              SYNCED VIA LAST.FM
             </p>
           </div>
 
           <div class="station-panel mb-4">
             <div class="panel-header">
-              <span class="panel-label">ALL-TIME TOP 10</span>
+              <span class="panel-label">ALL-TIME TOP 10 Artist</span>
             </div>
             <div id="all-time-top-list" class="d-flex flex-column gap-3"></div>
           </div>
@@ -1088,6 +1140,7 @@
 
       (async function init() {
         await updateDashboard();
+        loadObsession();
         await sleep(600);
         await loadFavoriteTracks("loved");
       })();
@@ -1311,6 +1364,59 @@
       });
 
       $(document).on("click", "#downloadCollageBtn", exportCollagePNG);
+
+      const MANUAL_OBSESSION = null;
+      async function loadObsession() {
+        try {
+          if (MANUAL_OBSESSION) {
+            const art = await getTrackArtwork(
+              MANUAL_OBSESSION.track,
+              MANUAL_OBSESSION.artist,
+            );
+            $("#obsession-track").text(MANUAL_OBSESSION.track);
+            $("#obsession-artist").text(
+              MANUAL_OBSESSION.note
+                ? `${MANUAL_OBSESSION.artist} — "${MANUAL_OBSESSION.note}"`
+                : MANUAL_OBSESSION.artist,
+            );
+            $("#obsession-art").attr("src", art);
+            $("#obsession-plays").text("PINNED");
+            $("#obsession-meta").text("MANUAL OBSESSION");
+            $("#obsession-link").attr(
+              "href",
+              `https://www.last.fm/music/${encodeURIComponent(MANUAL_OBSESSION.artist)}/_/${encodeURIComponent(MANUAL_OBSESSION.track)}`,
+            );
+            return;
+          }
+
+          const res = await $.getJSON(
+            `${BASE_URL}?method=user.gettoptracks&user=${USER}&api_key=${API_KEY}&period=7day&limit=1&format=json`,
+          );
+          const topTrack =
+            res.toptracks && res.toptracks.track && res.toptracks.track[0];
+
+          if (!topTrack) {
+            $("#obsession-card").hide();
+            return;
+          }
+
+          const trackName = topTrack.name;
+          const artistName = topTrack.artist.name;
+          const playcount = topTrack.playcount;
+          const fallback = getFallbackAvatar(artistName);
+
+          $("#obsession-track").text(trackName);
+          $("#obsession-artist").text(artistName);
+          $("#obsession-plays").text(`${playcount}x`);
+          $("#obsession-link").attr("href", topTrack.url);
+          $("#obsession-art").attr("src", fallback);
+
+          const artImg = await getTrackArtwork(trackName, artistName);
+          $("#obsession-art").attr("src", artImg);
+        } catch (e) {
+          $("#obsession-card").hide();
+        }
+      }
     </script>
   </body>
 </html>
