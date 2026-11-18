@@ -466,3 +466,287 @@
 [data-theme="dark"] .gear-status-active {
   color: #6fd1a6;
 }
+/* 3x3 Last.fm Visual Collage */
+.collage-control-group {
+  display: inline-flex;
+  background: var(--bg-warm);
+  border: 1px solid var(--border-warm);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.collage-btn {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--brown-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.collage-btn:hover {
+  color: var(--brown-dark);
+}
+
+.collage-btn.active {
+  background: var(--accent-color);
+  color: #ffffff;
+}
+
+/* Bento Listening Collage (Full Width + #01 Hero Tile) */
+.collage-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.collage-tile {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #2c2422;
+  border: 1px solid var(--border-warm);
+  display: block;
+  text-decoration: none;
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    border-color 0.3s ease,
+    box-shadow 0.35s ease;
+}
+
+.collage-tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-color);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Tile #01: 2x2 Lebih Besar & Menonjol */
+.collage-tile:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+  border: 2px solid var(--eye-amber);
+  box-shadow: 0 14px 32px rgba(212, 118, 51, 0.16);
+}
+
+.collage-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
+.collage-tile:hover img {
+  transform: scale(1.05);
+}
+
+.collage-rank {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(24, 20, 19, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.collage-tile:first-child .collage-rank {
+  top: 14px;
+  left: 14px;
+  font-size: 0.78rem;
+  padding: 5px 11px;
+  background: var(--eye-amber);
+  color: #181413;
+  border-color: transparent;
+}
+
+.collage-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to top,
+    rgba(20, 16, 15, 0.94) 0%,
+    rgba(20, 16, 15, 0.35) 52%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px;
+  opacity: 0.94;
+  transition: opacity 0.25s ease;
+}
+
+.collage-tile:first-child .collage-overlay {
+  padding: 20px;
+}
+
+.collage-tile:hover .collage-overlay {
+  opacity: 1;
+}
+
+.collage-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 3px;
+}
+
+.collage-tile:first-child .collage-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.collage-sub {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  color: #cbbeb9;
+}
+
+.collage-tile:first-child .collage-sub {
+  font-size: 0.82rem;
+  color: var(--eye-amber);
+  font-weight: 600;
+}
+
+/* Responsif Tablet & Mobile */
+@media (max-width: 768px) {
+  .collage-bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .collage-tile:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .collage-tile:first-child .collage-title {
+    font-size: 1.05rem;
+  }
+}
+/* Sesuaikan jarak atas Hero karena tanpa navbar */
+.audio-hero {
+  padding: 95px 0 110px;
+}
+
+/* Minimalist Back Button (Top Left) */
+.station-back-btn {
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  z-index: 1050;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--brown-dark);
+  border: 1px solid var(--border-warm);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(44, 36, 34, 0.08);
+  transition:
+    transform 0.25s var(--ease-out-expo),
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.station-back-btn:hover {
+  transform: translateX(-3px);
+  border-color: var(--accent-color);
+  color: var(--eye-amber);
+}
+
+/* Floating Action Dock (Bottom Right: Back to Top + Theme Toggle) */
+.station-fab-dock {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.station-fab-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--brown-dark);
+  border: 1px solid var(--border-warm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(44, 36, 34, 0.12);
+  transition:
+    transform 0.25s var(--ease-out-expo),
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+}
+
+.station-fab-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-color);
+  color: var(--eye-amber);
+}
+
+/* Tombol Back-to-Top sembunyi saat masih di atas */
+.station-fab-btn.fab-top {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+}
+
+.station-fab-btn.fab-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.station-fab-btn.fab-top.is-visible:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 576px) {
+  .station-back-btn {
+    top: 14px;
+    left: 14px;
+    padding: 7px 12px;
+    font-size: 0.7rem;
+  }
+  .station-fab-dock {
+    bottom: 16px;
+    right: 16px;
+  }
+  .station-fab-btn {
+    width: 38px;
+    height: 38px;
+  }
+}

@@ -17,73 +17,36 @@
     <link rel="stylesheet" href="assets/css/music.css" />
   </head>
   <body>
-    <!-- Navbar Terintegrasi -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-      <div class="scroll-progress" id="scrollProgress"></div>
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="index.html#home">
-          YOG<span class="accent-dot">.</span>
-        </a>
+    <!-- Minimalist Floating Back Button (Top Left) -->
+    <a
+      href="index.html"
+      class="station-back-btn"
+      aria-label="Back to Portfolio"
+      title="Back to Home">
+      <i class="fa-solid fa-arrow-left"></i>
+      <span>HOME</span>
+    </a>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-label="Toggle navigation">
-          <i class="fa-solid fa-bars-staggered" style="font-size: 1.2rem"></i>
-        </button>
+    <!-- Minimalist Floating Controls (Bottom Right) -->
+    <div class="station-fab-dock">
+      <button
+        type="button"
+        class="station-fab-btn fab-top"
+        id="backToTopBtn"
+        aria-label="Scroll to top"
+        title="Back to Top">
+        <i class="fa-solid fa-arrow-up"></i>
+      </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto text-center align-items-center">
-            <li class="nav-item">
-              <a class="nav-link px-3" href="index.html#home">HOME</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link px-3" href="index.html#about">ABOUT</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link px-3" href="index.html#resume">EXPERIENCE</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link px-3" href="index.html#gallery">SHOWCASE</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link px-3" href="index.html#hobbies"
-                >BEYOND CODING</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link px-3 active" href="audio-showcase.html"
-                >AUDIO STATION</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link px-3" href="index.html#contact">CONNECT</a>
-            </li>
-            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-              <button
-                type="button"
-                class="btn btn-theme-toggle"
-                id="themeToggle"
-                aria-label="Toggle dark mode"
-                title="Switch theme">
-                <i class="fa-solid fa-moon" id="themeIcon"></i>
-              </button>
-            </li>
-            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-              <a
-                href="https://github.com/yogip45"
-                target="_blank"
-                rel="noopener"
-                class="btn btn-theme-dark btn-github rounded-2">
-                <i class="fa-brands fa-github me-2"></i>GitHub
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav> -->
+      <button
+        type="button"
+        class="station-fab-btn"
+        id="themeToggle"
+        aria-label="Toggle dark mode"
+        title="Switch Theme">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
+    </div>
 
     <!-- Audio Hero -->
     <section class="audio-hero">
@@ -437,17 +400,78 @@
         </div>
       </div>
 
-      <!-- 03 HEAVY ROTATION -->
+      <!-- 03 VISUAL COLLAGE (3x3 LAST.FM GRID) -->
       <div class="row g-4 mb-4">
         <div class="col-lg-12">
           <div class="station-panel">
-            <div class="panel-header">
+            <div class="panel-header flex-wrap gap-3">
               <div>
-                <span class="panel-label d-block">03 30-DAY TELEMETRY</span>
-                <h5 class="fw-800 mb-0">Heavy Rotation</h5>
+                <span class="panel-label d-block">03 LAST.FM TAPESTRY</span>
+                <h5 class="fw-800 mb-0">Top Albums & Artists</h5>
+              </div>
+
+              <div class="d-flex flex-wrap align-items-center gap-2">
+                <!-- Toggle Type: Albums vs Artists -->
+                <div
+                  class="collage-control-group"
+                  role="group"
+                  aria-label="Collage Type">
+                  <button
+                    type="button"
+                    class="collage-btn active"
+                    data-collage-type="albums">
+                    <i class="fa-solid fa-compact-disc me-1"></i>Albums
+                  </button>
+                  <button
+                    type="button"
+                    class="collage-btn"
+                    data-collage-type="artists">
+                    <i class="fa-solid fa-user-astronaut me-1"></i>Artists
+                  </button>
+                </div>
+
+                <!-- Toggle Period: 7D / 30D / Overall -->
+                <div
+                  class="collage-control-group"
+                  role="group"
+                  aria-label="Time Period">
+                  <button
+                    type="button"
+                    class="collage-btn"
+                    data-collage-period="7day">
+                    7D
+                  </button>
+                  <button
+                    type="button"
+                    class="collage-btn active"
+                    data-collage-period="1month">
+                    30D
+                  </button>
+                  <button
+                    type="button"
+                    class="collage-btn"
+                    data-collage-period="overall">
+                    ALL
+                  </button>
+                </div>
+
+                <!-- Export PNG Button -->
+                <button
+                  type="button"
+                  id="downloadCollageBtn"
+                  class="btn btn-theme-dark py-1 px-3 rounded-2 font-mono"
+                  style="font-size: 0.75rem"
+                  title="Save 3x3 collage as PNG">
+                  <i class="fa-solid fa-download me-1"></i>PNG
+                </button>
               </div>
             </div>
-            <div id="top-artists" class="row g-3"></div>
+
+            <div class="row align-items-center g-4">
+              <div class="col-12">
+                <div id="collage-grid" class="collage-bento-grid"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -583,16 +607,16 @@
             <i class="fa-solid fa-envelope fa-lg"></i>
           </a>
         </div>
-        <h5 class="fw-bold mb-1" style="letter-spacing: 2px">
+        <h5 class="fw-bold mb-1 text-light" style="letter-spacing: 2px">
           NARINDRA YOGI PRADANA
         </h5>
         <p class="opacity-75 mb-0" style="font-size: 0.88rem">
           Web Developer • Networking & Security Enthusiast
         </p>
-        <hr class="w-25 mx-auto my-4 opacity-25" />
+        <!-- <hr class="w-25 mx-auto my-4 opacity-25" />
         <p class="mb-0 opacity-50" style="font-size: 0.75rem">
           © 2026 Narindra Yogi Pradana. Crafted with precision.
-        </p>
+        </p> -->
       </div>
     </footer>
 
@@ -607,6 +631,11 @@
         currentPage = 1,
         tracksPerPage = 7,
         genreChart;
+
+      // State Collage (pindah ke atas agar siap saat init() pertama kali jalan)
+      let collageType = "albums";
+      let collagePeriod = "1month";
+      let currentCollageItems = [];
 
       const imageCache = {};
       const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -851,33 +880,18 @@
           },
         );
 
+        // 2. Top Artist untuk Similar Engine + 3x3 Collage
         $.getJSON(
-          `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=30day&limit=9&format=json`,
-          async function (data) {
-            const artists = data.topartists.artist;
-            if (artists && artists.length > 0) {
+          `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=30day&limit=1&format=json`,
+          function (data) {
+            const artists = data.topartists?.artist || [];
+            if (artists.length > 0) {
               $("#fav-artist-name").text(artists[0].name);
               fetchSimilar(artists[0].name);
-
-              let allCardsHtml = [];
-              for (const art of artists) {
-                const img = await getArtistImage(art.name);
-                const fallback = getFallbackAvatar(art.name);
-                allCardsHtml.push(`
-                  <div class="col-6 col-md-4">
-                    <div class="artist-card h-100">
-                      <img src="${img}" class="artist-avatar" alt="${art.name}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">
-                      <h6 class="fw-bold mb-1 text-truncate artist-card-title">${art.name}</h6>
-                      <span class="font-mono text-muted" style="font-size: 0.75rem">${art.playcount} plays</span>
-                    </div>
-                  </div>`);
-                await sleep(120);
-              }
-
-              $("#top-artists").html(allCardsHtml.join(""));
             }
           },
         );
+        loadCollage();
 
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=overall&limit=10&format=json`,
@@ -1050,7 +1064,225 @@
         await loadFavoriteTracks("loved");
       })();
 
-      setInterval(updateDashboard, 60000);
+      setInterval(updateDashboard, 50000);
+
+      async function getAlbumArtwork(albumName, artistName, lastFmImages) {
+        // Prioritaskan gambar resolusi besar langsung dari Last.fm jika tersedia
+        if (Array.isArray(lastFmImages)) {
+          const xl =
+            lastFmImages.find((i) => i.size === "extralarge")?.["#text"] ||
+            lastFmImages.find((i) => i.size === "large")?.["#text"];
+          if (xl && !xl.includes("2a96cbd8b46e442fc41c2b86b821562f")) {
+            return xl;
+          }
+        }
+
+        const cacheKey = `album:${artistName.toLowerCase()}-${albumName.toLowerCase()}`;
+        if (imageCache[cacheKey]) return imageCache[cacheKey];
+
+        try {
+          const results = await searchDeezer(
+            `artist:"${artistName}" album:"${albumName}"`,
+          );
+          if (results.length > 0 && results[0].album?.cover_big) {
+            imageCache[cacheKey] = results[0].album.cover_big;
+            return results[0].album.cover_big;
+          }
+        } catch (e) {}
+
+        return getTrackArtwork(albumName, artistName);
+      }
+
+      async function loadCollage() {
+        const grid = $("#collage-grid");
+        grid.html(
+          `<div class="py-5 text-center font-mono text-muted" style="grid-column: 1 / -1; font-size: 0.85rem;">Preparing ${collageType} data...</div>`,
+        );
+
+        const method =
+          collageType === "albums" ? "user.gettopalbums" : "user.gettopartists";
+
+        try {
+          const data = await $.getJSON(
+            `${BASE_URL}?method=${method}&user=${USER}&api_key=${API_KEY}&period=${collagePeriod}&limit=9&format=json`,
+          );
+
+          const rawList =
+            collageType === "albums"
+              ? data.topalbums?.album || []
+              : data.topartists?.artist || [];
+
+          if (rawList.length === 0) {
+            grid.html(
+              `<div class="py-4 text-center text-muted" style="grid-column: 1 / -1; font-size: 0.88rem;">No listening data for this period.</div>`,
+            );
+            return;
+          }
+
+          const items = [];
+          for (let i = 0; i < rawList.length; i++) {
+            const entry = rawList[i];
+            const isAlbum = collageType === "albums";
+            const title = entry.name;
+            const subtitle = isAlbum
+              ? `${entry.artist.name} · ${entry.playcount} plays`
+              : `${entry.playcount} plays`;
+            const artistForFallback = isAlbum ? entry.artist.name : entry.name;
+
+            const imgUrl = isAlbum
+              ? await getAlbumArtwork(
+                  entry.name,
+                  entry.artist.name,
+                  entry.image,
+                )
+              : await getArtistImage(entry.name);
+
+            items.push({
+              rank: String(i + 1).padStart(2, "0"),
+              title,
+              subtitle,
+              url: entry.url,
+              imgUrl,
+              fallback: getFallbackAvatar(artistForFallback),
+            });
+
+            if (!isAlbum) await sleep(100);
+          }
+
+          currentCollageItems = items;
+
+          const tilesHtml = items
+            .map(
+              (item, idx) => `
+              <a href="${item.url}" target="_blank" rel="noopener" class="collage-tile" title="${item.title} (${item.subtitle})">
+                <span class="collage-rank">${idx === 0 ? "#01" : "#" + item.rank}</span>
+                <img src="${item.imgUrl}" alt="${item.title}" loading="lazy" onerror="this.onerror=null;this.src='${item.fallback}'">
+                <div class="collage-overlay">
+                  <div class="collage-title text-truncate">${item.title}</div>
+                  <div class="collage-sub text-truncate">${item.subtitle}</div>
+                </div>
+              </a>`,
+            )
+            .join("");
+
+          grid.hide().html(tilesHtml).fadeIn(220);
+        } catch (err) {
+          grid.html(
+            `<div class="py-4 text-center text-danger" style="grid-column: 1 / -1; font-size: 0.88rem;">Failed to load Last.fm collage.</div>`,
+          );
+        }
+      }
+
+      async function exportCollagePNG() {
+        if (!currentCollageItems.length) return;
+        const $btn = $("#downloadCollageBtn");
+        const origHtml = $btn.html();
+        $btn
+          .prop("disabled", true)
+          .html('<i class="fa-solid fa-spinner fa-spin me-1"></i>Rendering');
+
+        const size = 1000;
+        const unit = size / 4; // Grid 4x3 (tinggi canvas 750px)
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = unit * 3;
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#181413";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Peta koordinat [col, row, span] untuk 9 item
+        const layout = [
+          [0, 0, 2],
+          [2, 0, 1],
+          [3, 0, 1],
+          [2, 1, 1],
+          [3, 1, 1],
+          [0, 2, 1],
+          [1, 2, 1],
+          [2, 2, 1],
+          [3, 2, 1],
+        ];
+
+        const loadImg = (src, fallback) =>
+          new Promise((resolve) => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => resolve(img);
+            img.onerror = () => {
+              const fb = new Image();
+              fb.onload = () => resolve(fb);
+              fb.src = fallback;
+            };
+            img.src = src;
+          });
+
+        for (let i = 0; i < Math.min(currentCollageItems.length, 9); i++) {
+          const item = currentCollageItems[i];
+          const [col, row, span] = layout[i];
+          const x = col * unit;
+          const y = row * unit;
+          const boxSize = unit * span;
+
+          const img = await loadImg(item.imgUrl, item.fallback);
+          ctx.drawImage(img, x, y, boxSize, boxSize);
+
+          const grad = ctx.createLinearGradient(
+            0,
+            y + boxSize * 0.55,
+            0,
+            y + boxSize,
+          );
+          grad.addColorStop(0, "rgba(24, 20, 19, 0)");
+          grad.addColorStop(1, "rgba(24, 20, 19, 0.9)");
+          ctx.fillStyle = grad;
+          ctx.fillRect(x, y, boxSize, boxSize);
+
+          ctx.fillStyle = "#ffffff";
+          ctx.font =
+            span === 2 ? "bold 24px sans-serif" : "bold 15px sans-serif";
+          ctx.fillText(
+            item.title.slice(0, span === 2 ? 32 : 22),
+            x + (span === 2 ? 20 : 12),
+            y + boxSize - (span === 2 ? 42 : 28),
+          );
+
+          ctx.fillStyle = "#d47633";
+          ctx.font = span === 2 ? "bold 15px monospace" : "bold 11px monospace";
+          const label =
+            span === 2
+              ? `TOP #01 · ${item.subtitle}`
+              : `#${item.rank} · ${item.subtitle}`;
+          ctx.fillText(
+            label.slice(0, span === 2 ? 38 : 26),
+            x + (span === 2 ? 20 : 12),
+            y + boxSize - (span === 2 ? 18 : 12),
+          );
+        }
+
+        const link = document.createElement("a");
+        link.download = `yog-lastfm-${collageType}-${collagePeriod}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        $btn.prop("disabled", false).html(origHtml);
+      }
+      // Event Listeners untuk Kontrol Collage
+      $(document).on("click", "[data-collage-type]", function () {
+        $("[data-collage-type]").removeClass("active");
+        $(this).addClass("active");
+        collageType = $(this).data("collage-type");
+        loadCollage();
+      });
+
+      $(document).on("click", "[data-collage-period]", function () {
+        $("[data-collage-period]").removeClass("active");
+        $(this).addClass("active");
+        collagePeriod = $(this).data("collage-period");
+        loadCollage();
+      });
+
+      $(document).on("click", "#downloadCollageBtn", exportCollagePNG);
     </script>
   </body>
 </html>

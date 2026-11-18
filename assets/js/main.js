@@ -1,4 +1,19 @@
 $(document).ready(function () {
+  // Minimalist Back to Top Button
+  const $backToTopBtn = $("#backToTopBtn");
+  if ($backToTopBtn.length) {
+    $(window).on("scroll", function () {
+      if ($(this).scrollTop() > 320) {
+        $backToTopBtn.addClass("is-visible");
+      } else {
+        $backToTopBtn.removeClass("is-visible");
+      }
+    });
+
+    $backToTopBtn.on("click", function () {
+      $("html, body").stop().animate({ scrollTop: 0 }, 450);
+    });
+  }
   const heroImgContainer = $(".hero-img-container");
   const heroImgFrame = $(".hero-img-frame");
   let isShuffling = false;
