@@ -818,39 +818,46 @@
 .top-artist-row:first-child .top-artist-bar-fill {
   background: var(--eye-amber);
 }
-/* Current Obsession Card (Last.fm Style) */
+/* Current Obsession Card (Last.fm Style - Responsive) */
 .obsession-card {
   background: var(--bg-card);
   border: 1px solid var(--border-warm);
   border-left: 4px solid var(--eye-amber);
   border-radius: 14px;
-  padding: 1rem 1.35rem;
+  padding: 1rem 1.25rem;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  transition:
-    border-color 0.25s ease,
-    transform 0.25s var(--ease-out-expo);
+  transition: border-color 0.25s ease;
 }
 
 .obsession-card:hover {
   border-color: var(--accent-color);
 }
 
+.obsession-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1;
+}
+
 .obsession-cover-wrap {
   position: relative;
-  width: 58px;
-  height: 58px;
+  width: 58px !important;
+  height: 58px !important;
+  min-width: 58px;
   flex-shrink: 0;
 }
 
 .obsession-cover {
-  width: 100%;
-  height: 100%;
+  width: 58px !important;
+  height: 58px !important;
   border-radius: 10px;
   object-fit: cover;
+  display: block;
   border: 1px solid var(--border-warm);
   background: #2c2422;
 }
@@ -863,8 +870,8 @@
   height: 22px;
   border-radius: 50%;
   background: var(--eye-amber);
-  color: #781800;
-  font-size: 0.68rem;
+  color: #181413;
+  font-size: 0.65rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -873,17 +880,55 @@
 
 .obsession-badge {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--eye-amber);
   background: rgba(212, 118, 51, 0.14);
   padding: 2px 8px;
   border-radius: 5px;
+  white-space: nowrap;
+}
+
+.obsession-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
 }
 
 .obsession-plays {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: var(--eye-amber);
   line-height: 1.1;
+}
+
+/* Mobile Layout (< 576px) */
+@media (max-width: 576px) {
+  .obsession-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.9rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .obsession-cover-wrap,
+  .obsession-cover {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px;
+  }
+
+  .obsession-actions {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 0.65rem;
+    border-top: 1px dashed var(--border-warm);
+  }
+
+  .obsession-plays-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
 }

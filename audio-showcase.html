@@ -145,9 +145,8 @@
           </div>
         </div>
       </div>
-      <!-- CURRENT OBSESSION STRIP (ALA LAST.FM) -->
       <div class="obsession-card mb-4" id="obsession-card">
-        <div class="d-flex align-items-center gap-3 overflow-hidden">
+        <div class="obsession-main">
           <div class="obsession-cover-wrap">
             <img
               id="obsession-art"
@@ -162,32 +161,39 @@
           <div class="overflow-hidden flex-grow-1">
             <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
               <span class="obsession-badge">CURRENT OBSESSION</span>
+              <span
+                class="font-mono text-muted d-none d-sm-inline"
+                style="font-size: 0.72rem"
+                id="obsession-meta">
+                ACTIVE PIN
+              </span>
             </div>
             <h5 class="fw-800 mb-0 text-truncate" id="obsession-track">
               Loading obsession...
             </h5>
             <p
               class="mb-0 text-muted text-truncate"
-              style="font-size: 0.86rem"
+              style="font-size: 0.85rem"
               id="obsession-artist">
               —
             </p>
           </div>
         </div>
 
-        <div class="d-flex align-items-center gap-3 mt-3 mt-md-0 flex-shrink-0">
-          <div class="text-md-end">
+        <div class="obsession-actions">
+          <div class="text-sm-end obsession-plays-wrap">
             <span class="obsession-plays font-mono fw-bold" id="obsession-plays"
-              >0x</span
+              >LIVE</span
             >
             <span
               class="d-block font-mono text-muted"
               style="font-size: 0.68rem"
-              >THIS WEEK</span
+              id="obsession-sublabel"
+              >LAST.FM</span
             >
           </div>
           <a
-            href="#"
+            href="https://www.last.fm/user/yogpp"
             target="_blank"
             rel="noopener"
             id="obsession-link"
@@ -1393,27 +1399,6 @@
       const MANUAL_OBSESSION = null;
       async function loadObsession() {
         try {
-          if (MANUAL_OBSESSION) {
-            const art = await getTrackArtwork(
-              MANUAL_OBSESSION.track,
-              MANUAL_OBSESSION.artist,
-            );
-            $("#obsession-track").text(MANUAL_OBSESSION.track);
-            $("#obsession-artist").text(
-              MANUAL_OBSESSION.note
-                ? `${MANUAL_OBSESSION.artist} — "${MANUAL_OBSESSION.note}"`
-                : MANUAL_OBSESSION.artist,
-            );
-            $("#obsession-art").attr("src", art);
-            $("#obsession-plays").text("PINNED");
-            $("#obsession-meta").text("MANUAL OBSESSION");
-            $("#obsession-link").attr(
-              "href",
-              `https://www.last.fm/music/${encodeURIComponent(MANUAL_OBSESSION.artist)}/_/${encodeURIComponent(MANUAL_OBSESSION.track)}`,
-            );
-            return;
-          }
-
           const res = await $.getJSON(
             `${BASE_URL}?method=user.gettoptracks&user=${USER}&api_key=${API_KEY}&period=7day&limit=1&format=json`,
           );
@@ -1427,14 +1412,14 @@
 
           const trackName = topTrack.name;
           const artistName = topTrack.artist.name;
-          const playcount = topTrack.playcount;
-          const fallback = getFallbackAvatar(artistName);
 
           $("#obsession-track").text(trackName);
           $("#obsession-artist").text(artistName);
-          $("#obsession-plays").text(`${playcount}x`);
+          $("#obsession-plays").text(`${topTrack.playcount}x`);
+          $("#obsession-sublabel").text("THIS WEEK");
+          $("#obsession-meta").text("7-DAY PEAK ROTATION");
           $("#obsession-link").attr("href", topTrack.url);
-          $("#obsession-art").attr("src", fallback);
+          $("#obsession-art").attr("src", getFallbackAvatar(artistName));
 
           const artImg = await getTrackArtwork(trackName, artistName);
           $("#obsession-art").attr("src", artImg);
