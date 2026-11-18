@@ -893,25 +893,53 @@
         );
         loadCollage();
 
+        // 3. All-Time Top 10 (dengan Profile Picture & Playcount Bar ala Last.fm)
         $.getJSON(
           `${BASE_URL}?method=user.gettopartists&user=${USER}&api_key=${API_KEY}&period=overall&limit=10&format=json`,
-          function (data) {
-            const artists = data.topartists.artist;
+          async function (data) {
+            const artists = (data.topartists && data.topartists.artist) || [];
+            if (!artists.length) return;
+
+            const maxPlays = parseInt(artists[0].playcount, 10) || 1;
             let html = "";
-            artists.forEach((top, index) => {
+
+            artists.forEach(function (top, index) {
               const rank = String(index + 1).padStart(2, "0");
+              const plays = parseInt(top.playcount, 10);
+              const pct = Math.max(8, Math.round((plays / maxPlays) * 100));
+              const fallback = getFallbackAvatar(top.name);
+
               html += `
-                <div class="d-flex align-items-center pb-2 ${index !== artists.length - 1 ? "border-bottom" : ""}" style="border-color: var(--border-warm) !important;">
-                  <div class="me-3 font-mono fw-bold" style="font-size: 0.85rem; color: ${index === 0 ? "var(--eye-amber)" : "var(--brown-muted)"}">
-                    ${rank}
-                  </div>
+                <a href="${top.url}" target="_blank" rel="noopener" class="top-artist-row">
+                  <div class="top-artist-rank">${rank}</div>
+                  <img
+                    src="${fallback}"
+                    class="top-artist-thumb"
+                    alt="${top.name}"
+                    loading="lazy" />
                   <div class="overflow-hidden flex-grow-1">
-                    <h6 class="fw-bold mb-0 text-truncate track-title">${top.name}</h6>
-                    <p class="font-mono text-muted mb-0" style="font-size: 0.72rem;">${parseInt(top.playcount).toLocaleString()} plays</p>
+                    <div class="d-flex justify-content-between align-items-baseline gap-2">
+                      <h6 class="fw-bold mb-0 text-truncate track-title">${top.name}</h6>
+                      <span class="font-mono text-muted" style="font-size: 0.72rem; white-space: nowrap;">
+                        ${plays.toLocaleString()}
+                      </span>
+                    </div>
+                    <div class="top-artist-bar-bg">
+                      <div class="top-artist-bar-fill" style="width: ${pct}%;"></div>
+                    </div>
                   </div>
-                </div>`;
+                </a>`;
             });
+
             $("#all-time-top-list").html(html);
+
+            // Muat foto profil tiap artis secara bertahap berdasarkan urutan array artists
+            const $thumbs = $("#all-time-top-list .top-artist-thumb");
+            for (let i = 0; i < artists.length; i++) {
+              const realImg = await getArtistImage(artists[i].name);
+              $thumbs.eq(i).attr("src", realImg);
+              await sleep(110);
+            }
           },
         );
 
