@@ -560,6 +560,7 @@ async function loadCollage() {
 }
 
 // Export Bento Collage menjadi file PNG (Responsif: Landscape di Desktop, Portrait di Mobile)
+// Export Bento Collage menjadi file PNG (Desktop 4:3 Landscape, Mobile 3:4 Portrait)
 async function exportCollagePNG() {
   if (!currentCollageItems.length) return;
   const $btn = $("#downloadCollageBtn");
@@ -570,10 +571,10 @@ async function exportCollagePNG() {
 
   const isMobile = window.innerWidth <= 768;
 
-  // Konfigurasi grid berbeda untuk Desktop (4x3) vs Mobile (2x6)
-  const cols = isMobile ? 2 : 4;
-  const rows = isMobile ? 6 : 3;
-  const width = isMobile ? 720 : 1000;
+  // Desktop: 4x3 (1000x750) | Mobile: 3x4 (900x1200 - rasio 3:4)
+  const cols = isMobile ? 3 : 4;
+  const rows = isMobile ? 4 : 3;
+  const width = isMobile ? 900 : 1000;
   const unit = width / cols;
   const height = unit * rows;
 
@@ -588,15 +589,15 @@ async function exportCollagePNG() {
   // Peta koordinat [col, row, span] untuk 9 item
   const layout = isMobile
     ? [
-        [0, 0, 2], // #01 (2x2 penuh di atas)
-        [0, 2, 1], // #02
-        [1, 2, 1], // #03
-        [0, 3, 1], // #04
-        [1, 3, 1], // #05
-        [0, 4, 1], // #06
-        [1, 4, 1], // #07
-        [0, 5, 1], // #08
-        [1, 5, 1], // #09
+        [0, 0, 2], // #01 (2x2 di kiri atas)
+        [2, 0, 1], // #02 (kanan atas)
+        [2, 1, 1], // #03 (kanan baris 2)
+        [0, 2, 1], // #04 (baris 3)
+        [1, 2, 1], // #05
+        [2, 2, 1], // #06
+        [0, 3, 1], // #07 (baris 4)
+        [1, 3, 1], // #08
+        [2, 3, 1], // #09
       ]
     : [
         [0, 0, 2], // #01 (2x2 di kiri atas)
@@ -647,14 +648,14 @@ async function exportCollagePNG() {
 
     // Teks judul & subjudul proporsional
     const isHero = span === 2;
-    const pad = isHero ? (isMobile ? 24 : 20) : 14;
-    const titleFontSize = isHero ? (isMobile ? 28 : 24) : isMobile ? 18 : 15;
-    const subFontSize = isHero ? (isMobile ? 17 : 15) : isMobile ? 13 : 11;
+    const pad = isHero ? 22 : 14;
+    const titleFontSize = isHero ? 26 : 16;
+    const subFontSize = isHero ? 16 : 12;
 
     ctx.fillStyle = "#ffffff";
     ctx.font = `bold ${titleFontSize}px sans-serif`;
     ctx.fillText(
-      item.title.slice(0, isHero ? 30 : 22),
+      item.title.slice(0, isHero ? 30 : 21),
       x + pad,
       y + boxSize - (isHero ? 44 : 30),
     );
@@ -665,14 +666,14 @@ async function exportCollagePNG() {
       ? `#01 · ${item.subtitle}`
       : `#${item.rank} · ${item.subtitle}`;
     ctx.fillText(
-      label.slice(0, isHero ? 36 : 26),
+      label.slice(0, isHero ? 36 : 25),
       x + pad,
       y + boxSize - (isHero ? 18 : 12),
     );
   }
 
   const link = document.createElement("a");
-  link.download = `yog-lastfm-${collageType}-${collagePeriod}${isMobile ? "-mobile" : ""}.png`;
+  link.download = `yog-lastfm-${collageType}-${collagePeriod}${isMobile ? "-3x4" : ""}.png`;
   link.href = canvas.toDataURL("image/png");
   link.click();
 
