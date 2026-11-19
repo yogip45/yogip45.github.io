@@ -559,6 +559,7 @@ async function loadCollage() {
   }
 }
 
+// Export Bento Collage menjadi file PNG (Responsif: Landscape di Desktop, Portrait di Mobile)
 async function exportCollagePNG() {
   if (!currentCollageItems.length) return;
   const $btn = $("#downloadCollageBtn");
@@ -567,28 +568,47 @@ async function exportCollagePNG() {
     .prop("disabled", true)
     .html('<i class="fa-solid fa-spinner fa-spin me-1"></i>Rendering');
 
-  const size = 1000;
-  const unit = size / 4; // Grid 4x3 (tinggi canvas 750px)
+  const isMobile = window.innerWidth <= 768;
+
+  // Konfigurasi grid berbeda untuk Desktop (4x3) vs Mobile (2x6)
+  const cols = isMobile ? 2 : 4;
+  const rows = isMobile ? 6 : 3;
+  const width = isMobile ? 720 : 1000;
+  const unit = width / cols;
+  const height = unit * rows;
+
   const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = unit * 3;
+  canvas.width = width;
+  canvas.height = height;
   const ctx = canvas.getContext("2d");
 
   ctx.fillStyle = "#181413";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Peta koordinat [col, row, span] untuk 9 item
-  const layout = [
-    [0, 0, 2],
-    [2, 0, 1],
-    [3, 0, 1],
-    [2, 1, 1],
-    [3, 1, 1],
-    [0, 2, 1],
-    [1, 2, 1],
-    [2, 2, 1],
-    [3, 2, 1],
-  ];
+  const layout = isMobile
+    ? [
+        [0, 0, 2], // #01 (2x2 penuh di atas)
+        [0, 2, 1], // #02
+        [1, 2, 1], // #03
+        [0, 3, 1], // #04
+        [1, 3, 1], // #05
+        [0, 4, 1], // #06
+        [1, 4, 1], // #07
+        [0, 5, 1], // #08
+        [1, 5, 1], // #09
+      ]
+    : [
+        [0, 0, 2], // #01 (2x2 di kiri atas)
+        [2, 0, 1], // #02
+        [3, 0, 1], // #03
+        [2, 1, 1], // #04
+        [3, 1, 1], // #05
+        [0, 2, 1], // #06
+        [1, 2, 1], // #07
+        [2, 2, 1], // #08
+        [3, 2, 1], // #09
+      ];
 
   const loadImg = (src, fallback) =>
     new Promise((resolve) => {
@@ -613,6 +633,7 @@ async function exportCollagePNG() {
     const img = await loadImg(item.imgUrl, item.fallback);
     ctx.drawImage(img, x, y, boxSize, boxSize);
 
+    // Gradasi gelap di bagian bawah tiap ubin
     const grad = ctx.createLinearGradient(
       0,
       y + boxSize * 0.55,
@@ -620,33 +641,38 @@ async function exportCollagePNG() {
       y + boxSize,
     );
     grad.addColorStop(0, "rgba(24, 20, 19, 0)");
-    grad.addColorStop(1, "rgba(24, 20, 19, 0.9)");
+    grad.addColorStop(1, "rgba(24, 20, 19, 0.92)");
     ctx.fillStyle = grad;
     ctx.fillRect(x, y, boxSize, boxSize);
 
+    // Teks judul & subjudul proporsional
+    const isHero = span === 2;
+    const pad = isHero ? (isMobile ? 24 : 20) : 14;
+    const titleFontSize = isHero ? (isMobile ? 28 : 24) : isMobile ? 18 : 15;
+    const subFontSize = isHero ? (isMobile ? 17 : 15) : isMobile ? 13 : 11;
+
     ctx.fillStyle = "#ffffff";
-    ctx.font = span === 2 ? "bold 24px sans-serif" : "bold 15px sans-serif";
+    ctx.font = `bold ${titleFontSize}px sans-serif`;
     ctx.fillText(
-      item.title.slice(0, span === 2 ? 32 : 22),
-      x + (span === 2 ? 20 : 12),
-      y + boxSize - (span === 2 ? 42 : 28),
+      item.title.slice(0, isHero ? 30 : 22),
+      x + pad,
+      y + boxSize - (isHero ? 44 : 30),
     );
 
     ctx.fillStyle = "#d47633";
-    ctx.font = span === 2 ? "bold 15px monospace" : "bold 11px monospace";
-    const label =
-      span === 2
-        ? `TOP #01 · ${item.subtitle}`
-        : `#${item.rank} · ${item.subtitle}`;
+    ctx.font = `bold ${subFontSize}px monospace`;
+    const label = isHero
+      ? `#01 · ${item.subtitle}`
+      : `#${item.rank} · ${item.subtitle}`;
     ctx.fillText(
-      label.slice(0, span === 2 ? 38 : 26),
-      x + (span === 2 ? 20 : 12),
-      y + boxSize - (span === 2 ? 18 : 12),
+      label.slice(0, isHero ? 36 : 26),
+      x + pad,
+      y + boxSize - (isHero ? 18 : 12),
     );
   }
 
   const link = document.createElement("a");
-  link.download = `yog-lastfm-${collageType}-${collagePeriod}.png`;
+  link.download = `yog-lastfm-${collageType}-${collagePeriod}${isMobile ? "-mobile" : ""}.png`;
   link.href = canvas.toDataURL("image/png");
   link.click();
 
