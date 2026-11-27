@@ -1,10 +1,8 @@
 declare const Chart: any;
 
 const API_KEY =
-  //   import.meta.env.PUBLIC_LASTFM_API_KEY || "800d9d25a04d76a3434ef7a13e823aa1";
-  // const USER = import.meta.env.PUBLIC_LASTFM_USER || "yogpp";
-  "800d9d25a04d76a3434ef7a13e823aa1";
-const USER = "yogpp";
+  import.meta.env.PUBLIC_LASTFM_API_KEY || "800d9d25a04d76a3434ef7a13e823aa1";
+const USER = import.meta.env.PUBLIC_LASTFM_USER || "yogpp";
 const BASE_URL = "https://ws.audioscrobbler.com/2.0/";
 
 let allTracks: any[] = [];
@@ -21,11 +19,135 @@ let freqDailyData: { labels: string[]; values: number[] } | null = null;
 let freqHourlyData: { labels: string[]; values: number[] } | null = null;
 let freqMode: "daily" | "hourly" = "daily";
 
+interface TrackMediaInfo {
+  cover: string;
+  previewUrl: string | null;
+}
+
 const imageCache: Record<string, string> = {};
+const trackMediaCache: Record<string, TrackMediaInfo> = {};
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const $id = <T extends HTMLElement = HTMLElement>(id: string) =>
   document.getElementById(id) as T | null;
 
+// --- AUDIO PREVIEW PLAYER STATE ---
+let previewAudio: HTMLAudioElement | null = null;
+let activePreviewUrl: string | null = null;
+
+function syncPreviewButtons() {
+  const isPlaying = Boolean(
+    previewAudio && !previewAudio.paused && activePreviewUrl,
+  );
+
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-preview-url]")
+    .forEach((btn) => {
+      const url = btn.dataset.previewUrl || "";
+      const isThisActive = isPlaying && url === activePreviewUrl;
+      const iconEl = btn.querySelector("i");
+      const labelEl = btn.querySelector(".preview-label");
+
+      if (iconEl) {
+        iconEl.className = isThisActive
+          ? "fa-solid fa-pause"
+          : "fa-solid fa-play";
+      }
+      if (labelEl) {
+        labelEl.textContent = isThisActive ? "Pause" : "Preview";
+      }
+      btn.classList.toggle("bg-amber-eye", isThisActive);
+      btn.classList.toggle("text-[#181413]", isThisActive);
+      btn.classList.toggle("border-amber-eye", isThisActive);
+    });
+
+  const barToggleIcon = $id("miniPlayerToggleIcon");
+  if (barToggleIcon) {
+    barToggleIcon.className = isPlaying
+      ? "fa-solid fa-pause"
+      : "fa-solid fa-play";
+  }
+}
+
+function stopPreviewPlayer(hideBar = false) {
+  if (previewAudio) {
+    previewAudio.pause();
+    previewAudio.currentTime = 0;
+  }
+  activePreviewUrl = null;
+  syncPreviewButtons();
+
+  if (hideBar) {
+    const bar = $id("audioPreviewBar");
+    bar?.classList.add("translate-y-24", "opacity-0", "pointer-events-none");
+  }
+}
+
+function toggleTrackPreview(
+  previewUrl: string,
+  title: string,
+  artist: string,
+  cover: string,
+) {
+  if (!previewUrl) return;
+
+  if (!previewAudio) {
+    previewAudio = new Audio();
+    previewAudio.volume = 0.75;
+
+    previewAudio.addEventListener("timeupdate", () => {
+      const fill = $id("miniPlayerProgress");
+      const timeEl = $id("miniPlayerTime");
+      if (previewAudio && previewAudio.duration) {
+        const pct = (previewAudio.currentTime / previewAudio.duration) * 100;
+        if (fill) fill.style.width = `${pct}%`;
+        if (timeEl) {
+          const cur = Math.floor(previewAudio.currentTime);
+          const dur = Math.floor(previewAudio.duration);
+          timeEl.textContent = `0:${String(cur).padStart(2, "0")} / 0:${String(dur).padStart(2, "0")}`;
+        }
+      }
+    });
+
+    previewAudio.addEventListener("ended", () => {
+      activePreviewUrl = null;
+      const fill = $id("miniPlayerProgress");
+      if (fill) fill.style.width = "0%";
+      syncPreviewButtons();
+    });
+
+    previewAudio.addEventListener("pause", syncPreviewButtons);
+    previewAudio.addEventListener("play", syncPreviewButtons);
+  }
+
+  // Toggle play/pause jika URL sama
+  if (activePreviewUrl === previewUrl) {
+    if (previewAudio.paused) {
+      previewAudio.play().catch(() => {});
+    } else {
+      previewAudio.pause();
+    }
+    return;
+  }
+
+  // Ganti lagu baru
+  activePreviewUrl = previewUrl;
+  previewAudio.src = previewUrl;
+  previewAudio.play().catch(() => {});
+
+  const bar = $id("audioPreviewBar");
+  const barTitle = $id("miniPlayerTitle");
+  const barArtist = $id("miniPlayerArtist");
+  const barCover = $id<HTMLImageElement>("miniPlayerCover");
+
+  if (barTitle) barTitle.textContent = title;
+  if (barArtist) barArtist.textContent = artist;
+  if (barCover) barCover.src = cover || getFallbackAvatar(artist);
+  bar?.classList.remove("translate-y-24", "opacity-0", "pointer-events-none");
+  syncPreviewButtons();
+}
+
+// --- LAST.FM & DEEZER HELPERS ---
 async function fetchLastFm(params: Record<string, string>) {
   const qs = new URLSearchParams({
     ...params,
@@ -52,7 +174,6 @@ function getFallbackAvatar(name: string): string {
   return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
 }
 
-// Lightweight JSONP helper untuk Deezer API (menghindari CORS tanpa jQuery)
 function fetchJsonp(url: string, timeoutMs = 4000): Promise<any> {
   return new Promise((resolve) => {
     const cbName = `dz_cb_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
@@ -146,50 +267,76 @@ async function getArtistImage(name: string): Promise<string> {
   return getFallbackAvatar(name);
 }
 
-async function getTrackArtwork(
+// Mengambil Cover Art + 30s Preview MP3 sekaligus
+async function getTrackMedia(
   trackName: string,
   artistName: string,
-): Promise<string> {
-  const cacheKey = `track:${artistName.toLowerCase()}-${trackName.toLowerCase()}`;
-  if (imageCache[cacheKey]) return imageCache[cacheKey];
+): Promise<TrackMediaInfo> {
+  const cacheKey = `${artistName.toLowerCase()}::${trackName.toLowerCase()}`;
+  if (trackMediaCache[cacheKey]) return trackMediaCache[cacheKey];
+
+  let cover = "";
+  let previewUrl: string | null = null;
 
   try {
     const results = await searchDeezer(
       `artist:"${artistName}" track:"${trackName}"`,
     );
-    if (results[0]?.album?.cover_medium) {
-      imageCache[cacheKey] = results[0].album.cover_medium;
-      return results[0].album.cover_medium;
+    if (results[0]) {
+      cover = results[0].album?.cover_medium || "";
+      previewUrl = results[0].preview || null;
     }
 
-    const loose = await searchDeezer(`${trackName} ${artistName}`);
-    const validMatch = loose.find((item: any) =>
-      item.artist?.name.toLowerCase().includes(artistName.toLowerCase()),
-    );
-    if (validMatch?.album?.cover_medium) {
-      imageCache[cacheKey] = validMatch.album.cover_medium;
-      return validMatch.album.cover_medium;
-    }
-  } catch {}
-
-  try {
-    const res = await fetch(
-      `https://itunes.apple.com/search?term=${encodeURIComponent(trackName + " " + artistName)}&entity=song&country=JP&limit=5`,
-    );
-    if (res.ok) {
-      const data = await res.json();
-      const itunesMatch = (data.results || []).find((r: any) =>
-        r.artistName.toLowerCase().includes(artistName.toLowerCase()),
+    if (!cover || !previewUrl) {
+      const loose = await searchDeezer(`${trackName} ${artistName}`);
+      const validMatch = loose.find((item: any) =>
+        item.artist?.name.toLowerCase().includes(artistName.toLowerCase()),
       );
-      if (itunesMatch) {
-        const url = itunesMatch.artworkUrl100.replace("100x100bb", "200x200bb");
-        imageCache[cacheKey] = url;
-        return url;
+      if (validMatch) {
+        if (!cover) cover = validMatch.album?.cover_medium || "";
+        if (!previewUrl) previewUrl = validMatch.preview || null;
       }
     }
   } catch {}
 
-  return getFallbackAvatar(artistName);
+  if (!cover || !previewUrl) {
+    try {
+      const res = await fetch(
+        `https://itunes.apple.com/search?term=${encodeURIComponent(
+          trackName + " " + artistName,
+        )}&entity=song&country=JP&limit=5`,
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const itunesMatch = (data.results || []).find((r: any) =>
+          r.artistName.toLowerCase().includes(artistName.toLowerCase()),
+        );
+        if (itunesMatch) {
+          if (!cover) {
+            cover = itunesMatch.artworkUrl100.replace("100x100bb", "200x200bb");
+          }
+          if (!previewUrl && itunesMatch.previewUrl) {
+            previewUrl = itunesMatch.previewUrl;
+          }
+        }
+      }
+    } catch {}
+  }
+
+  const info: TrackMediaInfo = {
+    cover: cover || getFallbackAvatar(artistName),
+    previewUrl,
+  };
+  trackMediaCache[cacheKey] = info;
+  return info;
+}
+
+async function getTrackArtwork(
+  trackName: string,
+  artistName: string,
+): Promise<string> {
+  const media = await getTrackMedia(trackName, artistName);
+  return media.cover;
 }
 
 async function getAlbumArtwork(
@@ -238,11 +385,19 @@ async function loadUserProfile() {
   } catch {}
 }
 
+function escapeAttr(str: string): string {
+  return (str || "")
+    .replaceAll('"', "&" + "quot;")
+    .replaceAll("'", "&" + "#39;");
+}
+
 async function loadFavoriteTracks(mode: "loved" | "top7d" = "loved") {
   const container = $id("favorite-tracks-grid");
   if (!container) return;
 
-  container.innerHTML = `<div class="col-span-full font-mono text-brown-muted py-3 text-[0.85rem]">Fetching ${mode === "loved" ? "loved tracks" : "top rotation"}...</div>`;
+  container.innerHTML = `<div class="col-span-full font-mono text-brown-muted py-3 text-[0.85rem]">Fetching ${
+    mode === "loved" ? "loved tracks" : "top rotation"
+  }...</div>`;
 
   try {
     const params: Record<string, string> = {
@@ -265,27 +420,45 @@ async function loadFavoriteTracks(mode: "loved" | "top7d" = "loved") {
     const cardsHtml: string[] = [];
     for (const t of tracks) {
       const artist = t.artist.name;
-      const artImg = await getTrackArtwork(t.name, artist);
+      const media = await getTrackMedia(t.name, artist);
       const fallback = getFallbackAvatar(artist);
       const badge =
         mode === "loved"
           ? `<i class="fa-solid fa-heart"></i>`
           : `${t.playcount}x`;
 
+      const previewBtnHtml = media.previewUrl
+        ? `<button
+            type="button"
+            data-preview-url="${escapeAttr(media.previewUrl)}"
+            data-preview-title="${escapeAttr(t.name)}"
+            data-preview-artist="${escapeAttr(artist)}"
+            data-preview-cover="${escapeAttr(media.cover)}"
+            title="Play 30s preview"
+            class="preview-trigger-btn w-8 h-8 rounded-full border border-border-warm bg-bg-main text-brown-dark hover:border-amber-eye hover:text-amber-eye inline-flex items-center justify-center shrink-0 text-xs transition-colors cursor-pointer"
+          >
+            <i class="fa-solid fa-play"></i>
+          </button>`
+        : "";
+
       cardsHtml.push(`
-        <a href="${t.url}" target="_blank" rel="noopener" class="flex items-center gap-3 py-2.5 px-3.5 border border-border-warm rounded-[10px] bg-bg-warm no-underline text-inherit transition-all duration-200 hover:border-accent hover:bg-bg-card hover:translate-x-0.5">
-          <img src="${artImg}" class="w-[46px] h-[46px] rounded-lg object-cover shrink-0" alt="${t.name}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">
-          <div class="overflow-hidden flex-1">
-            <h6 class="font-bold mb-0 truncate text-[0.9rem] text-brown-dark">${t.name}</h6>
-            <p class="text-brown-muted mb-0 truncate text-[0.82rem]">${artist}</p>
-          </div>
-          <span class="text-[0.72rem] text-amber-eye bg-amber-eye/12 py-0.5 px-2 rounded-md whitespace-nowrap font-semibold">${badge}</span>
-        </a>
+        <div class="flex items-center gap-2.5 py-2.5 px-3 border border-border-warm rounded-[10px] bg-bg-warm transition-all duration-200 hover:border-accent hover:bg-bg-card">
+          ${previewBtnHtml}
+          <a href="${t.url}" target="_blank" rel="noopener" class="flex items-center gap-3 min-w-0 flex-1 no-underline text-inherit">
+            <img src="${media.cover}" class="w-[44px] h-[44px] rounded-lg object-cover shrink-0" alt="${escapeAttr(t.name)}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}'">
+            <div class="overflow-hidden flex-1">
+              <h6 class="font-bold mb-0 truncate text-[0.9rem] text-brown-dark">${t.name}</h6>
+              <p class="text-brown-muted mb-0 truncate text-[0.82rem]">${artist}</p>
+            </div>
+            <span class="text-[0.72rem] text-amber-eye bg-amber-eye/12 py-0.5 px-2 rounded-md whitespace-nowrap font-semibold">${badge}</span>
+          </a>
+        </div>
       `);
-      await sleep(120);
+      await sleep(100);
     }
 
     container.innerHTML = cardsHtml.join("");
+    syncPreviewButtons();
   } catch {
     container.innerHTML = `<div class="col-span-full text-red-500 text-[0.88rem]">Gagal memuat daftar lagu favorit.</div>`;
   }
@@ -304,7 +477,7 @@ function renderRecentPage(page: number) {
       const imgSrc = t.image?.[2]?.["#text"] || fallback;
       return `
         <div class="flex items-center gap-3 py-2.5 border-b border-border-warm last:border-b-0">
-          <img src="${imgSrc}" class="w-11 h-11 rounded-lg object-cover shrink-0" alt="${t.name}" onerror="this.onerror=null;this.src='${fallback}'">
+          <img src="${imgSrc}" class="w-11 h-11 rounded-lg object-cover shrink-0" alt="${escapeAttr(t.name)}" onerror="this.onerror=null;this.src='${fallback}'">
           <div class="overflow-hidden">
             <h6 class="mb-0 truncate font-bold text-[0.9rem] text-brown-dark">${t.name}</h6>
             <p class="mb-0 text-brown-muted text-[0.82rem] truncate">${t.artist["#text"]}</p>
@@ -452,9 +625,9 @@ async function loadCollage() {
     grid.innerHTML = items
       .map(
         (item, idx) => `
-          <a href="${item.url}" target="_blank" rel="noopener" class="collage-tile" title="${item.title} (${item.subtitle})">
+          <a href="${item.url}" target="_blank" rel="noopener" class="collage-tile" title="${escapeAttr(item.title)} (${escapeAttr(item.subtitle)})">
             <span class="collage-rank">${idx === 0 ? "#01" : "#" + item.rank}</span>
-            <img src="${item.imgUrl}" alt="${item.title}" loading="lazy" onerror="this.onerror=null;this.src='${item.fallback}'">
+            <img src="${item.imgUrl}" alt="${escapeAttr(item.title)}" loading="lazy" onerror="this.onerror=null;this.src='${item.fallback}'">
             <div class="collage-overlay">
               <div class="collage-title truncate">${item.title}</div>
               <div class="collage-sub truncate">${item.subtitle}</div>
@@ -575,7 +748,9 @@ async function exportCollagePNG() {
   }
 
   const link = document.createElement("a");
-  link.download = `yog-lastfm-${collageType}-${collagePeriod}${isMobile ? "-3x4" : ""}.png`;
+  link.download = `yog-lastfm-${collageType}-${collagePeriod}${
+    isMobile ? "-3x4" : ""
+  }.png`;
   link.href = canvas.toDataURL("image/png");
   link.click();
 
@@ -615,9 +790,20 @@ async function loadObsession() {
     if (linkEl) linkEl.href = topTrack.url;
 
     const artEl = $id<HTMLImageElement>("obsession-art");
-    if (artEl) {
-      artEl.src = getFallbackAvatar(artistName);
-      artEl.src = await getTrackArtwork(trackName, artistName);
+    if (artEl) artEl.src = getFallbackAvatar(artistName);
+
+    const media = await getTrackMedia(trackName, artistName);
+    if (artEl) artEl.src = media.cover;
+
+    const obsPreviewBtn = $id<HTMLButtonElement>("obsession-preview-btn");
+    if (obsPreviewBtn && media.previewUrl) {
+      obsPreviewBtn.dataset.previewUrl = media.previewUrl;
+      obsPreviewBtn.dataset.previewTitle = trackName;
+      obsPreviewBtn.dataset.previewArtist = artistName;
+      obsPreviewBtn.dataset.previewCover = media.cover;
+      obsPreviewBtn.classList.remove("hidden");
+      obsPreviewBtn.classList.add("inline-flex");
+      syncPreviewButtons();
     }
   } catch {
     if (card) card.style.display = "none";
@@ -794,14 +980,16 @@ function renderFrequencyChart() {
 async function updateDashboard() {
   // 1. Recent Tracks & Now Playing
   fetchLastFm({ method: "user.getrecenttracks", limit: "50" })
-    .then((data) => {
+    .then(async (data) => {
       allTracks = data.recenttracks.track || [];
       const current = allTracks[0];
       if (!current) return;
 
-      if ($id("track-name")) $id("track-name")!.textContent = current.name;
-      if ($id("artist-name"))
-        $id("artist-name")!.textContent = current.artist["#text"];
+      const trackTitle = current.name;
+      const artistTitle = current.artist["#text"];
+
+      if ($id("track-name")) $id("track-name")!.textContent = trackTitle;
+      if ($id("artist-name")) $id("artist-name")!.textContent = artistTitle;
       if ($id("album-name"))
         $id("album-name")!.textContent = current.album["#text"];
       if ($id("total-scrobbles")) {
@@ -812,8 +1000,9 @@ async function updateDashboard() {
       }
 
       const artEl = $id<HTMLImageElement>("album-art");
-      if (artEl && current.image?.[3]?.["#text"]) {
-        artEl.src = current.image[3]["#text"];
+      const lfmImg = current.image?.[3]?.["#text"];
+      if (artEl && lfmImg) {
+        artEl.src = lfmImg;
       }
 
       const statusEl = $id("status-text");
@@ -832,8 +1021,26 @@ async function updateDashboard() {
         if (vizEl) vizEl.style.display = "none";
       }
 
-      fetchArtistInfo(current.artist["#text"]);
+      fetchArtistInfo(artistTitle);
       renderRecentPage(1);
+
+      // Cari 30s preview untuk track Now Playing / Last Played
+      const media = await getTrackMedia(trackTitle, artistTitle);
+      const npPreviewBtn = $id<HTMLButtonElement>("np-preview-btn");
+      if (npPreviewBtn) {
+        if (media.previewUrl) {
+          npPreviewBtn.dataset.previewUrl = media.previewUrl;
+          npPreviewBtn.dataset.previewTitle = trackTitle;
+          npPreviewBtn.dataset.previewArtist = artistTitle;
+          npPreviewBtn.dataset.previewCover = lfmImg || media.cover;
+          npPreviewBtn.classList.remove("hidden");
+          npPreviewBtn.classList.add("inline-flex");
+          syncPreviewButtons();
+        } else {
+          npPreviewBtn.classList.add("hidden");
+          npPreviewBtn.classList.remove("inline-flex");
+        }
+      }
     })
     .catch(() => {});
 
@@ -868,15 +1075,21 @@ async function updateDashboard() {
 
           return `
             <a href="${top.url}" target="_blank" rel="noopener" class="group flex items-center gap-3 pb-2.5 border-b border-border-warm last:border-b-0 last:pb-0 no-underline text-inherit transition-transform duration-200 hover:translate-x-0.5">
-              <div class:list class="font-mono text-[0.82rem] font-bold w-6 shrink-0 ${index === 0 ? "text-amber-eye" : "text-brown-muted"}">${rank}</div>
-              <img src="${fallback}" class="top-artist-thumb w-10 h-10 rounded-full object-cover shrink-0 border-[1.5px] ${index === 0 ? "border-amber-eye" : "border-border-warm"} bg-[#2c2422]" alt="${top.name}" loading="lazy" />
+              <div class="font-mono text-[0.82rem] font-bold w-6 shrink-0 ${
+                index === 0 ? "text-amber-eye" : "text-brown-muted"
+              }">${rank}</div>
+              <img src="${fallback}" class="top-artist-thumb w-10 h-10 rounded-full object-cover shrink-0 border-[1.5px] ${
+                index === 0 ? "border-amber-eye" : "border-border-warm"
+              } bg-[#2c2422]" alt="${escapeAttr(top.name)}" loading="lazy" />
               <div class="overflow-hidden flex-1">
                 <div class="flex justify-between items-baseline gap-2">
                   <h6 class="font-bold mb-0 truncate text-[0.9rem] text-brown-dark">${top.name}</h6>
                   <span class="font-mono text-brown-muted text-[0.72rem] whitespace-nowrap">${plays.toLocaleString()}</span>
                 </div>
                 <div class="w-full h-1 bg-bg-warm rounded-full overflow-hidden mt-1.5">
-                  <div class="h-full rounded-full transition-all duration-500 ${index === 0 ? "bg-amber-eye" : "bg-accent"}" style="width: ${pct}%;"></div>
+                  <div class="h-full rounded-full transition-all duration-500 ${
+                    index === 0 ? "bg-amber-eye" : "bg-accent"
+                  }" style="width: ${pct}%;"></div>
                 </div>
               </div>
             </a>`;
@@ -928,6 +1141,47 @@ async function updateDashboard() {
 
 // Event Bindings
 export function initAudioStation() {
+  // Delegated click handler untuk semua tombol [data-preview-url]
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement | null)?.closest<HTMLButtonElement>(
+      "[data-preview-url]",
+    );
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    toggleTrackPreview(
+      btn.dataset.previewUrl || "",
+      btn.dataset.previewTitle || "Unknown Track",
+      btn.dataset.previewArtist || "Unknown Artist",
+      btn.dataset.previewCover || "",
+    );
+  });
+
+  // Mini-Player Bar Controls
+  $id("miniPlayerToggleBtn")?.addEventListener("click", () => {
+    if (!previewAudio) return;
+    if (previewAudio.paused) {
+      previewAudio.play().catch(() => {});
+    } else {
+      previewAudio.pause();
+    }
+  });
+
+  $id("miniPlayerCloseBtn")?.addEventListener("click", () => {
+    stopPreviewPlayer(true);
+  });
+
+  $id("miniPlayerSeekWrap")?.addEventListener("click", (e) => {
+    if (!previewAudio || !previewAudio.duration) return;
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const ratio = Math.max(
+      0,
+      Math.min(1, (e.clientX - rect.left) / rect.width),
+    );
+    previewAudio.currentTime = ratio * previewAudio.duration;
+  });
+
   $id("prev-page")?.addEventListener("click", () => {
     if (currentPage > 1) renderRecentPage(currentPage - 1);
   });

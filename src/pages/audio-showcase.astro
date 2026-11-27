@@ -112,10 +112,21 @@ import Footer from "../components/Footer.astro";
           >
             Artist Name
           </h4>
-          <p class="text-white/50 mb-0 font-mono text-[0.85rem]">
-            <i class="fa-solid fa-record-vinyl mr-2"></i>
-            <span id="album-name">Album Name</span>
-          </p>
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
+            <p class="text-white/50 mb-0 font-mono text-[0.85rem]">
+              <i class="fa-solid fa-record-vinyl mr-2"></i>
+              <span id="album-name">Album Name</span>
+            </p>
+
+            <button
+              type="button"
+              id="np-preview-btn"
+              class="hidden items-center gap-1.5 py-1 px-3 rounded-full font-mono text-xs font-semibold bg-white/10 text-white border border-white/20 hover:border-amber-eye hover:text-amber-eye transition-colors cursor-pointer"
+            >
+              <i class="fa-solid fa-play"></i>
+              <span class="preview-label">Preview</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -183,7 +194,14 @@ import Footer from "../components/Footer.astro";
             LAST.FM
           </span>
         </div>
-
+        <button
+          type="button"
+          id="obsession-preview-btn"
+          class="hidden items-center gap-1.5 py-1 px-3 rounded-lg font-mono text-xs font-semibold border-[1.5px] border-border-warm text-brown-dark hover:border-amber-eye hover:text-amber-eye transition-all cursor-pointer"
+        >
+          <i class="fa-solid fa-play"></i>
+          <span class="preview-label">Preview</span>
+        </button>
         <a
           href="https://www.last.fm/user/yogpp"
           target="_blank"
@@ -480,7 +498,75 @@ import Footer from "../components/Footer.astro";
       </div>
     </div>
   </div>
+  <!-- Floating 30s Preview Mini-Player -->
+  <div
+    id="audioPreviewBar"
+    class="fixed bottom-4 left-4 right-20 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:w-[440px] z-[1040] bg-[#1e1917]/95 backdrop-blur-md text-[#f2ece9] border border-amber-eye/50 rounded-2xl p-3 shadow-2xl translate-y-24 opacity-0 pointer-events-none transition-all duration-300"
+  >
+    <div class="flex items-center gap-3">
+      <img
+        id="miniPlayerCover"
+        src=""
+        alt="Preview Cover"
+        class="w-11 h-11 rounded-lg object-cover shrink-0 bg-[#2c2422]"
+      />
 
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center justify-between gap-2">
+          <p
+            id="miniPlayerTitle"
+            class="font-bold text-xs text-white truncate mb-0"
+          >
+            Track Title
+          </p>
+          <span
+            id="miniPlayerTime"
+            class="font-mono text-[0.65rem] text-amber-eye shrink-0"
+          >
+            0:00 / 0:30
+          </span>
+        </div>
+        <p
+          id="miniPlayerArtist"
+          class="text-[0.72rem] text-[#cbbeb9] truncate mb-1.5"
+        >
+          Artist Name
+        </p>
+
+        <!-- Seekable Progress Bar -->
+        <div
+          id="miniPlayerSeekWrap"
+          title="Click to seek"
+          class="w-full h-1.5 bg-white/15 rounded-full overflow-hidden cursor-pointer"
+        >
+          <div
+            id="miniPlayerProgress"
+            class="h-full bg-amber-eye rounded-full transition-all duration-100"
+            style="width: 0%;"
+          ></div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button
+          type="button"
+          id="miniPlayerToggleBtn"
+          aria-label="Play or Pause preview"
+          class="w-8 h-8 rounded-full bg-amber-eye text-[#181413] inline-flex items-center justify-center text-xs hover:brightness-110 cursor-pointer"
+        >
+          <i id="miniPlayerToggleIcon" class="fa-solid fa-pause"></i>
+        </button>
+        <button
+          type="button"
+          id="miniPlayerCloseBtn"
+          aria-label="Close mini player"
+          class="w-7 h-7 rounded-full text-white/60 hover:text-white inline-flex items-center justify-center text-xs cursor-pointer"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+  </div>
   <Footer />
 
   <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
