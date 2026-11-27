@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Showcase from "../components/Showcase.astro";
+import GitHubTelemetry from "../components/GitHubTelemetry.astro";
 import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
 import Footer from "../components/Footer.astro";
@@ -52,7 +53,7 @@ const badgeStyles = {
         Negeri Cilacap. With a strong foundation in <strong>Networking</strong>{" "}
         and <strong>Cybersecurity</strong>, I specialize in building and
         optimizing multi-user{" "}
-        <strong>Hospital Management Systems (SIMRS)</strong>, handling REST API
+        <strong>Hospital Management Systems (SIMRS)</strong>, handling API
         integrations, and leading on-site technical rollouts and user training
         for partner hospitals—bringing a practical, security-first mindset
         backed by hands-on experience in application security auditing.
@@ -221,9 +222,10 @@ const badgeStyles = {
     </div>
   </section>
   <!-- <Showcase /> -->
+  <GitHubTelemetry />
 
   <!-- Tech Stack Section -->
-  <section id="skills" class="py-16 bg-bg-warm border-y border-border-warm">
+  <section id="skills" class="py-16 bg-bg-main">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
       <div class="reveal-up">
         <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
@@ -245,7 +247,7 @@ const badgeStyles = {
   </section>
 
   <!-- Beyond Coding Section -->
-  <section id="hobbies" class="py-16 bg-bg-main">
+  <section id="hobbies" class="py-16 bg-bg-warm border-y border-border-warm">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
       <div class="reveal-up">
         <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
@@ -276,7 +278,7 @@ const badgeStyles = {
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="py-16 bg-bg-warm border-t border-border-warm">
+  <section id="contact" class="py-16 bg-bg-main">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center reveal-up">
       <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
         Let's Connect

@@ -1,0 +1,316 @@
+---
+import { fetchGitHubTelemetry, getLangColor } from "../data/githubTelemetry";
+
+const telemetry = await fetchGitHubTelemetry("yogip45");
+
+function formatRelativeTime(isoDate: string): string {
+  const diffSec = Math.max(
+    1,
+    Math.floor((Date.now() - new Date(isoDate).getTime()) / 1000),
+  );
+  if (diffSec < 60) return `${diffSec}s ago`;
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHr = Math.floor(diffMin / 60);
+  if (diffHr < 24) return `${diffHr}h ago`;
+  const diffDay = Math.floor(diffHr / 24);
+  if (diffDay < 30) return `${diffDay}d ago`;
+  return new Date(isoDate).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
+---
+
+<section
+  id="github-telemetry"
+  class="py-16 bg-bg-warm border-y border-border-warm"
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <!-- Section Header (Matched with What I Do) -->
+    <div class="text-center mb-12 reveal-up">
+      <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+        Open Source & Code
+      </h2>
+      <p class="text-brown-muted max-w-xl mx-auto mb-2"></p>
+      <a
+        href={telemetry.profileUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-xs font-semibold bg-bg-card border border-border-warm text-brown-dark hover:border-accent hover:text-accent transition-all duration-300 no-underline"
+      >
+        <i class="fa-brands fa-github text-sm text-accent"></i>
+        <span>github.com/yogip45</span>
+        <i class="fa-solid fa-arrow-up-right-from-square text-[0.65rem] opacity-70"></i>
+      </a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="bg-bg-card border border-border-warm rounded-2xl p-6 sm:p-8 shadow-sm reveal-up">
+      <!-- Top Stats & Language Distribution -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6 mb-6 border-b border-border-warm items-center">
+        <!-- 3 Metric Counters -->
+        <div class="lg:col-span-5 grid grid-cols-3 gap-3">
+          <div class="bg-bg-warm border border-border-warm rounded-xl p-3.5 text-center">
+            <div class="font-mono text-[0.65rem] uppercase tracking-wider text-brown-muted mb-1">
+              REPOS
+            </div>
+            <div
+              id="ghStatRepos"
+              class="font-extrabold text-xl sm:text-2xl text-brown-dark"
+            >
+              {telemetry.publicRepos}
+            </div>
+          </div>
+
+          <div class="bg-bg-warm border border-border-warm rounded-xl p-3.5 text-center">
+            <div class="font-mono text-[0.65rem] uppercase tracking-wider text-brown-muted mb-1">
+              STARS
+            </div>
+            <div
+              id="ghStatStars"
+              class="font-extrabold text-xl sm:text-2xl text-accent"
+            >
+              {telemetry.totalStars}
+            </div>
+          </div>
+
+          <div class="bg-bg-warm border border-border-warm rounded-xl p-3.5 text-center">
+            <div class="font-mono text-[0.65rem] uppercase tracking-wider text-brown-muted mb-1">
+              FOLLOWERS
+            </div>
+            <div
+              id="ghStatFollowers"
+              class="font-extrabold text-xl sm:text-2xl text-brown-dark"
+            >
+              {telemetry.followers}
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Spectrum Bar -->
+        <div class="lg:col-span-7">
+          <div class="flex items-center justify-between font-mono text-xs mb-2">
+            <span class="text-brown-muted font-semibold uppercase tracking-wider">
+              Language Mix
+            </span>
+            <span class="text-[0.7rem] text-accent flex items-center gap-1.5 font-semibold">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+              Synced
+            </span>
+          </div>
+
+          <!-- Stacked Color Bar -->
+          <div class="w-full h-2.5 bg-bg-warm rounded-full overflow-hidden flex gap-0.5 mb-2.5">
+            {telemetry.topLanguages.map((lang) => (
+              <div
+                style={`width: ${lang.pct}%; background-color: ${lang.color};`}
+                title={`${lang.name}: ${lang.pct}%`}
+                class="h-full first:rounded-l-full last:rounded-r-full transition-all duration-500"
+              />
+            ))}
+          </div>
+
+          <!-- Legend -->
+          <div class="flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.72rem] text-brown-mid">
+            {telemetry.topLanguages.map((lang) => (
+              <span class="inline-flex items-center gap-1.5">
+                <span
+                  class="w-2 h-2 rounded-full inline-block"
+                  style={`background-color: ${lang.color};`}
+                />
+                <span>{lang.name}</span>
+                <span class="text-brown-muted">{lang.pct}%</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Pushed Repositories Grid -->
+      <div
+        id="ghRepoGrid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+      >
+        {telemetry.repos.map((repo) => (
+          <a
+            href={repo.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group bg-bg-warm/60 hover:bg-bg-card border border-border-warm hover:border-accent rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-lg no-underline text-inherit"
+          >
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-3">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div class="w-8 h-8 rounded-[10px] bg-accent-soft text-accent inline-flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:bg-accent group-hover:text-white">
+                    <i class="fa-solid fa-code-branch text-xs"></i>
+                  </div>
+                  <h5 class="font-bold text-[0.95rem] text-brown-dark group-hover:text-accent truncate mb-0 transition-colors">
+                    {repo.name}
+                  </h5>
+                </div>
+                <span class="font-mono text-[0.68rem] text-brown-muted whitespace-nowrap shrink-0 mt-1">
+                  {formatRelativeTime(repo.pushed_at)}
+                </span>
+              </div>
+
+              <p class="text-brown-muted text-sm leading-relaxed line-clamp-2 mb-4">
+                {repo.description}
+              </p>
+            </div>
+
+            <div class="flex items-center justify-between pt-3 border-t border-border-warm/70 font-mono text-[0.72rem] text-brown-muted">
+              <span class="inline-flex items-center gap-1.5">
+                <span
+                  class="w-2 h-2 rounded-full"
+                  style={`background-color: ${getLangColor(repo.language)};`}
+                />
+                <span>{repo.language || "Config"}</span>
+              </span>
+
+              <div class="flex items-center gap-3">
+                {repo.stargazers_count > 0 && (
+                  <span>
+                    <i class="fa-regular fa-star text-accent mr-1"></i>
+                    {repo.stargazers_count}
+                  </span>
+                )}
+                <span class="text-accent font-semibold group-hover:translate-x-0.5 transition-transform">
+                  Repo →
+                </span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const CACHE_KEY = "yog_gh_telemetry_v1";
+  const CACHE_TTL_MS = 15 * 60 * 1000;
+  const USERNAME = "yogip45";
+
+  const LANG_COLORS: Record<string, string> = {
+    TypeScript: "#3178c6",
+    JavaScript: "#f1e05a",
+    Astro: "#ff5a03",
+    PHP: "#4F5D95",
+    HTML: "#e34c26",
+    CSS: "#563d7c",
+    Shell: "#89e051",
+    Python: "#3572A5",
+    SQL: "#e38c00",
+  };
+
+  function relTime(iso: string): string {
+    const diffSec = Math.max(
+      1,
+      Math.floor((Date.now() - new Date(iso).getTime()) / 1000),
+    );
+    if (diffSec < 60) return `${diffSec}s ago`;
+    const m = Math.floor(diffSec / 60);
+    if (m < 60) return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h ago`;
+    const d = Math.floor(h / 24);
+    if (d < 30) return `${d}d ago`;
+    return new Date(iso).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  }
+
+  function applyLivePayload(user: any, repos: any[]) {
+    const nonForks = repos.filter((r) => !r.fork);
+    const totalStars = nonForks.reduce(
+      (s, r) => s + (r.stargazers_count || 0),
+      0,
+    );
+
+    const reposEl = document.getElementById("ghStatRepos");
+    const starsEl = document.getElementById("ghStatStars");
+    const followersEl = document.getElementById("ghStatFollowers");
+    if (reposEl && typeof user.public_repos === "number")
+      reposEl.textContent = String(user.public_repos);
+    if (starsEl) starsEl.textContent = String(totalStars);
+    if (followersEl && typeof user.followers === "number")
+      followersEl.textContent = String(user.followers);
+
+    const grid = document.getElementById("ghRepoGrid");
+    if (!grid || !nonForks.length) return;
+
+    grid.innerHTML = nonForks
+      .slice(0, 6)
+      .map((repo) => {
+        const color =
+          (repo.language && LANG_COLORS[repo.language]) || "#d47633";
+        const desc =
+          repo.description ||
+          "Repository without description — inspect source on GitHub.";
+        const starsHtml =
+          repo.stargazers_count > 0
+            ? `<span><i class="fa-regular fa-star text-accent mr-1"></i>${repo.stargazers_count}</span>`
+            : "";
+
+        return `
+          <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="group bg-bg-warm/60 hover:bg-bg-card border border-border-warm hover:border-accent rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-lg no-underline text-inherit">
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-3">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div class="w-8 h-8 rounded-[10px] bg-accent-soft text-accent inline-flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:bg-accent group-hover:text-white">
+                    <i class="fa-solid fa-code-branch text-xs"></i>
+                  </div>
+                  <h5 class="font-bold text-[0.95rem] text-brown-dark group-hover:text-accent truncate mb-0 transition-colors">${repo.name}</h5>
+                </div>
+                <span class="font-mono text-[0.68rem] text-brown-muted whitespace-nowrap shrink-0 mt-1">${relTime(repo.pushed_at)}</span>
+              </div>
+              <p class="text-brown-muted text-sm leading-relaxed line-clamp-2 mb-4">${desc}</p>
+            </div>
+            <div class="flex items-center justify-between pt-3 border-t border-border-warm/70 font-mono text-[0.72rem] text-brown-muted">
+              <span class="inline-flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full" style="background-color: ${color};"></span>
+                <span>${repo.language || "Config"}</span>
+              </span>
+              <div class="flex items-center gap-3">
+                ${starsHtml}
+                <span class="text-accent font-semibold group-hover:translate-x-0.5 transition-transform">Repo →</span>
+              </div>
+            </div>
+          </a>`;
+      })
+      .join("");
+  }
+
+  async function syncGitHubLive() {
+    try {
+      const cachedRaw = localStorage.getItem(CACHE_KEY);
+      if (cachedRaw) {
+        const cached = JSON.parse(cachedRaw);
+        if (Date.now() - cached.ts < CACHE_TTL_MS) {
+          applyLivePayload(cached.user, cached.repos);
+          return;
+        }
+      }
+
+      const [uRes, rRes] = await Promise.all([
+        fetch(`https://api.github.com/users/${USERNAME}`),
+        fetch(
+          `https://api.github.com/users/${USERNAME}/repos?sort=pushed&direction=desc&per_page=30`,
+        ),
+      ]);
+      if (!uRes.ok || !rRes.ok) return;
+
+      const user = await uRes.json();
+      const repos = await rRes.json();
+      localStorage.setItem(
+        CACHE_KEY,
+        JSON.stringify({ ts: Date.now(), user, repos }),
+      );
+      applyLivePayload(user, repos);
+    } catch {}
+  }
+
+  syncGitHubLive();
+</script>
