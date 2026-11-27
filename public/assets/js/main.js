@@ -310,7 +310,7 @@ $(document).ready(function () {
     }
 
     e.preventDefault();
-    $("body").addClass("page-leaving");
+    // $("body").addClass("page-leaving");
 
     setTimeout(() => {
       window.location.href = href;
@@ -320,7 +320,7 @@ $(document).ready(function () {
   // Reset state jika user menekan tombol Back di browser (bfcache)
   $(window).on("pageshow", function (event) {
     if (event.originalEvent && event.originalEvent.persisted) {
-      $("body").removeClass("page-leaving");
+      // $("body").removeClass("page-leaving");
     }
   });
 });
