@@ -256,6 +256,18 @@
       secret: true,
       action: () => openSquad404(),
     },
+    {
+      id: "now-page",
+      group: "NAVIGATION",
+      label: "What I'm Doing Now",
+      hint: "/now",
+      icon: "fa-solid fa-satellite",
+      keywords: "now status log current focus field notes",
+      action: () => {
+        document.body.classList.add("page-leaving");
+        setTimeout(() => (window.location.href = "/now"), 220);
+      },
+    },
   ];
 
   function renderCommands(query = "") {

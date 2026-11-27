@@ -592,3 +592,51 @@ body.page-leaving {
     font-size: 1.05rem;
   }
 }
+/* Now Log Markdown Prose */
+.now-prose h3 {
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--eye-amber);
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.now-prose h3:first-child {
+  margin-top: 0;
+}
+.now-prose h3::before {
+  content: "//";
+  opacity: 0.6;
+}
+.now-prose ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.now-prose li {
+  position: relative;
+  padding-left: 1.15rem;
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--brown-mid);
+}
+.now-prose li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent-color);
+  font-weight: 800;
+}
+.now-prose strong {
+  color: var(--brown-dark);
+  font-weight: 700;
+}

@@ -1,0 +1,169 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+
+const allEntries = await getCollection("now");
+const sortedEntries = allEntries.sort(
+  (a, b) => b.data.updatedAt.getTime() - a.data.updatedAt.getTime(),
+);
+
+const [latestEntry, ...archivedEntries] = sortedEntries;
+const { Content: LatestContent } = await render(latestEntry);
+
+const renderedArchives = await Promise.all(
+  archivedEntries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+---
+
+<BaseLayout
+  title="Now — Yog's Field Log"
+  description="What Narindra Yogi Pradana is currently building, listening to, and exploring."
+  canonical="https://yogip45.github.io/now"
+>
+  <!-- Floating Back Button (Top Left) -->
+  <a
+    href="/"
+    aria-label="Back to Portfolio"
+    class="fixed top-3.5 left-3.5 sm:top-[22px] sm:left-[22px] z-50 inline-flex items-center gap-2 py-2 px-3.5 rounded-full bg-bg-card text-brown-dark border border-border-warm font-mono text-[0.7rem] sm:text-[0.74rem] font-bold tracking-wider no-underline shadow-lg transition-all duration-300 hover:-translate-x-0.5 hover:border-accent hover:text-amber-eye"
+  >
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>HOME</span>
+  </a>
+
+  <!-- Hero Section -->
+  <section
+    class="bg-bg-warm border-b border-border-warm pt-[95px] pb-[95px] relative overflow-hidden"
+    style="background-image: radial-gradient(circle at 80% 25%, rgba(212, 118, 51, 0.08), transparent 48%);"
+  >
+    <div
+      class="absolute font-jp font-black text-jp-text select-none pointer-events-none leading-none z-0"
+      style="font-size: 13rem; top: 8%; right: -3%;"
+    >
+      現在地
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
+      <div class="inline-flex items-center gap-2 text-xs font-bold tracking-[1.6px] text-brown-mid bg-bg-main border border-border-warm px-3.5 py-1.5 rounded-full mb-3">
+        <span class="w-[7px] h-[7px] rounded-full bg-amber-eye shadow-[0_0_0_3px_rgba(212,118,51,0.16)]"></span>
+        <span>STATUS TELEMETRY // FIELD LOG</span>
+      </div>
+
+      <h1 class="font-extrabold text-[clamp(2.5rem,5.5vw,3.8rem)] leading-[1.08] tracking-[-1.5px] text-brown-dark mb-2">
+        What I'm Doing <span class="text-accent">Now.</span>
+      </h1>
+
+      <p class="text-brown-muted text-[1.02rem] max-w-[540px] mx-auto mb-0">
+        A periodic snapshot of current engineering work, home lab experiments,
+        and daily audio rotation.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 pb-16">
+    <!-- ACTIVE LOG CARD -->
+    {latestEntry && (
+      <article class="bg-bg-card border border-border-warm border-t-4 border-t-amber-eye rounded-2xl p-6 sm:p-8 shadow-xl -mt-[48px] mb-10 relative z-10">
+        <!-- Telemetry Metadata Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-5 border-b border-border-warm">
+          <div class="flex flex-wrap items-center gap-2.5 font-mono text-xs">
+            <span class="px-2.5 py-0.5 rounded bg-amber-eye text-[#181413] font-bold">
+              {latestEntry.data.status}
+            </span>
+            <span class="text-brown-muted">
+              <i class="fa-regular fa-calendar mr-1 text-accent"></i>
+              Updated {formatDate(latestEntry.data.updatedAt)}
+            </span>
+          </div>
+
+          <span class="font-mono text-xs text-brown-muted">
+            <i class="fa-solid fa-location-dot mr-1 text-amber-eye"></i>
+            {latestEntry.data.location}
+          </span>
+        </div>
+
+        <h2 class="font-extrabold text-xl sm:text-2xl text-brown-dark mb-3">
+          {latestEntry.data.title}
+        </h2>
+
+        <!-- Quick Focus & Gear Strip -->
+        <div class="bg-[#2c2422] text-[#f2ece9] rounded-xl p-3.5 mb-6 font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <span class="text-[#cbbeb9]">PRIMARY FOCUS:</span>{" "}
+            <span class="text-amber-eye font-semibold">
+              {latestEntry.data.focus}
+            </span>
+          </div>
+          {latestEntry.data.gear && (
+            <div class="text-[#cbbeb9] shrink-0">
+              <i class="fa-solid fa-headphones mr-1 text-amber-eye"></i>
+              {latestEntry.data.gear}
+            </div>
+          )}
+        </div>
+
+        <!-- Rendered Markdown Content -->
+        <div class="now-prose">
+          <LatestContent />
+        </div>
+      </article>
+    )}
+
+    <!-- PREVIOUS LOGS ARCHIVE -->
+    {renderedArchives.length > 0 && (
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <span class="font-mono text-xs uppercase tracking-widest text-brown-muted font-bold">
+            // PREVIOUS SNAPSHOTS
+          </span>
+          <span class="font-mono text-xs text-brown-muted">
+            {renderedArchives.length} ARCHIVED
+          </span>
+        </div>
+
+        <div class="space-y-4">
+          {renderedArchives.map(({ entry, Content }) => (
+            <details class="group bg-bg-card border border-border-warm rounded-xl overflow-hidden transition-colors hover:border-accent/50">
+              <summary class="flex flex-wrap items-center justify-between gap-2 px-5 py-4 cursor-pointer list-none select-none">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="font-mono text-xs text-amber-eye font-bold shrink-0">
+                    {formatDate(entry.data.updatedAt)}
+                  </span>
+                  <h3 class="font-bold text-sm sm:text-base text-brown-dark truncate mb-0">
+                    {entry.data.title}
+                  </h3>
+                </div>
+                <span class="font-mono text-xs text-brown-muted group-open:rotate-180 transition-transform">
+                  <i class="fa-solid fa-chevron-down"></i>
+                </span>
+              </summary>
+
+              <div class="px-5 pb-5 pt-2 border-t border-border-warm bg-bg-warm/40">
+                <p class="font-mono text-xs text-brown-muted mb-4">
+                  <i class="fa-solid fa-location-dot mr-1 text-accent"></i>
+                  {entry.data.location} — {entry.data.focus}
+                </p>
+                <div class="now-prose">
+                  <Content />
+                </div>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+
+  <Footer />
+</BaseLayout>
