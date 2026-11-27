@@ -157,7 +157,7 @@ export const hobbies = [
     icon: "fa-solid fa-film",
     title: "Anime & Tech Essays",
     description:
-      "Unwinding with well-crafted animation, soundtracks, and deep-dive infrastructure videos.",
+      "Unwinding with well-crafted animation, soundtracks, and deep-dive in tech infrastructure videos.",
     delay: 240,
   },
 ];
