@@ -1,0 +1,379 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Hero from "../components/Hero.astro";
+import Footer from "../components/Footer.astro";
+import {
+  experiences,
+  services,
+  showcaseItems,
+  techStack,
+  hobbies,
+} from "../data/portofolio";
+
+const badgeStyles = {
+  Project: {
+    class: "bg-accent-soft text-accent",
+    icon: "fa-solid fa-diagram-project",
+  },
+  Achievement: {
+    class: "bg-[#5a4d49]/15 text-brown-dark",
+    icon: "fa-solid fa-award",
+  },
+  Credential: {
+    class: "bg-[#2e7d5b]/15 text-[#236347] dark:text-[#6fd1a6]",
+    icon: "fa-solid fa-id-card",
+  },
+};
+---
+
+<BaseLayout title="Yog's Web Portfolio">
+  <Navbar />
+  <Hero />
+
+  <!-- About Section -->
+  <section id="about" class="py-16 bg-bg-warm border-y border-border-warm">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center reveal-up">
+      <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+        About Me
+      </h2>
+      <p class="text-[1.12rem] leading-[1.9] text-brown-dark mt-3">
+        I am a <strong>Web Developer</strong> at{" "}
+        <a
+          href="https://technomedic.id"
+          target="_blank"
+          rel="noopener"
+          class="text-brown-dark font-bold no-underline border-b-[1.5px] border-dashed border-accent hover:text-accent transition-colors"
+        >
+          PT Indo Techno Medic
+        </a>{" "}
+        and an <strong>Information Technology</strong> graduate from Politeknik
+        Negeri Cilacap. With a strong foundation in <strong>Networking</strong>{" "}
+        and <strong>Cybersecurity</strong>, I specialize in building and
+        optimizing multi-user{" "}
+        <strong>Hospital Management Systems (SIMRS)</strong>, handling REST API
+        integrations, and leading on-site technical rollouts and user training
+        for partner hospitals—bringing a practical, security-first mindset
+        backed by hands-on experience in application security auditing.
+      </p>
+    </div>
+  </section>
+
+  <!-- Experience & Education Section -->
+  <section id="resume" class="py-16 bg-bg-main">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Experience -->
+        <div class="lg:col-span-7 reveal-up">
+          <h2 class="section-title font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+            Experience
+          </h2>
+
+          <div class="border-l-2 border-border-warm pl-6 mt-4 space-y-8">
+            {experiences.map((exp) => (
+              <div class="relative before:content-[''] before:absolute before:-left-[31px] before:top-1.5 before:w-3 before:h-3 before:rounded-full before:bg-accent before:border-[3px] before:border-bg-main before:ring-2 before:ring-accent">
+                <div class="flex flex-wrap justify-between items-baseline gap-2">
+                  <h6 class="font-bold text-base uppercase text-brown-dark mb-0">
+                    {exp.role}
+                  </h6>
+                  <span
+                    class:list={[
+                      "text-[0.72rem] font-bold px-2.5 py-0.5 rounded-full",
+                      exp.isCurrent
+                        ? "bg-accent-soft text-accent"
+                        : "bg-bg-warm text-brown-muted border border-border-warm",
+                    ]}
+                  >
+                    {exp.period}
+                  </span>
+                </div>
+                <small
+                  class:list={[
+                    "font-bold block mt-1 text-sm",
+                    exp.isCurrent ? "text-accent" : "text-brown-muted",
+                  ]}
+                >
+                  {exp.company}
+                </small>
+                <p class="text-brown-muted mt-2 mb-0 text-[0.95rem]">
+                  {exp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="lg:col-span-5 reveal-up" data-delay="120">
+          <h2 class="section-title font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+            Education
+          </h2>
+
+          <div class="bg-bg-warm border border-border-warm border-l-4 border-l-accent p-6 rounded-2xl mt-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[0.72rem] font-bold px-2.5 py-0.5 rounded-full bg-accent-soft text-accent">
+                2021 - 2024
+              </span>
+              <span class="text-[0.72rem] font-bold text-brown-dark bg-bg-card border border-border-warm px-2.5 py-0.5 rounded-full">
+                GPA 3.75 / 4.00
+              </span>
+            </div>
+            <h6 class="font-bold text-base text-brown-dark mb-1">
+              Politeknik Negeri Cilacap
+            </h6>
+            <p class="text-accent font-bold text-sm mb-2">
+              D3 Information Technology • Cum Laude
+            </p>
+            <p class="text-brown-muted text-[0.95rem] mb-0">
+              Active member of the Programmer and English Clubs. Awarded Bronze
+              & Silver Certificates in the Cisco NetAcad Riders
+              competitions (2023 & 2024).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What I Do Section -->
+  <section id="services" class="py-16 bg-bg-warm border-y border-border-warm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12 reveal-up">
+        <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+          What I Do
+        </h2>
+        <p class="text-brown-muted">
+          Bridging clinical and operational needs with dependable web
+          engineering
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-6">
+        {services.map((srv) => (
+          <div
+            class="w-full md:w-[calc(33.333%-1rem)] reveal-up"
+            data-delay={srv.delay}
+          >
+            <div class="group h-full bg-bg-card border border-border-warm rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1.5 hover:border-accent hover:shadow-xl">
+              <div class="w-[54px] h-[54px] mx-auto mb-4 rounded-[14px] bg-accent-soft text-accent inline-flex items-center justify-center transition-colors duration-300 group-hover:bg-accent group-hover:text-white">
+                <i class={`${srv.icon} text-xl`}></i>
+              </div>
+              <h5 class="font-bold text-lg text-brown-dark mb-2">
+                {srv.title}
+              </h5>
+              <p class="text-brown-muted text-sm mb-0">{srv.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section -->
+  <section id="gallery" class="py-16 bg-bg-main">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12 reveal-up">
+        <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+          Showcase
+        </h2>
+        <p class="text-brown-muted">
+          A curated selection of my professional milestones, projects, and
+          credentials.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {showcaseItems.map((item) => {
+          const badge = badgeStyles[item.type];
+          return (
+            <div class="reveal-up" data-delay={item.delay}>
+              <div class="group h-full rounded-[14px] bg-bg-card border border-border-warm overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-xl">
+                <div class="w-full aspect-[3/2] overflow-hidden bg-bg-warm border-b border-border-warm">
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    loading="lazy"
+                    class="w-full h-full object-cover object-center grayscale-[15%] transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                  />
+                </div>
+                <div class="p-6">
+                  <span
+                    class:list={[
+                      "inline-block text-[0.7rem] font-bold px-2.5 py-1 rounded-md tracking-wide mb-2",
+                      badge.class,
+                    ]}
+                  >
+                    <i class={`${badge.icon} mr-1`}></i> {item.type}
+                  </span>
+                  <h6 class="font-bold text-base text-brown-dark mb-1">
+                    {item.title}
+                  </h6>
+                  <p class="text-brown-muted text-sm mb-0">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack Section -->
+  <section id="skills" class="py-16 bg-bg-warm border-y border-border-warm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+      <div class="reveal-up">
+        <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+          Tools & Tech Stack
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 mt-4 reveal-up">
+        {techStack.map((tech) => (
+          <div class="py-5 px-2.5 bg-bg-card rounded-xl border border-border-warm transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-md">
+            <i class={`${tech.icon} text-[2.6rem] block mb-2.5`}></i>
+            <p class="font-bold text-sm tracking-wide text-brown-dark mb-0">
+              {tech.name}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Beyond Coding Section -->
+  <section id="hobbies" class="py-16 bg-bg-main">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+      <div class="reveal-up">
+        <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+          Beyond Coding
+        </h2>
+        <p class="text-brown-muted mb-12">
+          When I'm away from the terminal, you'll usually find me exploring
+          these:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {hobbies.map((hobby) => (
+          <div class="reveal-up" data-delay={hobby.delay}>
+            <div class="group h-full bg-bg-warm border border-border-warm border-b-[3px] border-b-transparent p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1.5 hover:bg-bg-card hover:border-b-accent hover:shadow-lg">
+              <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-bg-card border border-border-warm text-accent inline-flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                <i class={`${hobby.icon} text-xl`}></i>
+              </div>
+              <h6 class="font-bold text-base text-brown-dark mb-2">
+                {hobby.title}
+              </h6>
+              <p class="text-brown-muted text-sm mb-0">{hobby.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-16 bg-bg-warm border-t border-border-warm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center reveal-up">
+      <h2 class="section-title section-title-center font-extrabold text-[1.65rem] uppercase tracking-[1.8px] text-brown-dark mb-8">
+        Let's Connect
+      </h2>
+      <p class="text-brown-muted mb-3">
+        Have a project in mind, want to discuss web systems, or just want to
+        say hello?<br />Reach out through any of the channels below.
+      </p>
+
+      <p class="text-brown-muted mb-6">
+        <i class="fa-solid fa-location-dot mr-2 text-accent"></i>Kebumen,
+        Central Java, Indonesia
+      </p>
+
+      <div class="flex justify-center flex-wrap gap-3 mb-10">
+        <a
+          href="mailto:narindrayogipradana@gmail.com"
+          class="inline-flex items-center px-6 py-2 rounded-full text-sm font-semibold bg-brown-dark text-white dark:bg-accent dark:text-[#181413] border-[1.5px] border-brown-dark dark:border-accent hover:bg-accent hover:border-accent transition-all duration-300 hover:-translate-y-0.5"
+        >
+          <i class="fa-solid fa-envelope mr-2"></i>Email
+        </a>
+
+        <a
+          href="https://linkedin.com/in/narindra-yogi"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center px-6 py-2 rounded-full text-sm font-semibold bg-transparent text-brown-dark border-[1.5px] border-[#d5cbc3] dark:border-[#423734] hover:bg-brown-dark hover:border-brown-dark hover:text-white dark:hover:bg-accent-soft dark:hover:border-accent dark:hover:text-brown-dark transition-all duration-300 hover:-translate-y-0.5"
+        >
+          <i class="fa-brands fa-linkedin mr-2"></i>LinkedIn
+        </a>
+
+        <a
+          href="https://discordapp.com/users/450547182131478530"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center px-6 py-2 rounded-full text-sm font-semibold bg-transparent text-brown-dark border-[1.5px] border-[#d5cbc3] dark:border-[#423734] hover:bg-brown-dark hover:border-brown-dark hover:text-white dark:hover:bg-accent-soft dark:hover:border-accent dark:hover:text-brown-dark transition-all duration-300 hover:-translate-y-0.5"
+        >
+          <i class="fa-brands fa-discord mr-2"></i>Discord
+        </a>
+      </div>
+
+      <div class="max-w-lg mx-auto text-left">
+        <div class="bg-bg-card border border-border-warm p-6 sm:p-10 rounded-2xl shadow-sm">
+          <form action="https://formspree.io/f/mdabvlwe" method="POST">
+            <div class="mb-4">
+              <label for="name" class="block font-bold text-sm text-brown-dark mb-1.5">
+                Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Your Name"
+                required
+                class="w-full rounded-xl border border-[#ded5ce] dark:border-[#3a302d] bg-white dark:bg-[#1b1615] px-3.5 py-2.5 text-sm text-brown-dark placeholder:text-brown-muted/60 focus:outline-none focus:border-accent focus:ring-3 focus:ring-accent-soft"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="email" class="block font-bold text-sm text-brown-dark mb-1.5">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="name@example.com"
+                required
+                class="w-full rounded-xl border border-[#ded5ce] dark:border-[#3a302d] bg-white dark:bg-[#1b1615] px-3.5 py-2.5 text-sm text-brown-dark placeholder:text-brown-muted/60 focus:outline-none focus:border-accent focus:ring-3 focus:ring-accent-soft"
+              />
+            </div>
+
+            <div class="mb-6">
+              <label for="message" class="block font-bold text-sm text-brown-dark mb-1.5">
+                Message
+              </label>
+              <textarea
+                name="message"
+                id="message"
+                rows="4"
+                placeholder="Hi Yogi, let's collaborate!"
+                required
+                class="w-full rounded-xl border border-[#ded5ce] dark:border-[#3a302d] bg-white dark:bg-[#1b1615] px-3.5 py-2.5 text-sm text-brown-dark placeholder:text-brown-muted/60 focus:outline-none focus:border-accent focus:ring-3 focus:ring-accent-soft"
+              ></textarea>
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                class="w-full sm:w-auto px-8 py-2.5 rounded-full text-sm font-semibold bg-accent text-white border-[1.5px] border-accent hover:bg-accent-hover hover:border-accent-hover transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+              >
+                Send Message <i class="fa-solid fa-paper-plane ml-2"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

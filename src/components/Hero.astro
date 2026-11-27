@@ -1,0 +1,237 @@
+<section
+  id="home"
+  class="min-h-screen flex items-center pt-20 relative overflow-hidden bg-bg-main"
+  style="background-image: radial-gradient(circle at 85% 20%, rgba(212, 118, 51, 0.07), transparent 45%);"
+>
+  <span
+    class="hidden md:block font-jp font-black text-jp-text absolute select-none pointer-events-none leading-none z-0"
+    style="font-size: 14rem; top: 4%; right: -3%;"
+  >
+    プレーダナ
+  </span>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 w-full relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Content -->
+      <div class="lg:col-span-7 reveal-up">
+        <div class="inline-flex items-center gap-2 text-xs font-bold tracking-[1.6px] text-brown-mid bg-bg-warm border border-border-warm px-3.5 py-1.5 rounded-full mb-4">
+          <span class="w-[7px] h-[7px] rounded-full bg-amber-eye shadow-[0_0_0_3px_rgba(212,118,51,0.16)]"></span>
+          <span>WEB DEVELOPER • SYSTEM IMPLEMENTER</span>
+        </div>
+
+        <h1 class="font-extrabold text-[clamp(2.6rem,6vw,4.1rem)] leading-[1.08] tracking-[-1.8px] text-brown-dark mb-4">
+          Narindra<br />
+          <span class="text-accent">Yogi Pradana.</span>
+        </h1>
+
+        <div class="text-xl font-medium text-brown-mid tracking-wide mb-4">
+          I'm a <span id="typed" class="text-accent font-bold ml-1"></span>
+        </div>
+
+        <p class="text-brown-muted text-[1.02rem] max-w-[540px] leading-[1.75] mb-6">
+          Building resilient healthcare web applications, streamlining
+          database performance, and bridging complex clinical workflows with
+          reliable infrastructure.
+        </p>
+
+        <div class="flex flex-wrap gap-3 pt-1">
+          <a
+            href="/assets/download/cv-yog.pdf"
+            target="_blank"
+            class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-semibold bg-brown-dark text-white dark:bg-accent dark:text-[#181413] border-[1.5px] border-brown-dark dark:border-accent hover:bg-accent hover:border-accent dark:hover:bg-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
+          >
+            <i class="fa-solid fa-download mr-2"></i>Resume
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/narindra-yogi/"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-semibold bg-transparent text-brown-dark border-[1.5px] border-[#d5cbc3] dark:border-[#423734] hover:bg-brown-dark hover:border-brown-dark hover:text-white dark:hover:bg-accent-soft dark:hover:border-accent dark:hover:text-brown-dark transition-all duration-300 hover:-translate-y-0.5"
+          >
+            <i class="fa-brands fa-linkedin mr-2"></i>LinkedIn
+          </a>
+
+          <a
+            href="/audio-showcase"
+            class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-semibold bg-accent text-white border-[1.5px] border-accent hover:bg-accent-hover hover:border-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
+          >
+            <i class="fa-solid fa-headphones mr-2"></i>Audio Station
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Interactive Photo Stack -->
+      <div class="lg:col-span-5 hidden lg:block reveal-up" data-delay="150">
+        <div class="hero-img-wrapper group relative max-w-[370px] mx-auto">
+          <div
+            id="heroImgFrame"
+            class="absolute inset-[14px_-14px_-14px_14px] border-2 border-accent rounded-tl-[64px] rounded-br-[64px] opacity-35 z-0 transition-all duration-400 group-hover:translate-x-1 group-hover:translate-y-1 group-hover:opacity-65"
+          ></div>
+
+          <div
+            id="heroImgContainer"
+            class="hero-img-container relative z-10 overflow-visible rounded-tl-[64px] rounded-br-[64px] cursor-pointer select-none transition-transform duration-300 active:scale-[0.98]"
+          >
+            <img
+              src="/assets/img/new-pp.jpg"
+              alt="Narindra Yogi Pradana - Web Developer"
+              draggable="false"
+              class="hero-img-original w-full h-auto object-cover block rounded-tl-[64px] rounded-br-[64px] shadow-xl select-none"
+            />
+            <img
+              src="/assets/img/new-paap-original.jpg"
+              alt="Yog - Cybersecurity & Networking Enthusiast"
+              draggable="false"
+              class="hero-img-hover w-full h-auto object-cover block rounded-tl-[64px] rounded-br-[64px] shadow-xl select-none"
+            />
+            <span
+              id="shuffleHint"
+              class="absolute bottom-3.5 right-3.5 z-10 text-[0.7rem] font-semibold tracking-wide text-white bg-[#2c2422]/75 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full pointer-events-none opacity-85 transition-all duration-300 group-hover:opacity-100 group-hover:bg-accent/90 group-hover:-translate-y-0.5"
+            >
+              <i class="fa-solid fa-layer-group mr-1"></i> Click to shuffle
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+<script is:inline>
+  if (document.getElementById("typed") && window.Typed) {
+    new Typed("#typed", {
+      strings: [
+        "Web Developer",
+        "System Implementer",
+        "Certified Network Associate",
+        "Cybersecurity Enthusiast",
+        "Personal Audio Enthusiast",
+      ],
+      typeSpeed: 48,
+      backSpeed: 28,
+      backDelay: 2200,
+      loop: true,
+      cursorChar: "_",
+    });
+  }
+</script>
+
+<script>
+  const container = document.getElementById("heroImgContainer");
+  const frame = document.getElementById("heroImgFrame");
+  const shuffleHint = document.getElementById("shuffleHint");
+  let isShuffling = false;
+
+  // Squad 404 Easter Egg State (4 clicks -> pause -> 5 clicks)
+  let clickCount = 0;
+  let phase = 1;
+  let pauseTimer: ReturnType<typeof setTimeout> | null = null;
+  let resetTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const squad404Quotes = [
+    {
+      text: '"Those who don\'t exist have no need for names. Just get the job done."',
+      sender: "— UMP45 // SQUAD 404",
+    },
+    {
+      text: '"We are the shadows that survive where others fall. Keep moving forward, Commander."',
+      sender: "— UMP45 // SECTOR 09",
+    },
+    {
+      text: '"Kazoku? Yeah, 404 is all the family I need. Now, what\'s our next target?"',
+      sender: "— UMP45 // ENCRYPTED CHANNEL",
+    },
+  ];
+
+  function triggerSquad404EasterEgg() {
+    const pick = squad404Quotes[Math.floor(Math.random() * squad404Quotes.length)];
+    const quoteEl = document.getElementById("squad404Quote");
+    const senderEl = document.getElementById("squad404Sender");
+    if (quoteEl) quoteEl.textContent = pick.text;
+    if (senderEl) senderEl.textContent = pick.sender;
+    document.getElementById("squad404Modal")?.classList.add("is-shown");
+  }
+
+  function reset45Sequence() {
+    clickCount = 0;
+    phase = 1;
+    if (pauseTimer) clearTimeout(pauseTimer);
+    if (resetTimer) clearTimeout(resetTimer);
+    if (frame) {
+      frame.style.borderColor = "";
+      frame.style.opacity = "";
+      frame.style.boxShadow = "";
+    }
+  }
+
+  function register45Pattern() {
+    if (pauseTimer) clearTimeout(pauseTimer);
+    if (resetTimer) clearTimeout(resetTimer);
+    clickCount++;
+
+    if (phase === 1) {
+      if (clickCount === 4) {
+        pauseTimer = setTimeout(() => {
+          phase = 2;
+          clickCount = 0;
+          if (frame) {
+            frame.style.borderColor = "var(--eye-amber)";
+            frame.style.opacity = "0.95";
+            frame.style.boxShadow = "0 0 18px rgba(212, 118, 51, 0.35)";
+          }
+          resetTimer = setTimeout(reset45Sequence, 4500);
+        }, 900);
+      } else if (clickCount > 4) {
+        clickCount = 1;
+      }
+
+      if (clickCount < 4) {
+        resetTimer = setTimeout(reset45Sequence, 1200);
+      }
+    } else if (phase === 2) {
+      if (clickCount === 5) {
+        reset45Sequence();
+        triggerSquad404EasterEgg();
+        return;
+      }
+      resetTimer = setTimeout(reset45Sequence, 1200);
+    }
+  }
+
+  function triggerShuffle() {
+    if (!container || isShuffling) return;
+    isShuffling = true;
+    shuffleHint?.classList.add("opacity-0", "translate-y-1.5");
+
+    const isSwapped = container.classList.contains("is-swapped");
+    const origImg = container.querySelector(".hero-img-original");
+    const hoverImg = container.querySelector(".hero-img-hover");
+    const frontImg = isSwapped ? hoverImg : origImg;
+    const backImg = isSwapped ? origImg : hoverImg;
+
+    frontImg?.classList.remove("card-front", "card-back");
+    backImg?.classList.remove("card-front", "card-back");
+
+    frontImg?.classList.add("card-front");
+    backImg?.classList.add("card-back");
+    container.classList.add("shuffling");
+
+    setTimeout(() => {
+      isShuffling = false;
+    }, 120);
+
+    setTimeout(() => {
+      container.classList.toggle("is-swapped");
+      container.classList.remove("shuffling");
+      frontImg?.classList.remove("card-front");
+      backImg?.classList.remove("card-back");
+    }, 520);
+  }
+
+  container?.addEventListener("click", () => {
+    register45Pattern();
+    triggerShuffle();
+  });
+</script>

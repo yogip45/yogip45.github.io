@@ -1,0 +1,114 @@
+---
+import { audioGears, signalChain } from "../data/audioGear";
+
+const activeCount = audioGears.filter((g) => !g.isRetired).length;
+const retiredCount = audioGears.filter((g) => g.isRetired).length;
+---
+
+<div class="bg-bg-card border border-border-warm rounded-[14px] p-6 mb-6 transition-colors hover:border-accent/45">
+  <div class="flex justify-between items-center border-b border-border-warm pb-3 mb-5">
+    <div>
+      <span class="block text-[0.72rem] uppercase tracking-[0.08em] text-brown-muted font-semibold">
+        02 HARDWARE
+      </span>
+      <h5 class="font-extrabold text-lg text-brown-dark mb-0">Audio Gears</h5>
+    </div>
+    <span class="font-mono text-brown-muted hidden sm:block text-[0.78rem]">
+      {activeCount} ACTIVE · {retiredCount} RETIRED
+    </span>
+  </div>
+
+  <!-- Signal Chain Bar -->
+  <div class="bg-[#2c2422] text-[#f2ece9] rounded-[10px] py-3 px-4 text-[0.78rem] flex flex-wrap items-center gap-2.5 mb-6">
+    {signalChain.map((item, idx) => (
+      <>
+        {idx > 0 && <span class="opacity-50">|</span>}
+        <span>{item.label}:</span>
+        <span class="text-amber-eye font-bold">{item.value}</span>
+      </>
+    ))}
+  </div>
+
+  <!-- Gear Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {audioGears.map((gear) => (
+      <div
+        class:list={[
+          "rounded-xl p-4 h-full flex flex-col justify-between transition-all duration-250",
+          gear.isRetired
+            ? "bg-bg-warm border border-dashed border-border-warm opacity-75"
+            : gear.isPrimary
+              ? "bg-bg-card border border-accent/40 hover:-translate-y-0.5 hover:border-accent"
+              : "bg-bg-warm border border-border-warm hover:-translate-y-0.5 hover:border-accent",
+        ]}
+      >
+        <div>
+          <div
+            class:list={[
+              "w-full bg-bg-main border border-border-warm rounded-lg overflow-hidden mb-3.5 relative flex items-center justify-center",
+              gear.isPrimary ? "aspect-[16/8.5]" : "aspect-[16/10]",
+            ]}
+          >
+            <span
+              class:list={[
+                "absolute top-2 left-2 text-[0.64rem] py-0.5 px-2 rounded-[5px] text-white tracking-wider z-10 font-semibold",
+                gear.isRetired
+                  ? "bg-brown-muted"
+                  : gear.isPrimary
+                    ? "bg-accent"
+                    : "bg-[#2c2422]",
+              ]}
+            >
+              {gear.tag}
+            </span>
+
+            <img
+              src={gear.image}
+              alt={gear.name}
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              class:list={[
+                "w-full h-full object-cover",
+                gear.isRetired && "grayscale",
+              ]}
+            />
+            <div
+              style="display: none;"
+              class="flex-col items-center text-brown-muted"
+            >
+              <i class={`${gear.fallbackIcon} text-2xl mb-1`}></i>
+              <span class="font-mono text-[0.7rem]">{gear.fallbackLabel}</span>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <h6 class="font-extrabold text-[0.95rem] text-brown-dark mb-0">
+              {gear.name}
+            </h6>
+            {gear.isRetired ? (
+              <span class="text-[0.68rem] text-brown-muted whitespace-nowrap">
+                OFF-DUTY
+              </span>
+            ) : (
+              <span class="text-[0.68rem] font-bold text-[#2e7d5b] dark:text-[#6fd1a6] whitespace-nowrap">
+                ACTIVE
+              </span>
+            )}
+          </div>
+
+          <p class="text-[0.85rem] leading-relaxed text-brown-muted mb-0">
+            {gear.description}
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5 mt-3.5 pt-3 border-t border-border-warm">
+          {gear.specs.map((spec) => (
+            <span class="text-[0.68rem] bg-bg-main border border-border-warm text-brown-mid py-0.5 px-2 rounded-[5px]">
+              {spec}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

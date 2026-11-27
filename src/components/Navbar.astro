@@ -1,0 +1,141 @@
+---
+const navItems = [
+  { label: "HOME", href: "#home" },
+  { label: "ABOUT", href: "#about" },
+  { label: "EXPERIENCE", href: "#resume" },
+  { label: "WHAT I DO", href: "#services" },
+  { label: "SHOWCASE", href: "#gallery" },
+  { label: "TECH STACK", href: "#skills" },
+  { label: "BEYOND CODING", href: "#hobbies" },
+  { label: "CONNECT", href: "#contact" },
+];
+---
+
+<nav
+  id="mainNavbar"
+  class="fixed top-0 inset-x-0 z-40 py-4 transition-all duration-300 backdrop-blur-md bg-white/85 dark:bg-[#181413]/85 border-b border-transparent"
+>
+  <!-- Top Reading Progress Bar -->
+  <div
+    id="scrollProgress"
+    class="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-accent to-amber-eye transition-[width] duration-100 ease-linear"
+  ></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between">
+    <a href="#home" class="text-brown-dark font-bold tracking-wider text-xl no-underline">
+      YOG<span class="text-amber-eye">.</span>
+    </a>
+
+    <!-- Mobile Menu Toggle -->
+    <button
+      type="button"
+      id="mobileMenuBtn"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      class="lg:hidden p-2 text-brown-dark focus:outline-none cursor-pointer"
+    >
+      <i class="fa-solid fa-bars-staggered text-lg"></i>
+    </button>
+
+    <!-- Nav Links -->
+    <div id="navbarNav" class="hidden lg:flex w-full lg:w-auto flex-col lg:flex-row items-center gap-1 lg:gap-1 pt-4 lg:pt-0">
+      <ul class="flex flex-col lg:flex-row items-center gap-1 lg:gap-0.5 text-center list-none m-0 p-0">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="nav-link relative block px-3 py-2 text-[0.78rem] font-bold tracking-[1.3px] text-brown-mid hover:text-accent transition-colors duration-200 after:content-[''] after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-[55%]"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="mt-3 lg:mt-0 lg:ml-3">
+        <a
+          href="https://github.com/yogip45"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center px-4 py-1.5 rounded-lg text-[0.78rem] font-semibold tracking-wide bg-brown-dark text-white dark:bg-accent dark:text-[#181413] border border-brown-dark dark:border-accent hover:bg-accent hover:border-accent dark:hover:bg-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
+        >
+          <i class="fa-brands fa-github mr-2"></i>GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const navbar = document.getElementById("mainNavbar");
+  const scrollProgress = document.getElementById("scrollProgress");
+  const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+  const navbarNav = document.getElementById("navbarNav");
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
+
+  // Toggle Mobile Menu
+  mobileMenuBtn?.addEventListener("click", () => {
+    const isHidden = navbarNav?.classList.contains("hidden");
+    navbarNav?.classList.toggle("hidden", !isHidden);
+    navbarNav?.classList.toggle("flex", isHidden);
+    mobileMenuBtn.setAttribute("aria-expanded", String(isHidden));
+  });
+
+  // Close mobile menu when clicking a link
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (window.innerWidth < 1024) {
+        navbarNav?.classList.add("hidden");
+        navbarNav?.classList.remove("flex");
+      }
+    });
+  });
+
+  // Scroll Spy + Progress Bar + Sticky Style
+  function handleScroll() {
+    const scrollPos = window.scrollY;
+    const winHeight = window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+    const scrollable = docHeight - winHeight;
+
+    if (scrollable > 0 && scrollProgress) {
+      const pct = Math.min((scrollPos / scrollable) * 100, 100);
+      scrollProgress.style.width = `${pct}%`;
+    }
+
+    if (navbar) {
+      if (scrollPos > 40) {
+        navbar.classList.add("py-2.5", "border-border-warm", "shadow-sm");
+        navbar.classList.remove("py-4", "border-transparent");
+      } else {
+        navbar.classList.add("py-4", "border-transparent");
+        navbar.classList.remove("py-2.5", "border-border-warm", "shadow-sm");
+      }
+    }
+
+    // Active Link Highlight
+    const offset = 150;
+    if (scrollPos + winHeight >= docHeight - 50) {
+      navLinks.forEach((l) => l.classList.remove("!text-accent", "after:!w-[55%]"));
+      document.querySelector('.nav-link[href="#contact"]')?.classList.add("!text-accent", "after:!w-[55%]");
+      return;
+    }
+
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+      const target = document.querySelector<HTMLElement>(href);
+      if (!target) return;
+
+      const top = target.offsetTop;
+      const height = target.offsetHeight;
+      if (top <= scrollPos + offset && top + height > scrollPos + offset) {
+        navLinks.forEach((l) => l.classList.remove("!text-accent", "after:!w-[55%]"));
+        link.classList.add("!text-accent", "after:!w-[55%]");
+      }
+    });
+  }
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  handleScroll();
+</script>

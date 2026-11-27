@@ -1,0 +1,491 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AudioGearSection from "../components/AudioGearSection.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout
+  title="Audio Station — Yog's Web Portfolio"
+  description="Personal live Last.fm listening data and personal audio gear showcase."
+  canonical="https://yogip45.github.io/audio-showcase"
+>
+  <!-- Minimalist Back Button (Top Left) -->
+  <a
+    href="/"
+    aria-label="Back to Portfolio"
+    title="Back to Home"
+    class="fixed top-3.5 left-3.5 sm:top-[22px] sm:left-[22px] z-50 inline-flex items-center gap-2 py-2 px-3.5 rounded-full bg-bg-card text-brown-dark border border-border-warm font-mono text-[0.7rem] sm:text-[0.74rem] font-bold tracking-wider no-underline shadow-lg transition-all duration-300 hover:-translate-x-0.5 hover:border-accent hover:text-amber-eye"
+  >
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>HOME</span>
+  </a>
+
+  <!-- Audio Hero -->
+  <section
+    class="bg-bg-warm border-b border-border-warm pt-[95px] pb-[110px] relative overflow-hidden"
+    style="background-image: radial-gradient(circle at 80% 25%, rgba(212, 118, 51, 0.08), transparent 48%);"
+  >
+    <div
+      class="absolute font-jp font-black text-jp-text select-none pointer-events-none leading-none z-0"
+      style="font-size: 13rem; top: 10%; right: -4%;"
+    >
+      オーディオ
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
+      <div class="inline-flex items-center gap-2 text-xs font-bold tracking-[1.6px] text-brown-mid bg-bg-main border border-border-warm px-3.5 py-1.5 rounded-full mb-3">
+        <span class="w-[7px] h-[7px] rounded-full bg-amber-eye shadow-[0_0_0_3px_rgba(212,118,51,0.16)]"></span>
+        <span>PERSONAL LISTENING LOG & HARDWARE</span>
+      </div>
+
+      <h1 class="font-extrabold text-[clamp(2.5rem,5.5vw,3.8rem)] leading-[1.08] tracking-[-1.5px] text-brown-dark mb-2">
+        Audio <span class="text-accent">Station.</span>
+      </h1>
+
+      <p class="text-brown-muted text-[1.02rem] max-w-[540px] mx-auto mb-0">
+        Real-time Last.fm scrobble, daily IEM rotation, and personal listening
+        logs.
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+    <!-- NOW PLAYING CARD -->
+    <div
+      class="rounded-3xl pt-[74px] md:pt-9 px-6 sm:px-9 pb-9 text-white border border-white/10 shadow-2xl -mt-[55px] mb-6 relative z-10 overflow-hidden"
+      style="background: linear-gradient(135deg, #2c2422 0%, #3a2f2c 100%);"
+    >
+      <!-- Last.fm User Pill -->
+      <div class="absolute top-0 right-0 p-3 flex items-center bg-[#181413]/45 backdrop-blur-md rounded-bl-[18px] border-l border-b border-white/10 z-10">
+        <div class="text-right mr-2.5 hidden md:block">
+          <p class="mb-0 font-bold text-white text-sm" id="user-display-name">
+            yogpp
+          </p>
+          <p class="mb-0 text-white/50 font-mono text-[0.72rem]">
+            last.fm/user/yogpp
+          </p>
+        </div>
+        <img
+          id="user-avatar"
+          src=""
+          alt="Last.fm Profile"
+          class="w-[42px] h-[42px] rounded-full object-cover bg-[#2c2422]"
+        />
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center text-center md:text-left">
+        <div class="md:col-span-4 flex justify-center">
+          <img
+            id="album-art"
+            src=""
+            alt="Album Art"
+            class="w-full max-w-[195px] aspect-square rounded-[18px] object-cover shadow-2xl bg-[#181413]"
+          />
+        </div>
+
+        <div class="md:col-span-8">
+          <div class="flex items-center justify-center md:justify-start mb-3">
+            <div class="visualizer mr-3" id="viz">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
+            <span
+              class="font-mono text-xs font-bold px-2.5 py-1 rounded text-white"
+              style="background-color: var(--eye-amber);"
+              id="status-text"
+            >
+              FETCHING...
+            </span>
+          </div>
+
+          <h2
+            id="track-name"
+            class="font-extrabold text-2xl sm:text-4xl mb-1 text-white"
+          >
+            ...
+          </h2>
+          <h4
+            id="artist-name"
+            class="text-white/60 text-lg sm:text-xl mb-3 font-normal"
+          >
+            Artist Name
+          </h4>
+          <p class="text-white/50 mb-0 font-mono text-[0.85rem]">
+            <i class="fa-solid fa-record-vinyl mr-2"></i>
+            <span id="album-name">Album Name</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURRENT OBSESSION CARD -->
+    <div
+      id="obsession-card"
+      class="bg-bg-card border border-border-warm border-l-4 border-l-amber-eye rounded-[14px] py-4 px-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 transition-colors hover:border-accent"
+    >
+      <div class="flex items-center gap-3.5 min-w-0 flex-1">
+        <div class="relative w-[52px] h-[52px] sm:w-[58px] sm:h-[58px] shrink-0">
+          <img
+            id="obsession-art"
+            src=""
+            alt="Obsession Cover"
+            class="w-full h-full rounded-[10px] object-cover block border border-border-warm bg-[#2c2422]"
+          />
+          <span
+            title="Current Obsession"
+            class="absolute -bottom-1 -right-1 w-[22px] h-[22px] rounded-full bg-amber-eye text-[#181413] text-[0.65rem] inline-flex items-center justify-center border-2 border-bg-card"
+          >
+            <i class="fa-solid fa-fire"></i>
+          </span>
+        </div>
+
+        <div class="overflow-hidden flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="font-mono text-[0.66rem] font-bold tracking-wider text-amber-eye bg-amber-eye/15 py-0.5 px-2 rounded-[5px] whitespace-nowrap">
+              CURRENT OBSESSION
+            </span>
+            <span
+              class="font-mono text-brown-muted hidden sm:inline text-[0.72rem]"
+              id="obsession-meta"
+            >
+              ACTIVE PIN
+            </span>
+          </div>
+          <h5
+            class="font-extrabold text-base text-brown-dark mb-0 truncate"
+            id="obsession-track"
+          >
+            Loading obsession...
+          </h5>
+          <p
+            class="mb-0 text-brown-muted truncate text-[0.85rem]"
+            id="obsession-artist"
+          >
+            —
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between sm:justify-end gap-3.5 pt-2.5 sm:pt-0 border-t sm:border-t-0 border-dashed border-border-warm shrink-0">
+        <div class="flex sm:block items-baseline gap-1.5 sm:text-right">
+          <span
+            class="font-mono font-bold text-[1.1rem] text-amber-eye leading-none"
+            id="obsession-plays"
+          >
+            LIVE
+          </span>
+          <span
+            class="block font-mono text-brown-muted text-[0.68rem]"
+            id="obsession-sublabel"
+          >
+            LAST.FM
+          </span>
+        </div>
+
+        <a
+          href="https://www.last.fm/user/yogpp"
+          target="_blank"
+          rel="noopener"
+          id="obsession-link"
+          class="py-1 px-3 rounded-lg font-mono text-xs font-semibold border-[1.5px] border-[#d5cbc3] dark:border-[#423734] text-brown-dark hover:bg-brown-dark hover:border-brown-dark hover:text-white dark:hover:bg-accent-soft dark:hover:border-accent transition-all"
+        >
+          Last.fm <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- 01 ARTIST BIO -->
+    <div class="bg-bg-card border border-border-warm rounded-[14px] p-6 mb-6 transition-colors hover:border-accent/45">
+      <div class="flex justify-between items-center border-b border-border-warm pb-3 mb-4">
+        <span class="text-[0.72rem] uppercase tracking-[0.08em] text-brown-muted font-semibold">
+          01 CURRENT ARTIST BIO
+        </span>
+        <span class="font-mono text-brown-muted text-xs">LAST.FM WIKI</span>
+      </div>
+      <div id="bio-scroll" class="max-h-[110px] overflow-y-auto pr-1.5">
+        <div
+          id="artist-bio"
+          class="text-[0.92rem] leading-relaxed text-brown-mid"
+        >
+          ...
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 AUDIO GEARS SHOWCASE -->
+    <AudioGearSection />
+
+    <!-- 03 VISUAL COLLAGE -->
+    <div class="bg-bg-card border border-border-warm rounded-[14px] p-6 mb-6 transition-colors hover:border-accent/45">
+      <div class="flex flex-wrap justify-between items-center gap-3 border-b border-border-warm pb-3 mb-5">
+        <div>
+          <span class="block text-[0.72rem] uppercase tracking-[0.08em] text-brown-muted font-semibold">
+            03 Personal Peaks
+          </span>
+          <h5 class="font-extrabold text-lg text-brown-dark mb-0">
+            Top Albums & Artists
+          </h5>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Type Toggle -->
+          <div class="inline-flex bg-bg-warm border border-border-warm rounded-lg p-[3px] gap-[3px]">
+            <button
+              type="button"
+              data-collage-type="albums"
+              class="active bg-accent text-white font-mono text-[0.72rem] font-semibold py-1 px-2.5 rounded-md cursor-pointer transition-colors"
+            >
+              <i class="fa-solid fa-compact-disc mr-1"></i>Albums
+            </button>
+            <button
+              type="button"
+              data-collage-type="artists"
+              class="text-brown-muted hover:text-brown-dark font-mono text-[0.72rem] font-semibold py-1 px-2.5 rounded-md cursor-pointer transition-colors"
+            >
+              <i class="fa-solid fa-user-astronaut mr-1"></i>Artists
+            </button>
+          </div>
+
+          <!-- Period Toggle -->
+          <div class="inline-flex bg-bg-warm border border-border-warm rounded-lg p-[3px] gap-[3px]">
+            <button
+              type="button"
+              data-collage-period="7day"
+              class="text-brown-muted hover:text-brown-dark font-mono text-[0.72rem] font-semibold py-1 px-2.5 rounded-md cursor-pointer transition-colors"
+            >
+              7D
+            </button>
+            <button
+              type="button"
+              data-collage-period="1month"
+              class="active bg-accent text-white font-mono text-[0.72rem] font-semibold py-1 px-2.5 rounded-md cursor-pointer transition-colors"
+            >
+              30D
+            </button>
+            <button
+              type="button"
+              data-collage-period="overall"
+              class="text-brown-muted hover:text-brown-dark font-mono text-[0.72rem] font-semibold py-1 px-2.5 rounded-md cursor-pointer transition-colors"
+            >
+              ALL
+            </button>
+          </div>
+
+          <!-- Download PNG -->
+          <button
+            type="button"
+            id="downloadCollageBtn"
+            title="Save 3x3 collage as PNG"
+            class="py-1.5 px-3 rounded-lg font-mono text-xs font-semibold bg-brown-dark text-white dark:bg-accent dark:text-[#181413] hover:bg-accent transition-all cursor-pointer"
+          >
+            <i class="fa-solid fa-download mr-1"></i>PNG
+          </button>
+        </div>
+      </div>
+
+      <div id="collage-grid" class="collage-bento-grid"></div>
+    </div>
+
+    <!-- 04-06 DISCOVERY, RECENT HISTORY, FAVORITE TRACKS & STATS -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6 items-stretch">
+      <!-- Left Column (8 cols) -->
+      <div class="lg:col-span-8 flex flex-col gap-6">
+        <!-- 04 Similar Artists -->
+        <div class="bg-[#2c2422] border border-[#3d322f] text-[#f2ece9] rounded-[14px] p-6">
+          <div class="border-b border-[#3d322f] pb-3 mb-5">
+            <span class="block text-[0.72rem] uppercase tracking-[0.08em] text-[#cbbeb9] font-semibold">
+              04 RECOMMENDATION ENGINE
+            </span>
+            <h5 class="font-bold text-lg text-white mb-0">
+              Similar to{" "}
+              <span id="fav-artist-name" class="text-amber-eye">
+                ...
+              </span>
+            </h5>
+          </div>
+          <div
+            id="similar-artists"
+            class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center"
+          ></div>
+        </div>
+
+        <!-- 05 Recent History -->
+        <div class="bg-bg-card border border-border-warm rounded-[14px] p-6">
+          <div class="flex justify-between items-center border-b border-border-warm pb-3 mb-4">
+            <div>
+              <span class="block text-[0.72rem] uppercase tracking-[0.08em] text-brown-muted font-semibold">
+                05 PLAYBACK LOG
+              </span>
+              <h5 class="font-extrabold text-lg text-brown-dark mb-0">
+                Recent History
+              </h5>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button
+                id="prev-page"
+                disabled
+                class="w-8 h-8 rounded-full border border-border-warm text-brown-dark inline-flex items-center justify-center disabled:opacity-40 hover:border-accent cursor-pointer"
+              >
+                <i class="fa-solid fa-chevron-left text-xs"></i>
+              </button>
+              <span
+                id="page-info"
+                class="font-mono font-bold mx-1 text-sm text-brown-dark"
+              >
+                01
+              </span>
+              <button
+                id="next-page"
+                class="w-8 h-8 rounded-full border border-border-warm text-brown-dark inline-flex items-center justify-center disabled:opacity-40 hover:border-accent cursor-pointer"
+              >
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+          <div id="recent-list"></div>
+        </div>
+
+        <!-- 06 Favorite Tracks -->
+        <div class="bg-bg-card border border-border-warm rounded-[14px] p-6 flex-1">
+          <div class="flex flex-wrap justify-between items-center gap-2 border-b border-border-warm pb-3 mb-5">
+            <div>
+              <span class="block text-[0.72rem] uppercase tracking-[0.08em] text-brown-muted font-semibold">
+                06 CURATED CRATE
+              </span>
+              <h5 class="font-extrabold text-lg text-brown-dark mb-0">
+                Favorite Tracks
+              </h5>
+            </div>
+
+            <div class="flex items-center gap-1.5">
+              <button
+                type="button"
+                data-mode="loved"
+                class="fav-tab-btn active bg-accent text-white border border-accent text-[0.74rem] py-1 px-3 rounded-lg cursor-pointer transition-colors"
+              >
+                <i class="fa-solid fa-heart mr-1"></i>Loved
+              </button>
+              <button
+                type="button"
+                data-mode="top7d"
+                class="fav-tab-btn border border-border-warm text-brown-muted hover:bg-accent hover:text-white hover:border-accent text-[0.74rem] py-1 px-3 rounded-lg cursor-pointer transition-colors"
+              >
+                On Repeat (7D)
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="favorite-tracks-grid"
+            class="grid grid-cols-1 md:grid-cols-2 gap-2.5"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Right Column (4 cols) -->
+      <div class="lg:col-span-4 flex flex-col gap-6">
+        <!-- Total Scrobbles -->
+        <div class="bg-[#2c2422] border border-[#3d322f] text-[#f2ece9] rounded-[14px] p-6">
+          <span class="block text-[0.72rem] uppercase tracking-[0.08em] text-[#cbbeb9] font-semibold mb-1">
+            TOTAL SCROBBLES
+          </span>
+          <h2
+            class="font-extrabold text-4xl sm:text-5xl mb-0 font-mono text-white"
+            id="total-scrobbles"
+          >
+            0
+          </h2>
+          <p class="font-mono mb-0 mt-2 opacity-75 text-[0.72rem]">
+            SYNCED VIA LAST.FM
+          </p>
+        </div>
+
+        <!-- All-Time Top 10 Artists -->
+        <div class="bg-bg-card border border-border-warm rounded-[14px] p-6">
+          <div class="border-b border-border-warm pb-3 mb-4">
+            <span class="text-[0.72rem] uppercase tracking-[0.08em] text-brown-muted font-semibold">
+              ALL-TIME TOP 10 ARTIST
+            </span>
+          </div>
+          <div id="all-time-top-list" class="flex flex-col gap-3"></div>
+        </div>
+
+        <!-- 7-Day Genre Mix -->
+        <div class="bg-bg-card border border-border-warm rounded-[14px] p-6 flex-1 flex flex-col justify-between">
+          <div class="border-b border-border-warm pb-3 mb-4">
+            <span class="text-[0.72rem] uppercase tracking-[0.08em] text-brown-muted font-semibold">
+              7-DAY GENRE MIX
+            </span>
+          </div>
+          <div class="my-auto">
+            <canvas id="genreChart" height="230"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 LISTENING FREQUENCY GRAPH -->
+    <div class="bg-bg-card border border-border-warm rounded-[14px] p-6">
+      <div class="flex flex-wrap justify-between items-center gap-3 border-b border-border-warm pb-3 mb-5">
+        <div>
+          <span class="block text-[0.72rem] uppercase tracking-[0.08em] text-brown-muted font-semibold">
+            07 LISTENING TELEMETRY
+          </span>
+          <h5 class="font-extrabold text-lg text-brown-dark mb-0">
+            Scrobble Frequency
+          </h5>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-3 font-mono text-[0.76rem]">
+            <span>
+              <span class="text-brown-muted">Weekly Total:</span>
+              <strong id="freq-total-7d" class="text-amber-eye">
+                0
+              </strong>
+            </span>
+            <span class="opacity-50">|</span>
+            <span>
+              <span class="text-brown-muted">PEAK:</span>
+              <strong id="freq-peak-label" class="text-brown-dark">
+                —
+              </strong>
+            </span>
+          </div>
+
+          <div class="inline-flex bg-bg-warm border border-border-warm rounded-lg p-[3px] gap-[3px]">
+            <button
+              type="button"
+              data-freq-mode="daily"
+              class="active bg-accent text-white font-mono text-[0.72rem] font-semibold py-1 px-2.5 rounded-md cursor-pointer transition-colors"
+            >
+              <i class="fa-solid fa-chart-column mr-1"></i>Weekly Scrobble
+            </button>
+            <button
+              type="button"
+              data-freq-mode="hourly"
+              class="text-brown-muted hover:text-brown-dark font-mono text-[0.72rem] font-semibold py-1 px-2.5 rounded-md cursor-pointer transition-colors"
+            >
+              <i class="fa-solid fa-clock mr-1"></i>Peak Hours
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative w-full h-[190px] sm:h-[240px]">
+        <canvas id="frequencyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <Footer />
+
+  <script is:inline src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    import { initAudioStation } from "../scripts/audioStation";
+    initAudioStation();
+  </script>
+</BaseLayout>
