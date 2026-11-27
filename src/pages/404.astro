@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="404 // Sector Not Found — Narindra Yogi Pradana"
+  description="Signal lost. The requested coordinates do not exist in this sector."
+>
+  <main
+    class="min-h-screen bg-bg-main flex items-center justify-center px-4 py-16 relative overflow-hidden"
+    style="background-image: radial-gradient(circle at 50% 35%, rgba(212, 118, 51, 0.09), transparent 55%);"
+  >
+    <!-- Watermark Jepang -->
+    <span
+      class="font-jp font-black text-jp-text absolute select-none pointer-events-none leading-none z-0"
+      style="font-size: clamp(9rem, 24vw, 18rem); top: 50%; left: 50%; transform: translate(-50%, -50%);"
+    >
+      存在しない
+    </span>
+
+    <div class="max-w-xl w-150 relative z-10">
+      <!-- Tactical Terminal Card -->
+      <div class="bg-bg-card border border-border-warm rounded-2xl shadow-2xl overflow-hidden relative">
+        <!-- Tactical Corner Accents -->
+        <span class="pointer-events-none absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-amber-eye"></span>
+        <span class="pointer-events-none absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-amber-eye"></span>
+        <span class="pointer-events-none absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-amber-eye"></span>
+        <span class="pointer-events-none absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-amber-eye"></span>
+
+        <!-- Top Status Header -->
+        <div class="bg-[#2c2422] text-[#f2ece9] px-5 py-3 border-b border-[#3d322f] flex items-center justify-between font-mono text-xs">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-eye animate-pulse"></span>
+          </div>
+          <span class="text-[#cbbeb9]">ERR_NOT_FOUND</span>
+        </div>
+
+        <!-- Body -->
+        <div class="p-7 sm:p-10 text-center">
+          <div class="font-mono text-xl font-black leading-none tracking-tighter text-brown-dark mb-2 select-none">
+            404
+          </div>
+
+          <h1 class="font-extrabold text-xl sm:text-2xl text-brown-dark mb-3">
+            Target Coordinates Do Not Exist.
+          </h1>
+
+          <p class="text-brown-muted text-sm sm:text-[0.95rem] leading-relaxed max-w-md mx-auto mb-5">
+            The page you're looking for was moved, deleted, or never deployed.
+          </p>
+
+          <!-- Dynamic Requested Path Readout -->
+          <div class="bg-bg-warm border border-border-warm rounded-lg px-3.5 py-2 mb-7 inline-flex items-center gap-2 max-w-full font-mono text-xs text-brown-muted">
+            <span class="text-amber-eye font-bold shrink-0">PATH ></span>
+            <code id="missingPathDisplay" class="truncate text-brown-dark">
+              /unknown
+            </code>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center justify-center gap-3 mt-2">
+            <a
+              href="/"
+              class="inline-flex items-center px-5 py-2.5 rounded-lg text-sm font-semibold bg-brown-dark text-white dark:bg-accent dark:text-[#181413] border-[1.5px] border-brown-dark dark:border-accent hover:bg-accent hover:border-accent dark:hover:bg-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
+            >
+              <i class="fa-solid fa-house mr-2"></i>Return to Base
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script is:inline>
+    const pathEl = document.getElementById("missingPathDisplay");
+    if (pathEl) {
+      pathEl.textContent = window.location.pathname;
+    }
+  </script>
+</BaseLayout>
