@@ -90,8 +90,6 @@ const {
   </head>
 
   <body>
-    <CommandPalette />
-    <slot />
     <!-- Minimalist Floating Controls (Bottom Right) -->
     <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-center gap-2.5">
       <button
@@ -114,7 +112,7 @@ const {
         <i class="fa-solid fa-moon" id="themeIcon"></i>
       </button>
     </div>
-
+    <CommandPalette />
     <slot />
 
     <!-- Squad 404 Tactical Modal Easter Egg -->
