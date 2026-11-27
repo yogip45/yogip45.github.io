@@ -22,7 +22,10 @@ const navItems = [
   ></div>
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-between">
-    <a href="#home" class="text-brown-dark font-bold tracking-wider text-xl no-underline">
+    <a
+      href="#home"
+      class="text-brown-dark font-bold tracking-wider text-xl no-underline"
+    >
       YOG<span class="text-amber-eye">.</span>
     </a>
 
@@ -38,7 +41,10 @@ const navItems = [
     </button>
 
     <!-- Nav Links -->
-    <div id="navbarNav" class="hidden lg:flex w-full lg:w-auto flex-col lg:flex-row items-center gap-1 lg:gap-1 pt-4 lg:pt-0">
+    <div
+      id="navbarNav"
+      class="hidden lg:flex w-full lg:w-auto flex-col lg:flex-row items-center gap-1 lg:gap-1 pt-4 lg:pt-0"
+    >
       <ul class="flex flex-col lg:flex-row items-center gap-1 lg:gap-0.5 text-center list-none m-0 p-0">
         {navItems.map((item) => (
           <li>
@@ -51,16 +57,18 @@ const navItems = [
           </li>
         ))}
       </ul>
-
-      <div class="mt-3 lg:mt-0 lg:ml-3">
-        <a
-          href="https://github.com/yogip45"
-          target="_blank"
-          rel="noopener"
-          class="inline-flex items-center px-4 py-1.5 rounded-lg text-[0.78rem] font-semibold tracking-wide bg-brown-dark text-white dark:bg-accent dark:text-[#181413] border border-brown-dark dark:border-accent hover:bg-accent hover:border-accent dark:hover:bg-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
+      <div class="mt-3 flex items-center gap-2 lg:mt-0 lg:ml-3">
+        <button
+          type="button"
+          onclick="window.dispatchEvent(new Event('open-command-palette'))"
+          title="Quick Command (/)"
+          class="bg-bg-warm text-brown-muted border-border-warm hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-[0.74rem] font-semibold transition-colors"
         >
-          <i class="fa-brands fa-github mr-2"></i>GitHub
-        </a>
+          <span>Open Command</span>
+          <kbd class="bg-bg-main border-border-warm text-brown-dark rounded border px-1.5 py-0.2 text-[0.68rem]">
+            /
+          </kbd>
+        </button>
       </div>
     </div>
   </div>
@@ -116,8 +124,12 @@ const navItems = [
     // Active Link Highlight
     const offset = 150;
     if (scrollPos + winHeight >= docHeight - 50) {
-      navLinks.forEach((l) => l.classList.remove("!text-accent", "after:!w-[55%]"));
-      document.querySelector('.nav-link[href="#contact"]')?.classList.add("!text-accent", "after:!w-[55%]");
+      navLinks.forEach((l) =>
+        l.classList.remove("!text-accent", "after:!w-[55%]"),
+      );
+      document
+        .querySelector('.nav-link[href="#contact"]')
+        ?.classList.add("!text-accent", "after:!w-[55%]");
       return;
     }
 
@@ -130,7 +142,9 @@ const navItems = [
       const top = target.offsetTop;
       const height = target.offsetHeight;
       if (top <= scrollPos + offset && top + height > scrollPos + offset) {
-        navLinks.forEach((l) => l.classList.remove("!text-accent", "after:!w-[55%]"));
+        navLinks.forEach((l) =>
+          l.classList.remove("!text-accent", "after:!w-[55%]"),
+        );
         link.classList.add("!text-accent", "after:!w-[55%]");
       }
     });

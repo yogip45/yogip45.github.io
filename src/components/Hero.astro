@@ -1,3 +1,48 @@
+---
+const heroActions = [
+  {
+    label: "Resume",
+    href: "/assets/download/cv-yog.pdf",
+    icon: "fa-solid fa-download",
+    variant: "primary",
+    external: true,
+  },
+  {
+    label: "Audio Station",
+    href: "/audio-showcase",
+    icon: "fa-solid fa-headphones",
+    variant: "accent",
+    external: false,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/narindra-yogi/",
+    icon: "fa-brands fa-linkedin",
+    variant: "outline",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/yogip45",
+    icon: "fa-brands fa-github",
+    variant: "outline",
+    external: true,
+  },
+] as const;
+
+const baseBtnClass =
+  "inline-flex items-center px-5 py-2.5 rounded-lg text-sm font-semibold border-[1.5px] transition-all duration-300 hover:-translate-y-0.5";
+
+const variantClasses = {
+  primary:
+    "bg-brown-dark text-white border-brown-dark dark:bg-accent dark:text-[#181413] dark:border-accent hover:bg-accent hover:border-accent dark:hover:bg-accent-hover shadow-sm",
+  accent:
+    "bg-accent text-white border-accent hover:bg-accent-hover hover:border-accent-hover shadow-sm",
+  outline:
+    "bg-transparent text-brown-dark border-[#d5cbc3] dark:border-[#423734] hover:bg-brown-dark hover:border-brown-dark hover:text-white dark:hover:bg-accent-soft dark:hover:border-accent dark:hover:text-brown-dark",
+};
+---
+
 <section
   id="home"
   class="min-h-screen flex items-center pt-20 relative overflow-hidden bg-bg-main"
@@ -20,7 +65,8 @@
         </div>
 
         <h1 class="font-extrabold text-[clamp(2.6rem,6vw,4.1rem)] leading-[1.08] tracking-[-1.8px] text-brown-dark mb-4">
-          Narindra<br />
+          Narindra
+          <br />
           <span class="text-accent">Yogi Pradana.</span>
         </h1>
 
@@ -29,35 +75,23 @@
         </div>
 
         <p class="text-brown-muted text-[1.02rem] max-w-[540px] leading-[1.75] mb-6">
-          Building resilient healthcare web applications, streamlining
-          database performance, and bridging complex clinical workflows with
-          reliable infrastructure.
+          Building resilient healthcare web applications, streamlining database
+          performance, and bridging complex clinical workflows with reliable
+          infrastructure.
         </p>
 
         <div class="flex flex-wrap gap-3 pt-1">
-          <a
-            href="/assets/download/cv-yog.pdf"
-            target="_blank"
-            class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-semibold bg-brown-dark text-white dark:bg-accent dark:text-[#181413] border-[1.5px] border-brown-dark dark:border-accent hover:bg-accent hover:border-accent dark:hover:bg-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
-          >
-            <i class="fa-solid fa-download mr-2"></i>Resume
-          </a>
-
-          <a
-            href="https://www.linkedin.com/in/narindra-yogi/"
-            target="_blank"
-            rel="noopener"
-            class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-semibold bg-transparent text-brown-dark border-[1.5px] border-[#d5cbc3] dark:border-[#423734] hover:bg-brown-dark hover:border-brown-dark hover:text-white dark:hover:bg-accent-soft dark:hover:border-accent dark:hover:text-brown-dark transition-all duration-300 hover:-translate-y-0.5"
-          >
-            <i class="fa-brands fa-linkedin mr-2"></i>LinkedIn
-          </a>
-
-          <a
-            href="/audio-showcase"
-            class="inline-flex items-center px-6 py-2.5 rounded-lg text-sm font-semibold bg-accent text-white border-[1.5px] border-accent hover:bg-accent-hover hover:border-accent-hover transition-all duration-300 hover:-translate-y-0.5 shadow-sm"
-          >
-            <i class="fa-solid fa-headphones mr-2"></i>Audio Station
-          </a>
+          {heroActions.map((btn) => (
+            <a
+              href={btn.href}
+              target={btn.external ? "_blank" : undefined}
+              rel={btn.external ? "noopener noreferrer" : undefined}
+              class:list={[baseBtnClass, variantClasses[btn.variant]]}
+            >
+              <i class={`${btn.icon} mr-2`}></i>
+              {btn.label}
+            </a>
+          ))}
         </div>
       </div>
 
@@ -98,10 +132,23 @@
   </div>
 </section>
 
-<script is:inline src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+<script
+  is:inline
+  src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"
+></script>
 <script is:inline>
-  if (document.getElementById("typed") && window.Typed) {
-    new Typed("#typed", {
+  function initHeroTyped() {
+    const target = document.getElementById("typed");
+    if (!target || !window.Typed) return;
+
+    if (window.__yogTypedInstance) {
+      window.__yogTypedInstance.destroy();
+    }
+
+    target.textContent = "";
+    document.querySelectorAll(".typed-cursor").forEach((el) => el.remove());
+
+    window.__yogTypedInstance = new Typed("#typed", {
       strings: [
         "Web Developer",
         "System Implementer",
@@ -116,6 +163,9 @@
       cursorChar: "_",
     });
   }
+
+  initHeroTyped();
+  document.addEventListener("astro:page-load", initHeroTyped);
 </script>
 
 <script>
@@ -146,7 +196,8 @@
   ];
 
   function triggerSquad404EasterEgg() {
-    const pick = squad404Quotes[Math.floor(Math.random() * squad404Quotes.length)];
+    const pick =
+      squad404Quotes[Math.floor(Math.random() * squad404Quotes.length)];
     const quoteEl = document.getElementById("squad404Quote");
     const senderEl = document.getElementById("squad404Sender");
     if (quoteEl) quoteEl.textContent = pick.text;
