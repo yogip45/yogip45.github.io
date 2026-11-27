@@ -1,0 +1,427 @@
+<!-- Tactical Command Palette (Trigger: "/" or "Ctrl+K") -->
+<div
+  id="cmdPaletteOverlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="cmdPaletteLabel"
+  class="fixed inset-0 z-[1080] hidden items-start justify-center bg-[#120e0d]/70 px-4 pt-[12vh] backdrop-blur-sm transition-opacity duration-200"
+>
+  <div
+    id="cmdPaletteDialog"
+    class="bg-bg-card text-brown-dark border-border-warm relative w-full max-w-[540px] overflow-hidden rounded-xl border shadow-2xl"
+  >
+    <!-- Tactical Corner Accents -->
+    <span class="border-amber-eye pointer-events-none absolute top-0 left-0 h-2.5 w-2.5 border-t-2 border-l-2"></span>
+    <span class="border-amber-eye pointer-events-none absolute top-0 right-0 h-2.5 w-2.5 border-t-2 border-r-2"></span>
+
+    <!-- Search Header -->
+    <div class="border-border-warm bg-bg-warm/60 flex items-center gap-3 border-b px-4 py-3.5">
+      <span
+        id="cmdPaletteLabel"
+        class="text-amber-eye bg-amber-eye/15 rounded px-1.5 py-0.5 font-mono text-xs font-bold"
+      >
+        >_
+      </span>
+      <input
+        type="text"
+        id="cmdSearchInput"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Type a command or search..."
+        class="text-brown-dark placeholder:text-brown-muted/70 w-full bg-transparent font-sans text-sm focus:outline-none"
+      />
+      <kbd class="text-brown-muted bg-bg-main border-border-warm hidden rounded border px-1.5 py-0.5 font-mono text-[0.68rem] sm:inline-block">
+        ESC
+      </kbd>
+    </div>
+
+    <!-- Command List -->
+    <div
+      id="cmdResultsList"
+      class="max-h-[340px] space-y-1 overflow-y-auto p-2"
+    ></div>
+
+    <!-- Footer Hints -->
+    <div class="border-border-warm bg-bg-warm/50 text-brown-muted flex items-center justify-between border-t px-4 py-2 font-mono text-[0.68rem]">
+      <div class="flex items-center gap-3">
+        <span>
+          <strong class="text-brown-dark">↑↓</strong> Navigate
+        </span>
+        <span>
+          <strong class="text-brown-dark">↵</strong> Execute
+        </span>
+      </div>
+      <span>Command Center</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mini Toast Feedback -->
+<div
+  id="cmdToast"
+  class="border-amber-eye/60 pointer-events-none fixed bottom-20 left-1/2 z-[1100] -translate-x-1/2 translate-y-2 rounded-lg border bg-[#1e1917] px-4 py-2 font-mono text-xs text-[#f2ece9] opacity-0 shadow-xl transition-all duration-250"
+></div>
+
+<script>
+  interface CommandItem {
+    id: string;
+    group: string;
+    label: string;
+    hint: string;
+    icon: string;
+    keywords: string;
+    secret?: boolean;
+    action: () => void;
+  }
+
+  const overlay = document.getElementById("cmdPaletteOverlay");
+  const input = document.getElementById(
+    "cmdSearchInput",
+  ) as HTMLInputElement | null;
+  const listEl = document.getElementById("cmdResultsList");
+  const toastEl = document.getElementById("cmdToast");
+
+  let selectedIndex = 0;
+  let filteredCommands: CommandItem[] = [];
+  let toastTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function showToast(msg: string) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.remove("opacity-0", "translate-y-2");
+    toastEl.classList.add("opacity-100", "translate-y-0");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastEl.classList.add("opacity-0", "translate-y-2");
+      toastEl.classList.remove("opacity-100", "translate-y-0");
+    }, 2200);
+  }
+
+  function navigateToSection(hash: string) {
+    const isHome =
+      window.location.pathname === "/" ||
+      window.location.pathname === "/index.html";
+    if (isHome) {
+      const target = document.querySelector<HTMLElement>(hash);
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 72, behavior: "smooth" });
+        return;
+      }
+    }
+    window.location.href = `/${hash}`;
+  }
+
+  function openSquad404() {
+    const quotes = [
+      {
+        text: '"Those who don\'t exist have no need for names. Just get the job done."',
+        sender: "— UMP45 // SQUAD 404",
+      },
+      {
+        text: '"We are the shadows that survive where others fall. Keep moving forward, Commander."',
+        sender: "— UMP45 // SECTOR 09",
+      },
+      {
+        text: '"Kazoku? Yeah, 404 is all the family I need. Now, what\'s our next target?"',
+        sender: "— UMP45 // ENCRYPTED CHANNEL",
+      },
+    ];
+    const pick = quotes[Math.floor(Math.random() * quotes.length)];
+    const qEl = document.getElementById("squad404Quote");
+    const sEl = document.getElementById("squad404Sender");
+    if (qEl) qEl.textContent = pick.text;
+    if (sEl) sEl.textContent = pick.sender;
+    document.getElementById("squad404Modal")?.classList.add("is-shown");
+  }
+
+  const commands: CommandItem[] = [
+    {
+      id: "audio-station",
+      group: "NAVIGATION",
+      label: "Open Audio Station",
+      hint: "/audio-showcase",
+      icon: "fa-solid fa-headphones",
+      keywords: "music lastfm scrobble iem gear audio station",
+      action: () => {
+        document.body.classList.add("page-leaving");
+        setTimeout(() => (window.location.href = "/audio-showcase"), 220);
+      },
+    },
+    {
+      id: "home",
+      group: "NAVIGATION",
+      label: "Go to Home / Hero",
+      hint: "#home",
+      icon: "fa-solid fa-house",
+      keywords: "home top start main",
+      action: () => navigateToSection("#home"),
+    },
+    {
+      id: "experience",
+      group: "NAVIGATION",
+      label: "Experience & Education",
+      hint: "#resume",
+      icon: "fa-solid fa-briefcase",
+      keywords: "work career simrs technomedic resume experience education",
+      action: () => navigateToSection("#resume"),
+    },
+    {
+      id: "showcase",
+      group: "NAVIGATION",
+      label: "Projects & Credentials Showcase",
+      hint: "#gallery",
+      icon: "fa-solid fa-layer-group",
+      keywords: "projects portfolio certificates cisco mtcna showcase",
+      action: () => navigateToSection("#gallery"),
+    },
+    {
+      id: "skills",
+      group: "NAVIGATION",
+      label: "Tools & Tech Stack",
+      hint: "#skills",
+      icon: "fa-solid fa-terminal",
+      keywords: "php codeigniter postgresql mysql docker linux tech stack",
+      action: () => navigateToSection("#skills"),
+    },
+    {
+      id: "contact",
+      group: "NAVIGATION",
+      label: "Contact & Message Form",
+      hint: "#contact",
+      icon: "fa-solid fa-paper-plane",
+      keywords: "contact message form connect hire",
+      action: () => navigateToSection("#contact"),
+    },
+    {
+      id: "toggle-theme",
+      group: "ACTIONS",
+      label: "Toggle Dark / Light Theme",
+      hint: "Night Ops",
+      icon: "fa-solid fa-circle-half-stroke",
+      keywords: "dark light mode theme night ops",
+      action: () => {
+        document.getElementById("themeToggle")?.click();
+        const isDark =
+          document.documentElement.getAttribute("data-theme") === "dark";
+        showToast(isDark ? "[ THEME: NIGHT OPS ]" : "[ THEME: DAYLIGHT ]");
+      },
+    },
+    {
+      id: "download-cv",
+      group: "ACTIONS",
+      label: "Download Resume / CV (PDF)",
+      hint: "cv-yog.pdf",
+      icon: "fa-solid fa-file-arrow-down",
+      keywords: "cv resume pdf download",
+      action: () => window.open("/assets/download/cv-yog.pdf", "_blank"),
+    },
+    {
+      id: "copy-email",
+      group: "ACTIONS",
+      label: "Copy Email Address",
+      hint: "narindrayogipradana@gmail.com",
+      icon: "fa-solid fa-copy",
+      keywords: "email mail gmail copy clipboard",
+      action: async () => {
+        await navigator.clipboard.writeText("narindrayogipradana@gmail.com");
+        showToast("[ COPIED: narindrayogipradana@gmail.com ]");
+      },
+    },
+    {
+      id: "github",
+      group: "EXTERNAL",
+      label: "Open GitHub Profile",
+      hint: "@yogip45",
+      icon: "fa-brands fa-github",
+      keywords: "github git repos code yogip45",
+      action: () => window.open("https://github.com/yogip45", "_blank"),
+    },
+    {
+      id: "linkedin",
+      group: "EXTERNAL",
+      label: "Open LinkedIn Profile",
+      hint: "narindra-yogi",
+      icon: "fa-brands fa-linkedin",
+      keywords: "linkedin profile network",
+      action: () =>
+        window.open("https://www.linkedin.com/in/narindra-yogi/", "_blank"),
+    },
+    {
+      id: "squad-404",
+      group: "CLASSIFIED",
+      label: "Decrypt Squad 404 Channel",
+      hint: "FREQ 40.4 MHz",
+      icon: "fa-solid fa-satellite-dish",
+      keywords: "404 ump45 squad 404 gfl secret easter egg",
+      secret: true,
+      action: () => openSquad404(),
+    },
+  ];
+
+  function renderCommands(query = "") {
+    if (!listEl) return;
+    const q = query.trim().toLowerCase();
+
+    filteredCommands = commands.filter((cmd) => {
+      if (cmd.secret && !q) return false;
+      if (!q) return true;
+      return (
+        cmd.label.toLowerCase().includes(q) ||
+        cmd.hint.toLowerCase().includes(q) ||
+        cmd.keywords.toLowerCase().includes(q)
+      );
+    });
+
+    if (selectedIndex >= filteredCommands.length) selectedIndex = 0;
+
+    if (!filteredCommands.length) {
+      listEl.innerHTML = `
+        <div class="py-8 text-center font-mono text-xs text-brown-muted">
+          No matching command for "${query}"
+        </div>`;
+      return;
+    }
+
+    listEl.innerHTML = filteredCommands
+      .map((cmd, idx) => {
+        const isActive = idx === selectedIndex;
+        return `
+          <button
+            type="button"
+            data-cmd-idx="${idx}"
+            class="cmd-item flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left transition-colors ${
+              isActive
+                ? "bg-accent text-white"
+                : "text-brown-dark hover:bg-bg-warm"
+            }"
+          >
+            <div class="flex min-w-0 items-center gap-3">
+              <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs ${
+                isActive
+                  ? "bg-white/20 text-white"
+                  : cmd.secret
+                    ? "bg-amber-eye/15 text-amber-eye"
+                    : "bg-bg-warm text-accent border-border-warm border"
+              }">
+                <i class="${cmd.icon}"></i>
+              </span>
+              <div class="truncate">
+                <div class="truncate text-sm font-semibold">${cmd.label}</div>
+                <div class="font-mono text-[0.65rem] ${
+                  isActive ? "text-white/80" : "text-brown-muted"
+                }">
+                  ${cmd.group}
+                </div>
+              </div>
+            </div>
+            <span class="shrink-0 font-mono text-[0.7rem] ${
+              isActive ? "text-white/90" : "text-brown-muted"
+            }">
+              ${cmd.hint}
+            </span>
+          </button>`;
+      })
+      .join("");
+
+    listEl.querySelectorAll<HTMLButtonElement>(".cmd-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        executeCommand(Number(btn.dataset.cmdIdx));
+      });
+      btn.addEventListener("mouseenter", () => {
+        selectedIndex = Number(btn.dataset.cmdIdx);
+        renderCommands(input?.value || "");
+      });
+    });
+  }
+
+  function executeCommand(idx: number) {
+    const cmd = filteredCommands[idx];
+    if (!cmd) return;
+    closePalette();
+    cmd.action();
+  }
+
+  function openPalette() {
+    if (!overlay || !input) return;
+    overlay.classList.remove("hidden");
+    overlay.classList.add("flex");
+    input.value = "";
+    selectedIndex = 0;
+    renderCommands("");
+    requestAnimationFrame(() => input.focus());
+  }
+
+  function closePalette() {
+    if (!overlay) return;
+    overlay.classList.add("hidden");
+    overlay.classList.remove("flex");
+  }
+
+  const isPaletteOpen = () => overlay && !overlay.classList.contains("hidden");
+
+  document.addEventListener("keydown", (e) => {
+    const target = e.target as HTMLElement | null;
+    const isTypingField =
+      target &&
+      (target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable);
+
+    // Trigger "/" saat tidak sedang mengetik di form input
+    if (
+      e.key === "/" &&
+      !isTypingField &&
+      !e.ctrlKey &&
+      !e.metaKey &&
+      !e.altKey
+    ) {
+      e.preventDefault();
+      isPaletteOpen() ? closePalette() : openPalette();
+      return;
+    }
+
+    // Alternatif Ctrl+K / Cmd+K
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      isPaletteOpen() ? closePalette() : openPalette();
+      return;
+    }
+
+    if (!isPaletteOpen()) return;
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closePalette();
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (filteredCommands.length) {
+        selectedIndex = (selectedIndex + 1) % filteredCommands.length;
+        renderCommands(input?.value || "");
+        listEl?.children[selectedIndex]?.scrollIntoView({ block: "nearest" });
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (filteredCommands.length) {
+        selectedIndex =
+          (selectedIndex - 1 + filteredCommands.length) %
+          filteredCommands.length;
+        renderCommands(input?.value || "");
+        listEl?.children[selectedIndex]?.scrollIntoView({ block: "nearest" });
+      }
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      executeCommand(selectedIndex);
+    }
+  });
+
+  input?.addEventListener("input", () => {
+    selectedIndex = 0;
+    renderCommands(input.value);
+  });
+
+  overlay?.addEventListener("click", (e) => {
+    if (e.target === overlay) closePalette();
+  });
+
+  window.addEventListener("open-command-palette", openPalette);
+</script>

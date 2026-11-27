@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import CommandPalette from "../components/CommandPalette.astro";
 
 interface Props {
   title?: string;
@@ -89,6 +90,8 @@ const {
   </head>
 
   <body>
+    <CommandPalette />
+    <slot />
     <!-- Minimalist Floating Controls (Bottom Right) -->
     <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-center gap-2.5">
       <button
