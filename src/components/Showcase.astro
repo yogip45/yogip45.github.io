@@ -1,0 +1,402 @@
+---
+import { showcaseItems } from "../data/showcase";
+---
+
+<section
+  id="gallery"
+  class="py-24 bg-bg-warm border-t border-b border-border-warm"
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <!-- Section Header + Category Filter -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 reveal-up">
+      <div>
+        <span class="font-mono text-xs font-bold uppercase tracking-[2px] text-amber-eye block mb-2">
+          02 // SELECTED WORKS & CREDENTIALS
+        </span>
+        <h2 class="font-extrabold text-3xl sm:text-4xl tracking-tight text-brown-dark mb-0">
+          Projects & <span class="text-accent">Showcase.</span>
+        </h2>
+      </div>
+
+      <!-- Filter Pills -->
+      <div class="inline-flex bg-bg-card border border-border-warm rounded-lg p-1 gap-1 self-start md:self-auto">
+        <button
+          type="button"
+          data-showcase-filter="all"
+          class="showcase-filter-btn active bg-accent text-white font-mono text-xs font-semibold px-3 py-1.5 rounded-md transition-colors cursor-pointer"
+        >
+          ALL ({showcaseItems.length})
+        </button>
+        <button
+          type="button"
+          data-showcase-filter="project"
+          class="showcase-filter-btn text-brown-muted hover:text-brown-dark font-mono text-xs font-semibold px-3 py-1.5 rounded-md transition-colors cursor-pointer"
+        >
+          PROJECTS
+        </button>
+        <button
+          type="button"
+          data-showcase-filter="credential"
+          class="showcase-filter-btn text-brown-muted hover:text-brown-dark font-mono text-xs font-semibold px-3 py-1.5 rounded-md transition-colors cursor-pointer"
+        >
+          CREDENTIALS
+        </button>
+      </div>
+    </div>
+
+    <!-- Showcase Cards Grid -->
+    <div id="showcaseGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {showcaseItems.map((item, idx) => (
+        <article
+          data-category={item.category}
+          data-showcase-idx={idx}
+          tabindex="0"
+          role="button"
+          aria-label={`Inspect details for ${item.title}`}
+          class="showcase-card group bg-bg-card border border-border-warm rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-xl focus:outline-none focus:border-amber-eye"
+        >
+          <div>
+            <!-- Thumbnail Wrapper -->
+            <div class="relative aspect-[16/9] bg-[#2c2422] overflow-hidden border-b border-border-warm">
+              <span class="absolute top-3 left-3 z-10 font-mono text-[0.68rem] font-bold tracking-wider px-2.5 py-1 rounded bg-[#181413]/85 text-amber-eye border border-white/10 backdrop-blur-sm">
+                {item.badge}
+              </span>
+              <span class="absolute top-3 right-3 z-10 font-mono text-[0.68rem] px-2.5 py-1 rounded bg-[#181413]/75 text-white/80 backdrop-blur-sm">
+                {item.year}
+              </span>
+
+              <img
+                src={item.image}
+                alt={item.title}
+                loading="lazy"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div
+                style="display: none;"
+                class="w-full h-full flex-col items-center justify-center text-[#cbbeb9] font-mono text-xs gap-2"
+              >
+                <i class="fa-solid fa-terminal text-2xl text-amber-eye"></i>
+                <span>{item.title}</span>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-6 pb-4">
+              <div class="flex items-start justify-between gap-3 mb-1.5">
+                <h3 class="font-extrabold text-lg sm:text-xl text-brown-dark group-hover:text-accent transition-colors mb-0">
+                  {item.title}
+                </h3>
+                <span class="w-8 h-8 rounded-lg bg-bg-warm border border-border-warm text-brown-muted group-hover:bg-accent group-hover:text-white group-hover:border-accent inline-flex items-center justify-center shrink-0 transition-colors">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                </span>
+              </div>
+
+              <p class="font-mono text-xs text-brown-muted mb-3">{item.role}</p>
+
+              <p class="text-sm text-brown-mid leading-relaxed line-clamp-2 mb-0">
+                {item.summary}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card Footer Tags -->
+          <div class="px-6 pb-6 pt-2 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap gap-1.5">
+              {item.stack.slice(0, 4).map((tech) => (
+                <span class="font-mono text-[0.68rem] bg-bg-warm border border-border-warm text-brown-mid px-2 py-0.5 rounded">
+                  {tech}
+                </span>
+              ))}
+              {item.stack.length > 4 && (
+                <span class="font-mono text-[0.68rem] text-brown-muted px-1.5 py-0.5">
+                  +{item.stack.length - 4}
+                </span>
+              )}
+            </div>
+
+            <span class="font-mono text-[0.72rem] font-semibold text-amber-eye group-hover:translate-x-0.5 transition-transform">
+              Inspect →
+            </span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY & CREDENTIAL DETAIL MODAL -->
+<div
+  id="caseStudyModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="csModalTitle"
+  class="fixed inset-0 z-[1070] hidden items-center justify-center bg-[#120e0d]/75 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto"
+>
+  <div
+    id="caseStudyDialog"
+    class="relative w-full max-w-3xl bg-bg-card text-brown-dark border border-border-warm rounded-2xl shadow-2xl overflow-hidden my-auto"
+  >
+    <!-- Top Tactical Bar -->
+    <div class="flex items-center justify-between px-5 py-3.5 bg-[#2c2422] text-[#f2ece9] border-b border-[#3d322f]">
+      <div class="flex items-center gap-2.5 font-mono text-xs">
+        <span
+          id="csModalBadge"
+          class="px-2 py-0.5 rounded bg-amber-eye text-[#181413] font-bold"
+        >
+          CASE STUDY
+        </span>
+        <span id="csModalYear" class="text-[#cbbeb9]">
+          2025
+        </span>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <button
+          type="button"
+          id="csPrevBtn"
+          title="Previous item (←)"
+          class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white inline-flex items-center justify-center text-xs cursor-pointer transition-colors"
+        >
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button
+          type="button"
+          id="csNextBtn"
+          title="Next item (→)"
+          class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white inline-flex items-center justify-center text-xs cursor-pointer transition-colors"
+        >
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <button
+          type="button"
+          id="csCloseBtn"
+          aria-label="Close modal"
+          class="w-8 h-8 rounded-lg bg-white/10 hover:bg-amber-eye hover:text-[#181413] text-white inline-flex items-center justify-center text-sm ml-1 cursor-pointer transition-colors"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Scrollable Content -->
+    <div class="max-h-[80vh] overflow-y-auto">
+      <!-- Full Image Preview -->
+      <div
+        id="csImageWrap"
+        class="w-full max-h-[320px] bg-[#181413] overflow-hidden border-b border-border-warm flex items-center justify-center"
+      >
+        <img
+          id="csModalImg"
+          src=""
+          alt=""
+          class="w-full h-full max-h-[320px] object-contain bg-[#181413]"
+        />
+      </div>
+
+      <div class="p-6 sm:p-8">
+        <p
+          id="csModalRole"
+          class="font-mono text-xs text-amber-eye font-bold uppercase tracking-wider mb-1"
+        >
+          ROLE
+        </p>
+        <h3
+          id="csModalTitle"
+          class="font-extrabold text-2xl sm:text-3xl text-brown-dark mb-1"
+        >
+          Project Title
+        </h3>
+        <p id="csModalSubtitle" class="text-sm text-brown-muted mb-5">
+          Subtitle
+        </p>
+
+        <p
+          id="csModalSummary"
+          class="text-[0.95rem] text-brown-mid leading-relaxed mb-6"
+        >
+          Summary
+        </p>
+
+        <!-- Key Engineering Highlights -->
+        <div class="mb-6">
+          <h4 class="font-mono text-xs font-bold uppercase tracking-wider text-brown-dark mb-3">
+            // KEY HIGHLIGHTS & IMPACT
+          </h4>
+          <ul
+            id="csModalHighlights"
+            class="space-y-2.5 pl-0 list-none mb-0"
+          ></ul>
+        </div>
+
+        <!-- Tech Stack Pills -->
+        <div class="pt-4 border-t border-border-warm flex flex-wrap items-center justify-between gap-4">
+          <div id="csModalStack" class="flex flex-wrap gap-1.5"></div>
+          <div id="csModalLinks" class="flex items-center gap-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Inject serialized showcase data cleanly for client script -->
+<script
+  id="showcase-data-json"
+  type="application/json"
+  set:html={JSON.stringify(showcaseItems)}
+></script>
+
+<script>
+  import type { ShowcaseItem } from "../data/showcase";
+
+  const rawJson =
+    document.getElementById("showcase-data-json")?.textContent || "[]";
+  const items: ShowcaseItem[] = JSON.parse(rawJson);
+
+  const modal = document.getElementById("caseStudyModal");
+  const imgWrap = document.getElementById("csImageWrap");
+  const imgEl = document.getElementById(
+    "csModalImg",
+  ) as HTMLImageElement | null;
+  const badgeEl = document.getElementById("csModalBadge");
+  const yearEl = document.getElementById("csModalYear");
+  const roleEl = document.getElementById("csModalRole");
+  const titleEl = document.getElementById("csModalTitle");
+  const subtitleEl = document.getElementById("csModalSubtitle");
+  const summaryEl = document.getElementById("csModalSummary");
+  const highlightsEl = document.getElementById("csModalHighlights");
+  const stackEl = document.getElementById("csModalStack");
+  const linksEl = document.getElementById("csModalLinks");
+
+  let activeIndex = 0;
+
+  function renderModal(idx: number) {
+    const item = items[idx];
+    if (!item || !modal) return;
+    activeIndex = idx;
+
+    if (badgeEl) badgeEl.textContent = item.badge;
+    if (yearEl) yearEl.textContent = item.year;
+    if (roleEl) roleEl.textContent = item.role;
+    if (titleEl) titleEl.textContent = item.title;
+    if (subtitleEl) subtitleEl.textContent = item.subtitle;
+    if (summaryEl) summaryEl.textContent = item.summary;
+
+    if (imgEl && imgWrap) {
+      imgWrap.style.display = "flex";
+      imgEl.src = item.image;
+      imgEl.alt = item.title;
+      imgEl.onerror = () => {
+        imgWrap.style.display = "none";
+      };
+    }
+
+    if (highlightsEl) {
+      highlightsEl.innerHTML = item.highlights
+        .map(
+          (point) => `
+            <li class="relative pl-5 text-sm text-brown-mid leading-relaxed">
+              <span class="absolute left-0 top-0.5 text-amber-eye font-bold">›</span>
+              ${point}
+            </li>`,
+        )
+        .join("");
+    }
+
+    if (stackEl) {
+      stackEl.innerHTML = item.stack
+        .map(
+          (tech) => `
+            <span class="font-mono text-xs bg-bg-warm border border-border-warm text-brown-dark px-2.5 py-1 rounded-md">
+              ${tech}
+            </span>`,
+        )
+        .join("");
+    }
+
+    if (linksEl) {
+      const buttons: string[] = [];
+      if (item.repoUrl) {
+        buttons.push(
+          `<a href="${item.repoUrl}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-mono text-xs font-semibold bg-bg-warm border border-border-warm text-brown-dark hover:border-accent">
+            <i class="fa-brands fa-github"></i> Source
+          </a>`,
+        );
+      }
+      if (item.liveUrl) {
+        buttons.push(
+          `<a href="${item.liveUrl}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-mono text-xs font-semibold bg-accent text-white hover:bg-accent-hover">
+            Live <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>`,
+        );
+      }
+      linksEl.innerHTML = buttons.join("");
+    }
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    document.body.style.overflow = "";
+  }
+
+  // Open on card click or Enter key
+  document.querySelectorAll<HTMLElement>(".showcase-card").forEach((card) => {
+    const open = () => renderModal(Number(card.dataset.showcaseIdx || 0));
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    });
+  });
+
+  // Category Filter Tabs
+  document
+    .querySelectorAll<HTMLButtonElement>(".showcase-filter-btn")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".showcase-filter-btn").forEach((b) => {
+          b.classList.remove("active", "bg-accent", "text-white");
+          b.classList.add("text-brown-muted");
+        });
+        btn.classList.add("active", "bg-accent", "text-white");
+        btn.classList.remove("text-brown-muted");
+
+        const filter = btn.dataset.showcaseFilter || "all";
+        document
+          .querySelectorAll<HTMLElement>(".showcase-card")
+          .forEach((card) => {
+            const match = filter === "all" || card.dataset.category === filter;
+            card.style.display = match ? "flex" : "none";
+          });
+      });
+    });
+
+  // Modal Controls
+  document.getElementById("csCloseBtn")?.addEventListener("click", closeModal);
+  document.getElementById("csPrevBtn")?.addEventListener("click", () => {
+    renderModal((activeIndex - 1 + items.length) % items.length);
+  });
+  document.getElementById("csNextBtn")?.addEventListener("click", () => {
+    renderModal((activeIndex + 1) % items.length);
+  });
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!modal || modal.classList.contains("hidden")) return;
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowLeft")
+      renderModal((activeIndex - 1 + items.length) % items.length);
+    if (e.key === "ArrowRight") renderModal((activeIndex + 1) % items.length);
+  });
+</script>
